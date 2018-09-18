@@ -1,0 +1,347 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8452781B214A2E4F00133114 /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8452781A214A2E4F00133114 /* CustomAlert.m */; };
+		8452782B214A337D00133114 /* CustomAlertImage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8452782A214A337D00133114 /* CustomAlertImage.bundle */; };
+		84A865E0214A0B690072E766 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A865DF214A0B690072E766 /* AppDelegate.m */; };
+		84A865E3214A0B690072E766 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A865E2214A0B690072E766 /* ViewController.m */; };
+		84A865E6214A0B690072E766 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A865E4214A0B690072E766 /* Main.storyboard */; };
+		84A865E8214A0B690072E766 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84A865E7214A0B690072E766 /* Assets.xcassets */; };
+		84A865EB214A0B690072E766 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A865E9214A0B690072E766 /* LaunchScreen.storyboard */; };
+		84A865EE214A0B690072E766 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A865ED214A0B690072E766 /* main.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		84527819214A2E4F00133114 /* CustomAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomAlert.h; sourceTree = "<group>"; };
+		8452781A214A2E4F00133114 /* CustomAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomAlert.m; sourceTree = "<group>"; };
+		8452782A214A337D00133114 /* CustomAlertImage.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CustomAlertImage.bundle; sourceTree = "<group>"; };
+		84A865DB214A0B690072E766 /* AlertTroila.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlertTroila.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84A865DE214A0B690072E766 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		84A865DF214A0B690072E766 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		84A865E1214A0B690072E766 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		84A865E2214A0B690072E766 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		84A865E5214A0B690072E766 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		84A865E7214A0B690072E766 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		84A865EA214A0B690072E766 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		84A865EC214A0B690072E766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84A865ED214A0B690072E766 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		84A865D8214A0B690072E766 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		84A865D2214A0B690072E766 = {
+			isa = PBXGroup;
+			children = (
+				84A865DD214A0B690072E766 /* AlertTroila */,
+				84A865DC214A0B690072E766 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		84A865DC214A0B690072E766 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84A865DB214A0B690072E766 /* AlertTroila.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84A865DD214A0B690072E766 /* AlertTroila */ = {
+			isa = PBXGroup;
+			children = (
+				84A865F4214A0C0D0072E766 /* Alert_Troila */,
+				84A865DE214A0B690072E766 /* AppDelegate.h */,
+				84A865DF214A0B690072E766 /* AppDelegate.m */,
+				84A865E1214A0B690072E766 /* ViewController.h */,
+				84A865E2214A0B690072E766 /* ViewController.m */,
+				84A865E4214A0B690072E766 /* Main.storyboard */,
+				84A865E7214A0B690072E766 /* Assets.xcassets */,
+				84A865E9214A0B690072E766 /* LaunchScreen.storyboard */,
+				84A865EC214A0B690072E766 /* Info.plist */,
+				84A865ED214A0B690072E766 /* main.m */,
+			);
+			path = AlertTroila;
+			sourceTree = "<group>";
+		};
+		84A865F4214A0C0D0072E766 /* Alert_Troila */ = {
+			isa = PBXGroup;
+			children = (
+				8452782A214A337D00133114 /* CustomAlertImage.bundle */,
+				84527819214A2E4F00133114 /* CustomAlert.h */,
+				8452781A214A2E4F00133114 /* CustomAlert.m */,
+			);
+			path = Alert_Troila;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		84A865DA214A0B690072E766 /* AlertTroila */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84A865F1214A0B690072E766 /* Build configuration list for PBXNativeTarget "AlertTroila" */;
+			buildPhases = (
+				84A865D7214A0B690072E766 /* Sources */,
+				84A865D8214A0B690072E766 /* Frameworks */,
+				84A865D9214A0B690072E766 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AlertTroila;
+			productName = AlertTroila;
+			productReference = 84A865DB214A0B690072E766 /* AlertTroila.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		84A865D3214A0B690072E766 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0900;
+				ORGANIZATIONNAME = "马银伟";
+				TargetAttributes = {
+					84A865DA214A0B690072E766 = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 84A865D6214A0B690072E766 /* Build configuration list for PBXProject "AlertTroila" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 84A865D2214A0B690072E766;
+			productRefGroup = 84A865DC214A0B690072E766 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84A865DA214A0B690072E766 /* AlertTroila */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		84A865D9214A0B690072E766 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84A865EB214A0B690072E766 /* LaunchScreen.storyboard in Resources */,
+				8452782B214A337D00133114 /* CustomAlertImage.bundle in Resources */,
+				84A865E8214A0B690072E766 /* Assets.xcassets in Resources */,
+				84A865E6214A0B690072E766 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		84A865D7214A0B690072E766 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84A865E3214A0B690072E766 /* ViewController.m in Sources */,
+				84A865EE214A0B690072E766 /* main.m in Sources */,
+				84A865E0214A0B690072E766 /* AppDelegate.m in Sources */,
+				8452781B214A2E4F00133114 /* CustomAlert.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		84A865E4214A0B690072E766 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84A865E5214A0B690072E766 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		84A865E9214A0B690072E766 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84A865EA214A0B690072E766 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		84A865EF214A0B690072E766 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		84A865F0214A0B690072E766 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		84A865F2214A0B690072E766 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CVV7NH7J7J;
+				INFOPLIST_FILE = AlertTroila/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Troila.AlertTroila;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		84A865F3214A0B690072E766 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CVV7NH7J7J;
+				INFOPLIST_FILE = AlertTroila/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = Troila.AlertTroila;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		84A865D6214A0B690072E766 /* Build configuration list for PBXProject "AlertTroila" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84A865EF214A0B690072E766 /* Debug */,
+				84A865F0214A0B690072E766 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84A865F1214A0B690072E766 /* Build configuration list for PBXNativeTarget "AlertTroila" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84A865F2214A0B690072E766 /* Debug */,
+				84A865F3214A0B690072E766 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 84A865D3214A0B690072E766 /* Project object */;
+}
