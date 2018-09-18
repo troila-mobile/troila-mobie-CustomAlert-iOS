@@ -23,7 +23,7 @@ typedef void (^complete)(NSInteger index,NSString *title);//回调block
 /*设置样式*/
 
 
-+(void)setBackgroundColor:(UIColor *)color;//设置整体背景色  默认为白色
++(void)setBackgroundColor:(UIColor *)color;//设置背景色
 
 +(void)setFontColor:(UIColor *)color;//设置简单框样式文字样色和对话框内容颜色,loading 文字
 

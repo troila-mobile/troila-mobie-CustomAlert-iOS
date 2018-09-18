@@ -77,7 +77,7 @@
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
         }];
     }else if (indexPath.row==6) {
-        [CustomAlert showAlertFinishWithImage:[UIImage imageNamed:@"success"] title:@"成功" content:@"alert-成功提示【默认单按钮】-自定义图" complete:^(NSInteger index, NSString *title) {
+        [CustomAlert showAlertFinishWithImage:[UIImage imageNamed:@"my_icon"] title:@"成功" content:@"alert-成功提示【默认单按钮】-自定义图" complete:^(NSInteger index, NSString *title) {
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
         }];
     }else if (indexPath.row==7) {
