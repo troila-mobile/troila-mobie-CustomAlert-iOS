@@ -66,3 +66,5 @@
 |`+(void)setButtonFont:(UIFont *)font index:(NSInteger)index`|设置按钮弹框底部按钮index位置的字体（这个位置和`titleArray`传递的顺序一致） |
 |`+(void)setButtonFont:(UIFont *)font color:(UIColor *)color index:(NSInteger)index`|设置按钮弹框底部按钮index位置的字体和颜色（这个位置和`titleArray`传递的顺序一致）|
 |`+(void)setAlertCornerRadius:(CGFloat)value`|设置弹框的圆角 |
+
+具体实现效果由于上传多个gif有些困难，可以clone项目运行查看。
