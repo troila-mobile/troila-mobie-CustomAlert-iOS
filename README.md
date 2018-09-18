@@ -1,4 +1,4 @@
-# troila-mobie-CustomAlert-iOS
+# 帮助手册
 >前言：该框架api调用均为类方法，在设置样式时，需创建弹框实体在设置样式
 ### 项目API组成
 ##### api总共分为四个部分
