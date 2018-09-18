@@ -1,13 +1,13 @@
 # troila-mobie-CustomAlert-iOS
 >前言：该框架api调用均为类方法，在设置样式时，需创建弹框实体在设置样式
-###项目API组成
+### 项目API组成
 ##### api总共分为四个部分
 * 简单提示框类型
 * 带按钮强提示框类型
 * 加载等待（loading)提示框类型
 * 弹框属性设置
 
-###1、简单提示框样式
+### 1、简单提示框样式
 >简单提示框，默认消失时间为2秒
 
 | 方法名 | 说明 | 
@@ -20,7 +20,7 @@
 |`+(void)showShadeWithMessage:(NSString *)message image:(UIImage *)image`|显示有遮罩自定义顶部图标简单提示框，(参数传nil可以，不显示图片) |
 
 
-###2、带按钮的强提示框
+### 2、带按钮的强提示框
 >参数中`CustomAlertStyle`标识该弹框的类型分为以下三个类型，分别对应三种默认图片
 ```
     CustomAlertStyleSuccess,//默认成功图片
@@ -39,18 +39,19 @@
 |`+(void)showAlertWithButtonTitleArray:(NSArray<NSString *> *)titleArray style:(CustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock`| 自定义按钮（`titleArray`参数传递按钮显示字符即可），默认图片样式|
 |`+(void)showAlertWithButtonTitleArray:(NSArray<NSString *> *)titleArray image:(UIImage *)image title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock`|自定义按钮（`titleArray`参数传递按钮显示字符即可），自定义图片样式 |
 
-###3、加载（loading）等待样式
+### 3、加载（loading）等待样式
 | 方法名 | 说明 | 
 | - | - | 
 |`+(void)showLoading`| 不带文字的加载等待|
 | `+(void)showLoadingWithMessage:(NSString *)message` | 带文字的加载等待 |
 
-###4、隐藏以上窗体方法
+### 4、隐藏以上窗体方法
 `+(void)dissmis;//隐藏`
 
 
 
-###5、样式设置
+### 5、样式设置
+
 | 方法名 | 说明 | 
 | - | - | 
 |`+(void)setBackgroundColor:(UIColor *)color`| //设置背景色|
