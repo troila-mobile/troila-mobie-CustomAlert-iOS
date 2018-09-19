@@ -148,22 +148,38 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 //成功简单提示
 +(void)showSuccessWithMessage:(NSString *)message{
-    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"CustomAlertImage.bundle/success"] isShade:NO];
+//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
+    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
+                                                       compatibleWithTraitCollection:nil] isShade:NO];
 }
 
 //失败简单提示
 +(void)showErrorWithMessage:(NSString *)message{
-    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"CustomAlertImage.bundle/error"] isShade:NO];
+//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
+    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
+                                                       compatibleWithTraitCollection:nil] isShade:NO];
 }
 
 //带遮罩层成功提示
 +(void)showShadeSuccessWithMessage:(NSString *)message{
-    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"CustomAlertImage.bundle/success"] isShade:YES];
+//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
+    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
+                                                       compatibleWithTraitCollection:nil] isShade:YES];
 }
 
 //带遮罩层失败提示
 +(void)showShadeErrorWithMessage:(NSString *)message{
-    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"CustomAlertImage.bundle/error"] isShade:YES];
+//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
+    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
+                                                       compatibleWithTraitCollection:nil] isShade:YES];
 }
 
 //自定义图片，简单按钮
@@ -276,13 +292,17 @@ typedef NS_ENUM(NSInteger, AlertType) {
     [[self sharedView].buttonArray removeAllObjects];
     NSString *imageName=@"";
     if (style==CustomAlertStyleSuccess) {
-        imageName=@"CustomAlertImage.bundle/success_blue";
+        imageName=@"success_blue";
     }else if (style==CustomAlertStyleError){
-        imageName=@"CustomAlertImage.bundle/error_blue";
+        imageName=@"error_blue";
     }else if (style==CustomAlertStyleWarning){
-        imageName=@"CustomAlertImage.bundle/warning_blue";
+        imageName=@"warning_blue";
     }
-    [[self sharedView] creatAlertViewWithButtonTitleArray:titleArray image:[UIImage imageNamed:imageName] title:title isFull:NO content:content complete:completeBlock];
+//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
+    [[self sharedView] creatAlertViewWithButtonTitleArray:titleArray image:[UIImage imageNamed:imageName inBundle:resource_bundle
+                                                                 compatibleWithTraitCollection:nil] title:title isFull:NO content:content complete:completeBlock];
     
 }
 
@@ -296,13 +316,17 @@ typedef NS_ENUM(NSInteger, AlertType) {
 +(void)showAlertFullWithStyle:(CustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
     NSString *imageName=@"";
     if (style==CustomAlertStyleSuccess) {
-        imageName=@"CustomAlertImage.bundle/success_blue";
+        imageName=@"success_blue";
     }else if (style==CustomAlertStyleError){
-        imageName=@"CustomAlertImage.bundle/error_blue";
+        imageName=@"error_blue";
     }else if (style==CustomAlertStyleWarning){
-        imageName=@"CustomAlertImage.bundle/warning_blue";
+        imageName=@"warning_blue";
     }
-    [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"取消",@"确定"] image:[UIImage imageNamed:imageName] title:title isFull:YES content:content complete:completeBlock];
+//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
+    [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"取消",@"确定"] image:[UIImage imageNamed:imageName inBundle:resource_bundle
+                                                                     compatibleWithTraitCollection:nil] title:title isFull:YES content:content complete:completeBlock];
 }
 
 //自带确定和取消，自定义图片
@@ -314,13 +338,17 @@ typedef NS_ENUM(NSInteger, AlertType) {
 +(void)showAlertFinishWithStyle:(CustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
     NSString *imageName=@"";
     if (style==CustomAlertStyleSuccess) {
-        imageName=@"CustomAlertImage.bundle/success_blue";
+        imageName=@"success_blue";
     }else if (style==CustomAlertStyleError){
-        imageName=@"CustomAlertImage.bundle/error_blue";
+        imageName=@"error_blue";
     }else if (style==CustomAlertStyleWarning){
-        imageName=@"CustomAlertImage.bundle/warning_blue";
+        imageName=@"warning_blue";
     }
-    [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"确定"] image:[UIImage imageNamed:imageName]  title:title isFull:YES content:content complete:completeBlock];
+//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    NSBundle *resource_bundle =[[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
+    [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"确定"] image:[UIImage imageNamed:imageName inBundle:resource_bundle
+                                                               compatibleWithTraitCollection:nil]  title:title isFull:YES content:content complete:completeBlock];
 }
 
 //确定按钮，自定义图片
@@ -693,7 +721,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
     WKWebView *wkWebView=[[WKWebView alloc]init];
     [alertView addSubview:wkWebView];
     
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"CustomAlertImage.bundle/loading" ofType:@"gif"];
+    NSString *path = [[self bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"] pathForResource:@"loading" ofType:@"gif"];
     NSData *gifData = [NSData dataWithContentsOfFile:path];
     [wkWebView loadData:gifData MIMEType:@"image/gif" characterEncodingName:nil baseURL:nil];
     wkWebView.backgroundColor = [UIColor clearColor];
@@ -738,6 +766,35 @@ typedef NS_ENUM(NSInteger, AlertType) {
     [vc.view addSubview:self];
     //显示
     [self animationWithIsShow:YES];
+}
+
+-(NSBundle *)bundleWithBundleName:(NSString *)bundleName podName:(NSString *)podName{
+    if (bundleName == nil && podName == nil) {
+        @throw @"bundleName和podName不能同时为空";
+    }else if (bundleName == nil ) {
+        bundleName = podName;
+    }else if (podName == nil) {
+        podName = bundleName;
+    }
+    
+    
+    if ([bundleName containsString:@".bundle"]) {
+        bundleName = [bundleName componentsSeparatedByString:@".bundle"].firstObject;
+    }
+    //没使用framwork的情况下
+    NSURL *associateBundleURL = [[NSBundle mainBundle] URLForResource:bundleName withExtension:@"bundle"];
+    //使用framework形式
+    if (!associateBundleURL) {
+        associateBundleURL = [[NSBundle mainBundle] URLForResource:@"Frameworks" withExtension:nil];
+        associateBundleURL = [associateBundleURL URLByAppendingPathComponent:podName];
+        associateBundleURL = [associateBundleURL URLByAppendingPathExtension:@"framework"];
+        NSBundle *associateBunle = [NSBundle bundleWithURL:associateBundleURL];
+        associateBundleURL = [associateBunle URLForResource:bundleName withExtension:@"bundle"];
+    }
+    
+    NSAssert(associateBundleURL, @"取不到关联bundle");
+    //生产环境直接返回空
+    return associateBundleURL?[NSBundle bundleWithURL:associateBundleURL]:nil;
 }
 
 //loading无文字
