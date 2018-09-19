@@ -1,7 +1,7 @@
 //
 //  CustomAlert.m
 //  AlertTroila
-//
+//   
 //  Created by Admin on 2018/9/13.
 //  Copyright © 2018年 马银伟. All rights reserved.
 //  弹出组件
