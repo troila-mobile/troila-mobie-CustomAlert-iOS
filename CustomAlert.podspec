@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
   s.name             = 'CustomAlert'
   s.version          = '0.0.1'
-  s.summary          = ' CustomAlert is very good'
+  s.summary          = ' CustomAlert is very goods'
 
 
   s.description      = <<-DESC
