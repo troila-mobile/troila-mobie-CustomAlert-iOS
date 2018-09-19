@@ -798,7 +798,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
     
     NSBundle *bundleForClass = [NSBundle bundleForClass:[self class]];
     NSString *stringsBundlePath = [bundleForClass pathForResource:bundleName ofType:@"bundle"];
-    bundle = [NSBundle bundleWithPath:stringsBundlePath] ?: bundleForClass;
+   NSBundle * bundle = [NSBundle bundleWithPath:stringsBundlePath] ?: bundleForClass;
     return bundle;
 }
 
