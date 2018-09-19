@@ -5,6 +5,7 @@
 ![Pod License](http://img.shields.io/cocoapods/l/CustomAlert.svg?style=flat)
 
 项目集成 `pod 'CustomAlert'`
+
 导入头文件 `#import "CustomAlert.h"`
 >前言：该框架api调用均为类方法，在设置样式时，需创建弹框实体在设置样式
 ### 项目API组成
