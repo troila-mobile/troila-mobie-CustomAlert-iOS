@@ -13,13 +13,13 @@ Pod::Spec.new do |s|
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'mayinwei' => '843912524@qq.com' }
-  s.source           = { :git => 'https://github.com/troila-mobile/troila-mobie-CustomAlert-iOS.git', :tag => "0.0.5" }
+  s.source           = { :git => 'https://github.com/troila-mobile/troila-mobie-CustomAlert-iOS.git', :tag => "0.0.6" }
 
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = 'CustomAlert/**/*'
+  s.source_files = 'CustomAlert/**/*.h,m'
   
    s.resource_bundles = {
      'CustomAlert' => ['CustomAlert/*']
