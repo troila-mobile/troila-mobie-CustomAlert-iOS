@@ -32,6 +32,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 @property (nonatomic, strong)UILabel *titleLab;//对话框标题
 @property (nonatomic, strong)UILabel *contentLab;//对话框标题
+@property(nonatomic,strong)WKWebView *wkWebView;//加载gif浏览器
+@property(nonatomic,strong)NSTimer *time;
 @end
 @implementation CustomAlert
 
@@ -46,81 +48,109 @@ typedef NS_ENUM(NSInteger, AlertType) {
     static dispatch_once_t once;
     static CustomAlert *sharedView;
     dispatch_once(&once, ^{
-//        sharedView = [[self alloc] initWithFrame:[[[UIApplication sharedApplication] delegate] window].bounds];
         sharedView=[[self alloc]init];
     });
     return  sharedView;
-    
-//    return [[self alloc]init];
+}
+
+//初始化
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        NSString *path = [[self bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"] pathForResource:@"loading" ofType:@"gif"];
+        NSData *gifData = [NSData dataWithContentsOfFile:path];
+        [self.wkWebView loadData:gifData MIMEType:@"image/gif" characterEncodingName:nil baseURL:nil];
+    }
+    return self;
 }
 
 #pragma mark 创建基础界面
 -(void)createCustomViewWithMessage:(NSString *)message image:(UIImage *)image isShade:(BOOL)isShade{
-    self.alertType=AlertTypeSimple;
     
-    [self dissmis];
-    self.isShade=isShade;
+    __weak CustomAlert *weakSelf = self;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        weakSelf.alertType=AlertTypeSimple;
+        
+        [weakSelf dissmis];
+        weakSelf.isShade=isShade;
+        
+        UIView *alertView=[[UIView alloc]init];
+        weakSelf.alertView=alertView;
+        alertView.backgroundColor=[UIColor colorWithWhite:0.1 alpha:0.7];
+        alertView.layer.cornerRadius=10;
+        alertView.layer.masksToBounds=YES;
+        [weakSelf addSubview:alertView];
+        
+        //提示图片
+        UIImageView *titleImgView=[[UIImageView alloc]initWithImage:image];
+        [alertView addSubview:titleImgView];
+        
+        //提示文字
+        UILabel *titleLab=[[UILabel alloc]init];
+        titleLab.textColor=[UIColor whiteColor];
+        weakSelf.contentLab=titleLab;
+        titleLab.font=[UIFont systemFontOfSize:15];
+        titleLab.numberOfLines=0;
+        titleLab.text=message;
+        titleLab.textAlignment=NSTextAlignmentCenter;
+        [alertView addSubview:titleLab];
+        
+        //设置尺寸
+        CGFloat padding=15;
+        CGFloat alertView_with=SCREEN_WIDTH*0.5;
+        CGFloat titleLab_height=[weakSelf heightForString:message Width:alertView_with-padding*2 font:titleLab.font];
+        if (image!=nil) {
+            titleImgView.frame=CGRectMake((alertView_with-35)/2, padding*2, 35, 35);
+            titleLab.frame= CGRectMake(padding, CGRectGetMaxY(titleImgView.frame)+padding, alertView_with-padding*2, titleLab_height );
+        }else{
+            titleLab.frame= CGRectMake(padding, padding, alertView_with-padding*2, titleLab_height );
+        }
+        
+        
+        CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
+        CGFloat alertView_height=CGRectGetMaxY(titleLab.frame)+padding;
+        CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
+        
+        
+        //父视图和子视图同样尺寸
+        if (isShade) {
+            //显示遮罩层
+            weakSelf.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
+            weakSelf.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
+        }else{
+            weakSelf.backgroundColor=[UIColor clearColor];
+            weakSelf.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_height);
+            alertView.frame=CGRectMake(0, 0, alertView_with,alertView_height);
+        }
+        
+        
+        //添加到视图上
+        [[weakSelf frontWindow] addSubview:weakSelf];
+        //动画显示
+        [weakSelf animationWithIsShow:YES];
+        
+        NSTimer *time=[NSTimer scheduledTimerWithTimeInterval:3.0 target:weakSelf selector:@selector(dissmis) userInfo:nil repeats:NO];
+        weakSelf.time=time;
+        [[NSRunLoop mainRunLoop] addTimer:time forMode:NSRunLoopCommonModes];
+    }];
     
-    UIView *alertView=[[UIView alloc]init];
-    self.alertView=alertView;
-    alertView.backgroundColor=[UIColor colorWithWhite:0.1 alpha:0.7];
-    alertView.layer.cornerRadius=10;
-    alertView.layer.masksToBounds=YES;
-    [self addSubview:alertView];
-    
-    //提示图片
-    UIImageView *titleImgView=[[UIImageView alloc]initWithImage:image];
-    [alertView addSubview:titleImgView];
-    
-    //提示文字
-    UILabel *titleLab=[[UILabel alloc]init];
-    titleLab.textColor=[UIColor whiteColor];
-    self.contentLab=titleLab;
-    titleLab.font=[UIFont systemFontOfSize:15];
-    titleLab.numberOfLines=0;
-    titleLab.text=message;
-    titleLab.textAlignment=NSTextAlignmentCenter;
-    [alertView addSubview:titleLab];
-    
-    //设置尺寸
-    CGFloat padding=15;
-    CGFloat alertView_with=SCREEN_WIDTH*0.5;
-    CGFloat titleLab_height=[self heightForString:message Width:alertView_with-padding*2 font:titleLab.font];
-    if (image!=nil) {
-        titleImgView.frame=CGRectMake((alertView_with-35)/2, padding*2, 35, 35);
-        titleLab.frame= CGRectMake(padding, CGRectGetMaxY(titleImgView.frame)+padding, alertView_with-padding*2, titleLab_height );
-    }else{
-        titleLab.frame= CGRectMake(padding, padding, alertView_with-padding*2, titleLab_height );
+}
+
+//获取window
+- (UIWindow *)frontWindow {
+    NSEnumerator *frontToBackWindows = [UIApplication.sharedApplication.windows reverseObjectEnumerator];
+    for (UIWindow *window in frontToBackWindows) {
+        BOOL windowOnMainScreen = window.screen == UIScreen.mainScreen;
+        BOOL windowIsVisible = !window.hidden && window.alpha > 0;
+        BOOL windowLevelSupported = (window.windowLevel >= UIWindowLevelNormal && window.windowLevel <= UIWindowLevelNormal);
+        
+        if(windowOnMainScreen && windowIsVisible && windowLevelSupported) {
+            return window;
+        }
     }
-    
-    
-    CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
-    CGFloat alertView_height=CGRectGetMaxY(titleLab.frame)+padding;
-    CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
-    
-    
-    //父视图和子视图同样尺寸
-    if (isShade) {
-        //显示遮罩层
-        self.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
-        self.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
-    }else{
-        self.backgroundColor=[UIColor clearColor];
-        self.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_height);
-        alertView.frame=CGRectMake(0, 0, alertView_with,alertView_height);
-    }
-   
-    
-    //添加到视图上
-    UIViewController *vc=[self topViewController];
-    [vc.view addSubview:self];
-    
-    //动画显示
-    [self animationWithIsShow:YES];
-    
-    [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(dissmis) userInfo:nil repeats:NO];
-    
+    return nil;
 }
 
 /**
@@ -217,6 +247,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         self.alertView=nil;
     }
     
+    [self clearTime];
 }
 
 +(void)dissmis{
@@ -358,133 +389,138 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 #pragma mark 创建对话框样式
 -(void)creatAlertViewWithButtonTitleArray:(NSArray<NSString *> *)titleArray image:(UIImage *)image title:(NSString *)title isFull:(BOOL)isFull content:(NSString *)content complete:(complete)completeBlock{
-    self.alertType=AlertTypeButton;
-    [self dissmis];
-    self.isFull=isFull;
-    self.completeBlock=completeBlock;//保存代码快
-    UIView *alertView=[[UIView alloc]init];
-    self.alertView=alertView;
-    alertView.backgroundColor=[UIColor whiteColor];
-    alertView.layer.cornerRadius=10;
-    alertView.layer.masksToBounds=YES;
-    [self addSubview:alertView];
-    
-    CGFloat padding=5;
-    CGFloat alertView_with=SCREEN_WIDTH*0.7;
-    
-    //提示图片
-    UIImageView *titleImgView=nil;
-    if (image!=nil) {
-        titleImgView=[[UIImageView alloc]initWithImage:image];
-        [alertView addSubview:titleImgView];
-        titleImgView.frame=CGRectMake((alertView_with-35)/2,20, 35, 35);
-    }
-    
-    
-    //标题文字
-    UILabel *titleLab=[[UILabel alloc]init];
-    self.titleLab=titleLab;
-    titleLab.font=[UIFont systemFontOfSize:18];
-    titleLab.textColor=[self colorWithHexString:@"#0C71FF"];//
-    titleLab.text=title;
-    titleLab.textAlignment=NSTextAlignmentCenter;
-    [alertView addSubview:titleLab];
-    
-    //内容文字
-    UILabel *contentLab=[[UILabel alloc]init];
-    self.contentLab=contentLab;
-    contentLab.lineBreakMode=NSLineBreakByWordWrapping;
-    contentLab.font=[UIFont systemFontOfSize:14];
-    contentLab.numberOfLines=0;
-    contentLab.text=content;
-    contentLab.textColor=[self colorWithHexString:@"#333333"];
-    contentLab.textAlignment=NSTextAlignmentCenter;
-    [alertView addSubview:contentLab];
-    
-    //显示遮罩层
-   
-   
-    CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
-    
-    self.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    self.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
-    
-    if (image!=nil) {
-        titleLab.frame=CGRectMake(padding, CGRectGetMaxY(titleImgView.frame)+padding, alertView_with-padding*2, 30);
-    }else{
-        titleLab.frame=CGRectMake(padding, padding+10, alertView_with-padding*2, 30);
-    }
-    //如果没有传递标题，默认尺寸
-    if ([title isEqualToString:@""]||title==nil) {
-        titleLab.frame=CGRectMake(0, titleLab.frame.origin.y, alertView_with-padding*2, 1);
-    }
-    CGFloat contentLab_height=[self heightForString:content Width:alertView_with-40 font:contentLab.font];
-    contentLab.frame=CGRectMake(20, CGRectGetMaxY(titleLab.frame)+padding, alertView_with-40, contentLab_height);
-    
-    //创建按钮
-    if (titleArray.count>0) {
-        //分割线
-        CGFloat button_height=40;//按钮高度
-        UIView *cutView=[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(contentLab.frame)+padding+5, alertView_with, 1)];
-        cutView.tag=101;
-        cutView.backgroundColor=[self colorWithHexString:@"#e2e2e2"];//
-        [alertView addSubview:cutView];
+    __weak CustomAlert *weakSelf = self;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        weakSelf.alertType=AlertTypeButton;
+        [weakSelf dissmis];
+        weakSelf.isFull=isFull;
+        weakSelf.completeBlock=completeBlock;//保存代码快
+        UIView *alertView=[[UIView alloc]init];
+        weakSelf.alertView=alertView;
+        alertView.backgroundColor=[UIColor whiteColor];
+        alertView.layer.cornerRadius=10;
+        alertView.layer.masksToBounds=YES;
+        [weakSelf addSubview:alertView];
         
-        for (int i=0;i<titleArray.count;i++) {
-            NSString *title=titleArray[i];
-            if ([title isKindOfClass:[NSString class]]) {
-                //这里只创建两个按钮
-                if (i==2) {
-                    break;
-                }
-                UIButton *button=[UIButton buttonWithType:0];
-                [self.buttonArray addObject:button];
-                [button setTitle:title forState:0];
-                //默认颜色
-                if (i==1) {
-                    [button setTitleColor:[self colorWithHexString:@"#0C71FF"] forState:0];
-                    
-                }else{
-                    if ([title isEqualToString:@"确定"]) {
-                        [button setTitleColor:[self colorWithHexString:@"#0C71FF"] forState:0];
-                    }else{
-                        [button setTitleColor:[self colorWithHexString:@"#666666"] forState:0];
+        CGFloat padding=5;
+        CGFloat alertView_with=SCREEN_WIDTH*0.7;
+        
+        //提示图片
+        UIImageView *titleImgView=nil;
+        if (image!=nil) {
+            titleImgView=[[UIImageView alloc]initWithImage:image];
+            [alertView addSubview:titleImgView];
+            titleImgView.frame=CGRectMake((alertView_with-35)/2,20, 35, 35);
+        }
+        
+        
+        //标题文字
+        UILabel *titleLab=[[UILabel alloc]init];
+        weakSelf.titleLab=titleLab;
+        titleLab.font=[UIFont systemFontOfSize:18];
+        titleLab.textColor=[weakSelf colorWithHexString:@"#0C71FF"];//
+        titleLab.text=title;
+        titleLab.textAlignment=NSTextAlignmentCenter;
+        [alertView addSubview:titleLab];
+        
+        //内容文字
+        UILabel *contentLab=[[UILabel alloc]init];
+        weakSelf.contentLab=contentLab;
+        contentLab.lineBreakMode=NSLineBreakByWordWrapping;
+        contentLab.font=[UIFont systemFontOfSize:14];
+        contentLab.numberOfLines=0;
+        contentLab.text=content;
+        contentLab.textColor=[weakSelf colorWithHexString:@"#333333"];
+        contentLab.textAlignment=NSTextAlignmentCenter;
+        [alertView addSubview:contentLab];
+        
+        //显示遮罩层
+        
+        
+        CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
+        
+        weakSelf.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        weakSelf.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
+        
+        if (image!=nil) {
+            titleLab.frame=CGRectMake(padding, CGRectGetMaxY(titleImgView.frame)+padding, alertView_with-padding*2, 30);
+        }else{
+            titleLab.frame=CGRectMake(padding, padding+10, alertView_with-padding*2, 30);
+        }
+        //如果没有传递标题，默认尺寸
+        if ([title isEqualToString:@""]||title==nil) {
+            titleLab.frame=CGRectMake(0, titleLab.frame.origin.y, alertView_with-padding*2, 1);
+        }
+        CGFloat contentLab_height=[weakSelf heightForString:content Width:alertView_with-40 font:contentLab.font];
+        contentLab.frame=CGRectMake(20, CGRectGetMaxY(titleLab.frame)+padding, alertView_with-40, contentLab_height);
+        
+        //创建按钮
+        if (titleArray.count>0) {
+            //分割线
+            CGFloat button_height=40;//按钮高度
+            UIView *cutView=[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(contentLab.frame)+padding+5, alertView_with, 1)];
+            cutView.tag=101;
+            cutView.backgroundColor=[weakSelf colorWithHexString:@"#e2e2e2"];//
+            [alertView addSubview:cutView];
+            
+            for (int i=0;i<titleArray.count;i++) {
+                NSString *title=titleArray[i];
+                if ([title isKindOfClass:[NSString class]]) {
+                    //这里只创建两个按钮
+                    if (i==2) {
+                        break;
                     }
+                    UIButton *button=[UIButton buttonWithType:0];
+                    [weakSelf.buttonArray addObject:button];
+                    [button setTitle:title forState:0];
+                    //默认颜色
+                    if (i==1) {
+                        [button setTitleColor:[weakSelf colorWithHexString:@"#0C71FF"] forState:0];
+                        
+                    }else{
+                        if ([title isEqualToString:@"确定"]) {
+                            [button setTitleColor:[weakSelf colorWithHexString:@"#0C71FF"] forState:0];
+                        }else{
+                            [button setTitleColor:[weakSelf colorWithHexString:@"#666666"] forState:0];
+                        }
+                    }
+                    button.tag=i;
+                    button.titleLabel.font=[UIFont systemFontOfSize:14];
+                    [button addTarget:weakSelf action:@selector(completeClick:) forControlEvents:UIControlEventTouchUpInside];
+                    [alertView addSubview:button];
+                    CGFloat button_width=alertView_with;//按钮宽度
+                    if (titleArray.count>1) {
+                        button_width=alertView_with/2;
+                    }
+                    button.frame=CGRectMake(i*button_width, CGRectGetMaxY(cutView.frame), button_width, 40);
                 }
-                button.tag=i;
-                button.titleLabel.font=[UIFont systemFontOfSize:14];
-                [button addTarget:self action:@selector(completeClick:) forControlEvents:UIControlEventTouchUpInside];
-                [alertView addSubview:button];
-                CGFloat button_width=alertView_with;//按钮宽度
-                if (titleArray.count>1) {
-                    button_width=alertView_with/2;
-                }
-                button.frame=CGRectMake(i*button_width, CGRectGetMaxY(cutView.frame), button_width, 40);
             }
+            //添加中间装饰线
+            if(titleArray.count>1){
+                UIView *cutView_mid=[[UIView alloc]initWithFrame:CGRectMake(alertView_with/2, CGRectGetMaxY(cutView.frame)+10, 1, 20)];
+                cutView_mid.backgroundColor=cutView.backgroundColor;
+                cutView_mid.tag=102;
+                [alertView addSubview:cutView_mid];
+            }
+            
+            
+            CGFloat alertView_height=CGRectGetMaxY(cutView.frame)+button_height;
+            CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
+            weakSelf.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
+        }else{
+            //没有按钮
+            CGFloat alertView_height=CGRectGetMaxY(contentLab.frame)+padding;
+            CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
+            weakSelf.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
         }
-        //添加中间装饰线
-        if(titleArray.count>1){
-            UIView *cutView_mid=[[UIView alloc]initWithFrame:CGRectMake(alertView_with/2, CGRectGetMaxY(cutView.frame)+10, 1, 20)];
-            cutView_mid.backgroundColor=cutView.backgroundColor;
-            cutView_mid.tag=102;
-            [alertView addSubview:cutView_mid];
-        }
+        //添加到视图上
+        [[weakSelf frontWindow] addSubview:weakSelf];
         
+        //显示
+        [weakSelf animationWithIsShow:YES];
         
-        CGFloat alertView_height=CGRectGetMaxY(cutView.frame)+button_height;
-        CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
-        self.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
-    }else{
-        //没有按钮
-        CGFloat alertView_height=CGRectGetMaxY(contentLab.frame)+padding;
-        CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
-        self.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
-    }
-    //添加到UIwindow上
-    [[UIApplication sharedApplication].keyWindow addSubview:self];
+    }];
     
-    //显示
-    [self animationWithIsShow:YES];
 }
 
 //按钮点击事件
@@ -635,7 +671,9 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //提示框,loading
         [alertView.layer removeAllAnimations];//移除所有动画
         alertView.hidden=YES;//隐藏控件
-        [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(showAlert:) userInfo:@{@"font":font} repeats:NO];
+      NSTimer *time=  [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(showAlert:) userInfo:@{@"font":font} repeats:NO];
+        [self sharedView].time=time;;
+        [[NSRunLoop mainRunLoop] addTimer:time forMode:NSRunLoopCommonModes];
     }
     
 }
@@ -654,7 +692,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         frame.size.height=newHeight;
         lab.frame=frame;
         //父窗体
-        alertViewFrame.size.height=CGRectGetMaxY(lab.frame)+10;
+        alertViewFrame.size.height=CGRectGetMaxY(lab.frame)+15;
         alertView.frame=alertViewFrame;
     }else{
         //对话框
@@ -702,70 +740,87 @@ typedef NS_ENUM(NSInteger, AlertType) {
     }
     alertView.hidden=NO;
     [[self sharedView] animationWithIsShow:YES];
+    [[self sharedView] clearTime];
+    
 }
 
+//销毁定时器
+-(void)clearTime{
+    if (self.time!=nil) {
+        if ([self.time isValid]) {
+            [self.time invalidate];
+            self.time = nil;
+        }
+    }
+}
 
 #pragma mark 加载等待
 
 //创建加载等待
 -(void)createLoadingWithMessage:(NSString *)message{
-    self.alertType=AlertTypeLoading;
-    [self dissmis];
-    UIView *alertView=[[UIView alloc]init];
-    self.alertView=alertView;
-    alertView.backgroundColor= [UIColor colorWithWhite:0.1 alpha:0.7];
-    alertView.layer.cornerRadius=10;
-    alertView.layer.masksToBounds=YES;
-    [self addSubview:alertView];
-    
-    WKWebView *wkWebView=[[WKWebView alloc]init];
-    [alertView addSubview:wkWebView];
-    
-    NSString *path = [[self bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"] pathForResource:@"loading" ofType:@"gif"];
-    NSData *gifData = [NSData dataWithContentsOfFile:path];
-    [wkWebView loadData:gifData MIMEType:@"image/gif" characterEncodingName:nil baseURL:nil];
-    wkWebView.backgroundColor = [UIColor clearColor];
-    wkWebView.opaque = NO;
-    
-    CGFloat padding=10;//间距
-    
-    self.backgroundColor=[UIColor clearColor];
-   
-    CGFloat wkWebView_width=90;
-    if ([message isEqualToString:@""]||message==nil) {
-        CGFloat alertView_with=110;
-        CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
-        CGFloat alertView_y=(SCREEN_HEIGHT-alertView_with)/2;
-         self.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_with);
-        alertView.frame=CGRectMake(0, 0, alertView_with, alertView_with);
-        wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, (alertView_with-wkWebView_width)/2,wkWebView_width,wkWebView_width);
-    }else{
-        CGFloat alertView_with=170;
-        CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
-        CGFloat alertView_y=(SCREEN_HEIGHT-alertView_with)/2;
-         self.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_with);
-        wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, padding,wkWebView_width,wkWebView_width);
-        //有文字
-        UILabel *titleLab=[[UILabel alloc]init];
-        self.contentLab=titleLab;
-        titleLab.textColor=[UIColor whiteColor];
-        titleLab.font=[UIFont systemFontOfSize:15];
-        titleLab.numberOfLines=0;
-        titleLab.text=message;
-        titleLab.textAlignment=NSTextAlignmentCenter;
-        [alertView addSubview:titleLab];
-         CGFloat titleLab_height=[self heightForString:message Width:alertView_with-padding font:titleLab.font];
+    __weak CustomAlert *weakSelf = self;
+    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         
-        titleLab.frame=CGRectMake(padding/2, CGRectGetMaxY(wkWebView.frame)-padding, self.frame.size.width-padding, titleLab_height);
+        weakSelf.alertType=AlertTypeLoading;
+        [weakSelf dissmis];
+        UIView *alertView=[[UIView alloc]init];
+        weakSelf.alertView=alertView;
+        alertView.backgroundColor= [UIColor colorWithWhite:0.1 alpha:0.7];
+        alertView.layer.cornerRadius=10;
+        alertView.layer.masksToBounds=YES;
+        [weakSelf addSubview:alertView];
         
-        alertView.frame=CGRectMake(0, 0, alertView_with, CGRectGetMaxY(titleLab.frame)+padding+5);
-    }
-
-    //添加到视图上
-    UIViewController *vc=[self topViewController];
-    [vc.view addSubview:self];
-    //显示
-    [self animationWithIsShow:YES];
+        if(weakSelf.wkWebView==nil){
+            WKWebView *wkWebView=[[WKWebView alloc]init];
+            weakSelf.wkWebView=wkWebView;
+            NSString *path = [[weakSelf bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"] pathForResource:@"loading" ofType:@"gif"];
+            NSData *gifData = [NSData dataWithContentsOfFile:path];
+            [wkWebView loadData:gifData MIMEType:@"image/gif" characterEncodingName:nil baseURL:nil];
+            
+        }
+        [alertView addSubview:weakSelf.wkWebView];
+        weakSelf.wkWebView.backgroundColor = [UIColor clearColor];
+        weakSelf.wkWebView.opaque = NO;
+        CGFloat padding=10;//间距
+        
+        weakSelf.backgroundColor=[UIColor clearColor];
+        
+        CGFloat wkWebView_width=73;
+        if ([message isEqualToString:@""]||message==nil) {
+            CGFloat alertView_with=88;
+            CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
+            CGFloat alertView_y=(SCREEN_HEIGHT-alertView_with)/2;
+            weakSelf.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_with);
+            alertView.frame=CGRectMake(0, 0, alertView_with, alertView_with);
+            weakSelf.wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, (alertView_with-wkWebView_width)/2,wkWebView_width,wkWebView_width);
+        }else{
+            CGFloat alertView_with=150;
+            //有文字
+            UILabel *titleLab=[[UILabel alloc]init];
+            weakSelf.contentLab=titleLab;
+            titleLab.textColor=[UIColor whiteColor];
+            titleLab.font=[UIFont systemFontOfSize:15];
+            titleLab.numberOfLines=0;
+            titleLab.text=message;
+            titleLab.textAlignment=NSTextAlignmentCenter;
+            [alertView addSubview:titleLab];
+            CGFloat titleLab_height=[weakSelf heightForString:message Width:alertView_with-padding font:titleLab.font];
+            weakSelf.wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, 0,wkWebView_width,wkWebView_width);
+            titleLab.frame=CGRectMake(padding/2, CGRectGetMaxY(weakSelf.wkWebView.frame)-padding, alertView_with-padding, titleLab_height);
+            
+            alertView.frame=CGRectMake(0, 0, alertView_with, CGRectGetMaxY(titleLab.frame)+padding+5);
+            CGFloat alertView_height=CGRectGetMaxY(alertView.frame);
+            CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
+            CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
+            weakSelf.frame=CGRectMake(alertView_x, alertView_y, alertView_with, CGRectGetMaxY(titleLab.frame)+padding+5);
+        }
+        
+        //添加到视图上
+        [[weakSelf frontWindow] addSubview:weakSelf];
+        //显示
+        [weakSelf animationWithIsShow:YES];
+    }];
+    
 }
 
 -(NSBundle *)bundleWithBundleName:(NSString *)bundleName podName:(NSString *)podName{

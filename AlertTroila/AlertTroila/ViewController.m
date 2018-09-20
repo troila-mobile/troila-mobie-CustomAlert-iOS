@@ -32,7 +32,7 @@
     tableView.dataSource=self;
     tableView.delegate=self;
     [self.view addSubview:tableView];
-    
+   
     [self.arrayData addObjectsFromArray:@[@"简单成功提示",@"简单失败提示",@"遮罩-简单成功提示",@"遮罩-简单失败提示",@"遮罩-简单成功提示【自定义图片】"]];
     [self.arrayData addObjectsFromArray:@[@"alert-警告提示【默认双按钮】-带默认图",@"alert-成功提示【默认单按钮】-自定义图",@"alert-提示【自定义按钮】-不带图",@"alert-成功提示【默认双按钮】-无标题"]];
     //自定义样式
@@ -62,6 +62,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row==0) {
+//        [CustomAlert dissmis];
+//        [SVProgressHUD showSuccessWithStatus:@"简单成功提示"];
         [CustomAlert showSuccessWithMessage:@"简单成功提示"];
     }else if (indexPath.row==1) {
         [CustomAlert showErrorWithMessage:@"简单失败提示"];
@@ -119,7 +121,7 @@
         [CustomAlert showLoading];
     }else if (indexPath.row==15) {
         //加载等待
-        [CustomAlert showLoadingWithMessage:@"loading-有文字loading-有文字loading-有文字loading-有文字loading-有文字loading-有文字loading-有文字"];
+        [CustomAlert showLoadingWithMessage:@"loading-有文字loading-有文字loading-有文字loading-有文字loading-有文字"];
          [CustomAlert setFont:[UIFont systemFontOfSize:20]];
     }else{
         [CustomAlert showMessage:@"无图片的简单提醒" image:nil];
