@@ -1,4 +1,12 @@
-# 帮助手册
+# CustomAlert V0.0.1
+
+![CocoaPods Compatible](https://img.shields.io/cocoapods/v/CustomAlert.svg)
+![Pod Platform](https://img.shields.io/cocoapods/p/CustomAlert.svg?style=flat)
+![Pod License](http://img.shields.io/cocoapods/l/CustomAlert.svg?style=flat)
+
+项目集成 `pod 'CustomAlert'`
+
+导入头文件 `#import "CustomAlert.h"`
 >前言：该框架api调用均为类方法，在设置样式时，需创建弹框实体在设置样式
 ### 项目API组成
 ##### api总共分为四个部分
