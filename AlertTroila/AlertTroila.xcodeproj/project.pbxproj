@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8452781B214A2E4F00133114 /* CustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8452781A214A2E4F00133114 /* CustomAlert.m */; };
-		8452782B214A337D00133114 /* CustomAlertImage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8452782A214A337D00133114 /* CustomAlertImage.bundle */; };
+		842D04752153687300C49E78 /* CustomAlertImage.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 842D04722153687300C49E78 /* CustomAlertImage.bundle */; };
+		842D04762153687300C49E78 /* TRCustomAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 842D04742153687300C49E78 /* TRCustomAlert.m */; };
 		84A865E0214A0B690072E766 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A865DF214A0B690072E766 /* AppDelegate.m */; };
 		84A865E3214A0B690072E766 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A865E2214A0B690072E766 /* ViewController.m */; };
 		84A865E6214A0B690072E766 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A865E4214A0B690072E766 /* Main.storyboard */; };
@@ -18,9 +18,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		84527819214A2E4F00133114 /* CustomAlert.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomAlert.h; sourceTree = "<group>"; };
-		8452781A214A2E4F00133114 /* CustomAlert.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomAlert.m; sourceTree = "<group>"; };
-		8452782A214A337D00133114 /* CustomAlertImage.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CustomAlertImage.bundle; sourceTree = "<group>"; };
+		842D04722153687300C49E78 /* CustomAlertImage.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CustomAlertImage.bundle; sourceTree = "<group>"; };
+		842D04732153687300C49E78 /* TRCustomAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TRCustomAlert.h; sourceTree = "<group>"; };
+		842D04742153687300C49E78 /* TRCustomAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRCustomAlert.m; sourceTree = "<group>"; };
 		84A865DB214A0B690072E766 /* AlertTroila.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AlertTroila.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84A865DE214A0B690072E766 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		84A865DF214A0B690072E766 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -44,6 +44,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		842D04712153687300C49E78 /* Alert_Troila */ = {
+			isa = PBXGroup;
+			children = (
+				842D04722153687300C49E78 /* CustomAlertImage.bundle */,
+				842D04732153687300C49E78 /* TRCustomAlert.h */,
+				842D04742153687300C49E78 /* TRCustomAlert.m */,
+			);
+			path = Alert_Troila;
+			sourceTree = "<group>";
+		};
 		84A865D2214A0B690072E766 = {
 			isa = PBXGroup;
 			children = (
@@ -63,7 +73,7 @@
 		84A865DD214A0B690072E766 /* AlertTroila */ = {
 			isa = PBXGroup;
 			children = (
-				84A865F4214A0C0D0072E766 /* Alert_Troila */,
+				842D04712153687300C49E78 /* Alert_Troila */,
 				84A865DE214A0B690072E766 /* AppDelegate.h */,
 				84A865DF214A0B690072E766 /* AppDelegate.m */,
 				84A865E1214A0B690072E766 /* ViewController.h */,
@@ -75,16 +85,6 @@
 				84A865ED214A0B690072E766 /* main.m */,
 			);
 			path = AlertTroila;
-			sourceTree = "<group>";
-		};
-		84A865F4214A0C0D0072E766 /* Alert_Troila */ = {
-			isa = PBXGroup;
-			children = (
-				8452782A214A337D00133114 /* CustomAlertImage.bundle */,
-				84527819214A2E4F00133114 /* CustomAlert.h */,
-				8452781A214A2E4F00133114 /* CustomAlert.m */,
-			);
-			path = Alert_Troila;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -146,7 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A865EB214A0B690072E766 /* LaunchScreen.storyboard in Resources */,
-				8452782B214A337D00133114 /* CustomAlertImage.bundle in Resources */,
+				842D04752153687300C49E78 /* CustomAlertImage.bundle in Resources */,
 				84A865E8214A0B690072E766 /* Assets.xcassets in Resources */,
 				84A865E6214A0B690072E766 /* Main.storyboard in Resources */,
 			);
@@ -162,7 +162,7 @@
 				84A865E3214A0B690072E766 /* ViewController.m in Sources */,
 				84A865EE214A0B690072E766 /* main.m in Sources */,
 				84A865E0214A0B690072E766 /* AppDelegate.m in Sources */,
-				8452781B214A2E4F00133114 /* CustomAlert.m in Sources */,
+				842D04762153687300C49E78 /* TRCustomAlert.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

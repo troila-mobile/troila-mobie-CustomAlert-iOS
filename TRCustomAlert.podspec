@@ -1,8 +1,8 @@
 
 Pod::Spec.new do |s|
-  s.name             = 'CustomAlert'
+  s.name             = 'TRCustomAlert'
   s.version          = '0.0.1'
-  s.summary          = ' CustomAlert is very goods'
+  s.summary          = ' TRCustomAlert is very goods'
 
 
   s.description      = <<-DESC
@@ -13,21 +13,21 @@ Pod::Spec.new do |s|
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'mayinwei' => '843912524@qq.com' }
-  s.source           = { :git => 'https://github.com/troila-mobile/troila-mobie-CustomAlert-iOS.git', :tag => "0.0.12" }
+  s.source           = { :git => 'https://github.com/troila-mobile/troila-mobie-CustomAlert-iOS.git', :tag => "0.0.1" }
 
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
+  s.social_media_url = 'https://github.com/Mayinwei'
 
   #s.ios.deployment_target = '8.0'
    s.platform     = :ios, '8.0'
 
-  s.source_files = 'CustomAlert/*.{h,m}'
+  s.source_files = 'TRCustomAlert/*.{h,m}'
   
    #s.resource_bundles = {
-   #  'CustomAlert' => ['CustomAlert/CustomAlertImage.bundle/*.{png,gif}']
+   #  'CustomAlert' => ['TRCustomAlert/CustomAlertImage.bundle/*.{png,gif}']
    #}
-   s.resources = "CustomAlert/CustomAlertImage.bundle"
+   s.resources = "TRCustomAlert/CustomAlertImage.bundle"
 
-   s.public_header_files = 'CustomAlert/*.h'
+   s.public_header_files = 'TRCustomAlert/*.h'
    s.frameworks = 'UIKit'
 
 

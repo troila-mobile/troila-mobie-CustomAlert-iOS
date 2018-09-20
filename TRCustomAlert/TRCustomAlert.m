@@ -1,16 +1,17 @@
 //
-//  CustomAlert.m
+//  TRCustomAlert.m
 //  AlertTroila
 //
-//  Created by Admin on 2018/9/13.
+//  Created by Admin on 2018/9/20.
 //  Copyright © 2018年 马银伟. All rights reserved.
-//  弹出组件
+//
 
-#import "CustomAlert.h"
+#import "TRCustomAlert.h"
 #import <WebKit/WebKit.h>
 //屏幕宽高
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+
 
 //当前界面的样式
 typedef NS_ENUM(NSInteger, AlertType) {
@@ -18,7 +19,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
     AlertTypeButton,//按钮样式
     AlertTypeLoading//loading样式
 };
-@interface CustomAlert()
+@interface TRCustomAlert()
 @property (nonatomic, strong)UIView *alertView;
 
 @property (nonatomic, strong)NSMutableArray *buttonArray;//按钮模式的按钮
@@ -35,8 +36,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 @property(nonatomic,strong)WKWebView *wkWebView;//加载gif浏览器
 @property(nonatomic,strong)NSTimer *time;
 @end
-@implementation CustomAlert
-
+@implementation TRCustomAlert
 -(NSMutableArray *)buttonArray{
     if (_buttonArray==nil) {
         _buttonArray=[NSMutableArray array];
@@ -44,9 +44,9 @@ typedef NS_ENUM(NSInteger, AlertType) {
     return _buttonArray;
 }
 //单例模式
-+ (CustomAlert*)sharedView {
++ (TRCustomAlert*)sharedView {
     static dispatch_once_t once;
-    static CustomAlert *sharedView;
+    static TRCustomAlert *sharedView;
     dispatch_once(&once, ^{
         sharedView=[[self alloc]init];
     });
@@ -68,7 +68,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 #pragma mark 创建基础界面
 -(void)createCustomViewWithMessage:(NSString *)message image:(UIImage *)image isShade:(BOOL)isShade{
     
-    __weak CustomAlert *weakSelf = self;
+    __weak TRCustomAlert *weakSelf = self;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         weakSelf.alertType=AlertTypeSimple;
         
@@ -164,11 +164,11 @@ typedef NS_ENUM(NSInteger, AlertType) {
     
     CGSize textSize = [value boundingRectWithSize:size
                        
-                                           options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                          options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
                        
-                                        attributes:tdic
+                                       attributes:tdic
                        
-                                           context:nil].size;
+                                          context:nil].size;
     
     CGFloat height = textSize.height+ 1;
     
@@ -178,8 +178,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 //成功简单提示
 +(void)showSuccessWithMessage:(NSString *)message{
-//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:NO];
@@ -187,8 +187,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 //失败简单提示
 +(void)showErrorWithMessage:(NSString *)message{
-//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:NO];
@@ -196,8 +196,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 //带遮罩层成功提示
 +(void)showShadeSuccessWithMessage:(NSString *)message{
-//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:YES];
@@ -205,8 +205,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 //带遮罩层失败提示
 +(void)showShadeErrorWithMessage:(NSString *)message{
-//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:YES];
@@ -239,7 +239,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
     if (self.subviews.count>0) {
         [self.subviews[0] removeFromSuperview];
         if (self.subviews.count==0) {
-             [self removeFromSuperview];
+            [self removeFromSuperview];
             self.alertView=nil;
         }
     }else{
@@ -318,19 +318,19 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 
 //多个按钮，模式
-+(void)showAlertWithButtonTitleArray:(NSArray<NSString *> *)titleArray style:(CustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
++(void)showAlertWithButtonTitleArray:(NSArray<NSString *> *)titleArray style:(TRCustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
     //情况按钮数组
     [[self sharedView].buttonArray removeAllObjects];
     NSString *imageName=@"";
-    if (style==CustomAlertStyleSuccess) {
+    if (style==TRCustomAlertStyleSuccess) {
         imageName=@"success_blue";
-    }else if (style==CustomAlertStyleError){
+    }else if (style==TRCustomAlertStyleError){
         imageName=@"error_blue";
-    }else if (style==CustomAlertStyleWarning){
+    }else if (style==TRCustomAlertStyleWarning){
         imageName=@"warning_blue";
     }
-//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] creatAlertViewWithButtonTitleArray:titleArray image:[UIImage imageNamed:imageName inBundle:resource_bundle
                                                                  compatibleWithTraitCollection:nil] title:title isFull:NO content:content complete:completeBlock];
@@ -344,17 +344,17 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 
 //自带确定和取消，默认图片样式
-+(void)showAlertFullWithStyle:(CustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
++(void)showAlertFullWithStyle:(TRCustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
     NSString *imageName=@"";
-    if (style==CustomAlertStyleSuccess) {
+    if (style==TRCustomAlertStyleSuccess) {
         imageName=@"success_blue";
-    }else if (style==CustomAlertStyleError){
+    }else if (style==TRCustomAlertStyleError){
         imageName=@"error_blue";
-    }else if (style==CustomAlertStyleWarning){
+    }else if (style==TRCustomAlertStyleWarning){
         imageName=@"warning_blue";
     }
-//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"取消",@"确定"] image:[UIImage imageNamed:imageName inBundle:resource_bundle
                                                                      compatibleWithTraitCollection:nil] title:title isFull:YES content:content complete:completeBlock];
@@ -366,17 +366,17 @@ typedef NS_ENUM(NSInteger, AlertType) {
 }
 
 //确定样式
-+(void)showAlertFinishWithStyle:(CustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
++(void)showAlertFinishWithStyle:(TRCustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
     NSString *imageName=@"";
-    if (style==CustomAlertStyleSuccess) {
+    if (style==TRCustomAlertStyleSuccess) {
         imageName=@"success_blue";
-    }else if (style==CustomAlertStyleError){
+    }else if (style==TRCustomAlertStyleError){
         imageName=@"error_blue";
-    }else if (style==CustomAlertStyleWarning){
+    }else if (style==TRCustomAlertStyleWarning){
         imageName=@"warning_blue";
     }
-//    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-//                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
+    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
     NSBundle *resource_bundle =[[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"确定"] image:[UIImage imageNamed:imageName inBundle:resource_bundle
                                                                compatibleWithTraitCollection:nil]  title:title isFull:YES content:content complete:completeBlock];
@@ -389,7 +389,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 #pragma mark 创建对话框样式
 -(void)creatAlertViewWithButtonTitleArray:(NSArray<NSString *> *)titleArray image:(UIImage *)image title:(NSString *)title isFull:(BOOL)isFull content:(NSString *)content complete:(complete)completeBlock{
-    __weak CustomAlert *weakSelf = self;
+    __weak TRCustomAlert *weakSelf = self;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         weakSelf.alertType=AlertTypeButton;
         [weakSelf dissmis];
@@ -547,11 +547,11 @@ typedef NS_ENUM(NSInteger, AlertType) {
     }
     // 判断前缀
     if ([cString hasPrefix:@"0X"])
-        cString = [cString substringFromIndex:2];
+    cString = [cString substringFromIndex:2];
     if ([cString hasPrefix:@"#"])
-        cString = [cString substringFromIndex:1];
+    cString = [cString substringFromIndex:1];
     if ([cString length] != 6)
-        return [UIColor clearColor];
+    return [UIColor clearColor];
     // 从六位数值中找到RGB对应的位数并转换
     NSRange range;
     range.location = 0;
@@ -671,7 +671,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //提示框,loading
         [alertView.layer removeAllAnimations];//移除所有动画
         alertView.hidden=YES;//隐藏控件
-      NSTimer *time=  [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(showAlert:) userInfo:@{@"font":font} repeats:NO];
+        NSTimer *time=  [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(showAlert:) userInfo:@{@"font":font} repeats:NO];
         [self sharedView].time=time;;
         [[NSRunLoop mainRunLoop] addTimer:time forMode:NSRunLoopCommonModes];
     }
@@ -758,7 +758,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 //创建加载等待
 -(void)createLoadingWithMessage:(NSString *)message{
-    __weak CustomAlert *weakSelf = self;
+    __weak TRCustomAlert *weakSelf = self;
     [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         
         weakSelf.alertType=AlertTypeLoading;
@@ -860,4 +860,5 @@ typedef NS_ENUM(NSInteger, AlertType) {
 +(void)showLoadingWithMessage:(NSString *)message{
     [[self sharedView] createLoadingWithMessage:message];
 }
+
 @end

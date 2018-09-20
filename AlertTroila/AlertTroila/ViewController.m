@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "CustomAlert.h"
+#import "TRCustomAlert.h"
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,copy)NSMutableArray *arrayData;//总数据源
 @end
@@ -62,73 +62,73 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row==0) {
-//        [CustomAlert dissmis];
+//        [TRCustomAlert dissmis];
 //        [SVProgressHUD showSuccessWithStatus:@"简单成功提示"];
-        [CustomAlert showSuccessWithMessage:@"简单成功提示"];
+        [TRCustomAlert showSuccessWithMessage:@"简单成功提示"];
     }else if (indexPath.row==1) {
-        [CustomAlert showErrorWithMessage:@"简单失败提示"];
+        [TRCustomAlert showErrorWithMessage:@"简单失败提示"];
     }else if (indexPath.row==2) {
-        [CustomAlert showShadeSuccessWithMessage:@"遮罩-简单成功提示"];
+        [TRCustomAlert showShadeSuccessWithMessage:@"遮罩-简单成功提示"];
     }else if (indexPath.row==3) {
-        [CustomAlert showShadeErrorWithMessage:@"遮罩-简单失败提示"];
+        [TRCustomAlert showShadeErrorWithMessage:@"遮罩-简单失败提示"];
     }else if (indexPath.row==4) {
-        [CustomAlert showShadeWithMessage:@"遮罩-简单成功提示【自定义图片】"  image:[UIImage imageNamed:@"success"]];
+        [TRCustomAlert showShadeWithMessage:@"遮罩-简单成功提示【自定义图片】"  image:[UIImage imageNamed:@"success"]];
     }else if (indexPath.row==5) {
         //对话框类型
-        [CustomAlert showAlertFullWithStyle:CustomAlertStyleWarning title:@"警告" content:@"alert-警告提示【默认双按钮】-带默认图" complete:^(NSInteger index, NSString *title) {
+        [TRCustomAlert showAlertFullWithStyle:TRCustomAlertStyleWarning title:@"警告" content:@"alert-警告提示【默认双按钮】-带默认图" complete:^(NSInteger index, NSString *title) {
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
         }];
     }else if (indexPath.row==6) {
-        [CustomAlert showAlertFinishWithImage:[UIImage imageNamed:@"my_icon"] title:@"成功" content:@"alert-成功提示【默认单按钮】-自定义图" complete:^(NSInteger index, NSString *title) {
+        [TRCustomAlert showAlertFinishWithImage:[UIImage imageNamed:@"my_icon"] title:@"成功" content:@"alert-成功提示【默认单按钮】-自定义图" complete:^(NSInteger index, NSString *title) {
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
         }];
     }else if (indexPath.row==7) {
-        [CustomAlert showAlertWithButtonTitleArray:@[@"取消",@"进入"] style:CustomAlertStyleNone title:@"请跳入" content:@"alert-提示【自定义按钮】-不带图" complete:^(NSInteger index, NSString *title) {
-            [CustomAlert dissmis];
+        [TRCustomAlert showAlertWithButtonTitleArray:@[@"取消",@"进入"] style:TRCustomAlertStyleNone title:@"请跳入" content:@"alert-提示【自定义按钮】-不带图" complete:^(NSInteger index, NSString *title) {
+            [TRCustomAlert dissmis];
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
         }];
     }else if (indexPath.row==8) {
-        [CustomAlert showAlertFullWithStyle:CustomAlertStyleSuccess title:nil content:@"alert-成功提示【默认双按钮】-无标题" complete:^(NSInteger index, NSString *title) {
+        [TRCustomAlert showAlertFullWithStyle:TRCustomAlertStyleSuccess title:nil content:@"alert-成功提示【默认双按钮】-无标题" complete:^(NSInteger index, NSString *title) {
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
         }];
     }else if (indexPath.row==9) {
         //样式控制
-        [CustomAlert showSuccessWithMessage:@"设置背景色-橘黄色"];
-        [CustomAlert setBackgroundColor:[UIColor orangeColor]];
+        [TRCustomAlert showSuccessWithMessage:@"设置背景色-橘黄色"];
+        [TRCustomAlert setBackgroundColor:[UIColor orangeColor]];
     }else if (indexPath.row==10) {
-        [CustomAlert showAlertWithButtonTitleArray:@[@"取消",@"注意"] style:CustomAlertStyleNone title:@"样式颜色" content:@"设置alert-模式的底部按钮颜色" complete:^(NSInteger index, NSString *title) {
-            [CustomAlert dissmis];
+        [TRCustomAlert showAlertWithButtonTitleArray:@[@"取消",@"注意"] style:TRCustomAlertStyleNone title:@"样式颜色" content:@"设置alert-模式的底部按钮颜色" complete:^(NSInteger index, NSString *title) {
+            [TRCustomAlert dissmis];
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
         }];
-        [CustomAlert setButtonColor:[UIColor redColor] index:1];
+        [TRCustomAlert setButtonColor:[UIColor redColor] index:1];
     }else if (indexPath.row==11) {
         //
-        [CustomAlert showAlertWithButtonTitleArray:@[@"取消",@"字号"] style:CustomAlertStyleNone title:@"样式按钮字号" content:@"设置alert-模式的底部按钮字号" complete:^(NSInteger index, NSString *title) {
-            [CustomAlert dissmis];
+        [TRCustomAlert showAlertWithButtonTitleArray:@[@"取消",@"字号"] style:TRCustomAlertStyleNone title:@"样式按钮字号" content:@"设置alert-模式的底部按钮字号" complete:^(NSInteger index, NSString *title) {
+            [TRCustomAlert dissmis];
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
         }];
-        [CustomAlert setButtonFont:[UIFont systemFontOfSize:18] index:1];
+        [TRCustomAlert setButtonFont:[UIFont systemFontOfSize:18] index:1];
     }else if (indexPath.row==12) {
-        [CustomAlert showErrorWithMessage:@"设置简单框字体大小"];
-        [CustomAlert setFont:[UIFont systemFontOfSize:20]];
+        [TRCustomAlert showErrorWithMessage:@"设置简单框字体大小"];
+        [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
     }else if (indexPath.row==13) {
-        [CustomAlert showAlertFullWithStyle:CustomAlertStyleWarning title:nil content:@"设置提示框字体大小设置提示框字体大小设置提示框字体大小设置提示框字体大小" complete:^(NSInteger index, NSString *title) {
+        [TRCustomAlert showAlertFullWithStyle:TRCustomAlertStyleWarning title:nil content:@"设置提示框字体大小设置提示框字体大小设置提示框字体大小设置提示框字体大小" complete:^(NSInteger index, NSString *title) {
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
         }];
-        [CustomAlert setFont:[UIFont systemFontOfSize:20]];
+        [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
     }else if (indexPath.row==14) {
         //加载等待
-        [CustomAlert showLoading];
+        [TRCustomAlert showLoading];
     }else if (indexPath.row==15) {
         //加载等待
-        [CustomAlert showLoadingWithMessage:@"loading-有文字loading-有文字loading-有文字loading-有文字loading-有文字"];
-         [CustomAlert setFont:[UIFont systemFontOfSize:20]];
+        [TRCustomAlert showLoadingWithMessage:@"loading-有文字loading-有文字loading-有文字loading-有文字loading-有文字"];
+         [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
     }else{
-        [CustomAlert showMessage:@"无图片的简单提醒" image:nil];
+        [TRCustomAlert showMessage:@"无图片的简单提醒" image:nil];
     }
 }
 - (IBAction)closeLoading:(id)sender {
-    [CustomAlert dissmis];
+    [TRCustomAlert dissmis];
 }
 
 @end

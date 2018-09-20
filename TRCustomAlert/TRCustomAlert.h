@@ -1,24 +1,24 @@
 //
-//  CustomAlert.h
+//  TRCustomAlert.h
 //  AlertTroila
 //
-//  Created by Admin on 2018/9/13.
+//  Created by Admin on 2018/9/20.
 //  Copyright © 2018年 马银伟. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, CustomAlertStyle) {
-    CustomAlertStyleSuccess,//默认成功图片
-    CustomAlertStyleError,//默认错误图片
-    CustomAlertStyleWarning,//默认警告图片
-    CustomAlertStyleNone  //没有图片
+typedef NS_ENUM(NSInteger, TRCustomAlertStyle) {
+    TRCustomAlertStyleSuccess,//默认成功图片
+    TRCustomAlertStyleError,//默认错误图片
+    TRCustomAlertStyleWarning,//默认警告图片
+    TRCustomAlertStyleNone  //没有图片
 };
 
 typedef void (^complete)(NSInteger index,NSString *title);//回调block
 
+@interface TRCustomAlert : UIView
 
-@interface CustomAlert : UIView
 
 /*设置样式*/
 
@@ -72,7 +72,7 @@ typedef void (^complete)(NSInteger index,NSString *title);//回调block
 
 
 //自定义按钮，默认图片样式
-+(void)showAlertWithButtonTitleArray:(NSArray<NSString *> *)titleArray style:(CustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;
++(void)showAlertWithButtonTitleArray:(NSArray<NSString *> *)titleArray style:(TRCustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;
 
 
 //自定义按钮，自定义图片
@@ -80,14 +80,14 @@ typedef void (^complete)(NSInteger index,NSString *title);//回调block
 
 
 //自带确定和取消，默认图片样式
-+(void)showAlertFullWithStyle:(CustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;
++(void)showAlertFullWithStyle:(TRCustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;
 
 
 //自带确定和取消，自定义图片样式
 +(void)showAlertFullWithImage:(UIImage *)image title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;
 
 //自带确定按钮,
-+(void)showAlertFinishWithStyle:(CustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;
++(void)showAlertFinishWithStyle:(TRCustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;
 
 //确定按钮，自定义图片样式
 +(void)showAlertFinishWithImage:(UIImage *)image title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;
@@ -97,4 +97,8 @@ typedef void (^complete)(NSInteger index,NSString *title);//回调block
 
 +(void)showLoadingWithMessage:(NSString *)message;
 +(void)dissmis;//隐藏
+
+
 @end
+
+
