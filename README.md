@@ -1,4 +1,4 @@
-# TRCustomAlert V0.0.2
+# TRCustomAlert V0.0.3
 
 ![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TRCustomAlert.svg)
 ![Pod Platform](https://img.shields.io/cocoapods/p/TRCustomAlert.svg?style=flat)
