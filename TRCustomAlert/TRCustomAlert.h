@@ -56,11 +56,17 @@ typedef void (^complete)(NSInteger index,NSString *title);//回调block
 //显示错误提示
 +(void)showErrorWithMessage:(NSString *)message;
 
+//显示警告提示
++(void)showWarningWithMessage:(NSString *)message;
+
 //带遮罩层成功提示
 +(void)showShadeSuccessWithMessage:(NSString *)message;
 
 //带遮罩层失败提示
 +(void)showShadeErrorWithMessage:(NSString *)message;
+
+//带遮罩层警告提示
++(void)showShadeWarningWithMessage:(NSString *)message;
 
 //自定义图片，简单按钮
 +(void)showMessage:(NSString *)message image:(UIImage *)image;
@@ -94,8 +100,10 @@ typedef void (^complete)(NSInteger index,NSString *title);//回调block
 
 //加载等待
 +(void)showLoading;
++(void)showShadeLoading;//显示遮罩层
 
 +(void)showLoadingWithMessage:(NSString *)message;
++(void)showShadeLoadingWithMessage:(NSString *)message;//显示遮罩层
 +(void)dissmis;//隐藏
 
 

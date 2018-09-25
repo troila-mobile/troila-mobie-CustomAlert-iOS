@@ -68,19 +68,19 @@ typedef NS_ENUM(NSInteger, AlertType) {
 #pragma mark 创建基础界面
 -(void)createCustomViewWithMessage:(NSString *)message image:(UIImage *)image isShade:(BOOL)isShade{
     
-    __weak TRCustomAlert *weakSelf = self;
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        weakSelf.alertType=AlertTypeSimple;
+//    __weak TRCustomAlert *self = self;
+//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        self.alertType=AlertTypeSimple;
         
-        [weakSelf dissmis];
-        weakSelf.isShade=isShade;
+        [self dissmis];
+        self.isShade=isShade;
         
         UIView *alertView=[[UIView alloc]init];
-        weakSelf.alertView=alertView;
+        self.alertView=alertView;
         alertView.backgroundColor=[UIColor colorWithWhite:0.1 alpha:0.7];
         alertView.layer.cornerRadius=10;
         alertView.layer.masksToBounds=YES;
-        [weakSelf addSubview:alertView];
+        [self addSubview:alertView];
         
         //提示图片
         UIImageView *titleImgView=[[UIImageView alloc]initWithImage:image];
@@ -89,7 +89,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //提示文字
         UILabel *titleLab=[[UILabel alloc]init];
         titleLab.textColor=[UIColor whiteColor];
-        weakSelf.contentLab=titleLab;
+        self.contentLab=titleLab;
         titleLab.font=[UIFont systemFontOfSize:15];
         titleLab.numberOfLines=0;
         titleLab.text=message;
@@ -99,7 +99,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //设置尺寸
         CGFloat padding=15;
         CGFloat alertView_with=SCREEN_WIDTH*0.5;
-        CGFloat titleLab_height=[weakSelf heightForString:message Width:alertView_with-padding*2 font:titleLab.font];
+        CGFloat titleLab_height=[self heightForString:message Width:alertView_with-padding*2 font:titleLab.font];
         if (image!=nil) {
             titleImgView.frame=CGRectMake((alertView_with-35)/2, padding*2, 35, 35);
             titleLab.frame= CGRectMake(padding, CGRectGetMaxY(titleImgView.frame)+padding, alertView_with-padding*2, titleLab_height );
@@ -116,25 +116,25 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //父视图和子视图同样尺寸
         if (isShade) {
             //显示遮罩层
-            weakSelf.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            self.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
             alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
-            weakSelf.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
+            self.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
         }else{
-            weakSelf.backgroundColor=[UIColor clearColor];
-            weakSelf.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_height);
+            self.backgroundColor=[UIColor clearColor];
+            self.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_height);
             alertView.frame=CGRectMake(0, 0, alertView_with,alertView_height);
         }
         
         
         //添加到视图上
-        [[weakSelf frontWindow] addSubview:weakSelf];
+        [[self frontWindow] addSubview:self];
         //动画显示
-        [weakSelf animationWithIsShow:YES];
+        [self animationWithIsShow:YES];
         
-        NSTimer *time=[NSTimer scheduledTimerWithTimeInterval:3.0 target:weakSelf selector:@selector(dissmis) userInfo:nil repeats:NO];
-        weakSelf.time=time;
+        NSTimer *time=[NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(dissmis) userInfo:nil repeats:NO];
+        self.time=time;
         [[NSRunLoop mainRunLoop] addTimer:time forMode:NSRunLoopCommonModes];
-    }];
+//    }];
     
 }
 
@@ -187,17 +187,20 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 //失败简单提示
 +(void)showErrorWithMessage:(NSString *)message{
-    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
-    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
+    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"error" inBundle:resource_bundle
+                                                       compatibleWithTraitCollection:nil] isShade:NO];
+}
+
+//显示警告提示
++(void)showWarningWithMessage:(NSString *)message{
+    NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
+    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"warning" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:NO];
 }
 
 //带遮罩层成功提示
 +(void)showShadeSuccessWithMessage:(NSString *)message{
-    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:YES];
@@ -205,10 +208,15 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 //带遮罩层失败提示
 +(void)showShadeErrorWithMessage:(NSString *)message{
-    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
-    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
+    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"error" inBundle:resource_bundle
+                                                       compatibleWithTraitCollection:nil] isShade:YES];
+}
+
+//带遮罩层警告提示
++(void)showShadeWarningWithMessage:(NSString *)message{
+    NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
+    [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"warning" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:YES];
 }
 
@@ -389,18 +397,18 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 #pragma mark 创建对话框样式
 -(void)creatAlertViewWithButtonTitleArray:(NSArray<NSString *> *)titleArray image:(UIImage *)image title:(NSString *)title isFull:(BOOL)isFull content:(NSString *)content complete:(complete)completeBlock{
-    __weak TRCustomAlert *weakSelf = self;
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        weakSelf.alertType=AlertTypeButton;
-        [weakSelf dissmis];
-        weakSelf.isFull=isFull;
-        weakSelf.completeBlock=completeBlock;//保存代码快
+//    __weak TRCustomAlert *self = self;
+//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        self.alertType=AlertTypeButton;
+        [self dissmis];
+        self.isFull=isFull;
+        self.completeBlock=completeBlock;//保存代码快
         UIView *alertView=[[UIView alloc]init];
-        weakSelf.alertView=alertView;
+        self.alertView=alertView;
         alertView.backgroundColor=[UIColor whiteColor];
         alertView.layer.cornerRadius=10;
         alertView.layer.masksToBounds=YES;
-        [weakSelf addSubview:alertView];
+        [self addSubview:alertView];
         
         CGFloat padding=5;
         CGFloat alertView_with=SCREEN_WIDTH*0.7;
@@ -416,21 +424,21 @@ typedef NS_ENUM(NSInteger, AlertType) {
         
         //标题文字
         UILabel *titleLab=[[UILabel alloc]init];
-        weakSelf.titleLab=titleLab;
+        self.titleLab=titleLab;
         titleLab.font=[UIFont systemFontOfSize:18];
-        titleLab.textColor=[weakSelf colorWithHexString:@"#0C71FF"];//
+        titleLab.textColor=[self colorWithHexString:@"#0C71FF"];//
         titleLab.text=title;
         titleLab.textAlignment=NSTextAlignmentCenter;
         [alertView addSubview:titleLab];
         
         //内容文字
         UILabel *contentLab=[[UILabel alloc]init];
-        weakSelf.contentLab=contentLab;
+        self.contentLab=contentLab;
         contentLab.lineBreakMode=NSLineBreakByWordWrapping;
         contentLab.font=[UIFont systemFontOfSize:14];
         contentLab.numberOfLines=0;
         contentLab.text=content;
-        contentLab.textColor=[weakSelf colorWithHexString:@"#333333"];
+        contentLab.textColor=[self colorWithHexString:@"#333333"];
         contentLab.textAlignment=NSTextAlignmentCenter;
         [alertView addSubview:contentLab];
         
@@ -439,8 +447,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
         
         CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
         
-        weakSelf.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        weakSelf.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
+        self.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        self.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
         
         if (image!=nil) {
             titleLab.frame=CGRectMake(padding, CGRectGetMaxY(titleImgView.frame)+padding, alertView_with-padding*2, 30);
@@ -451,7 +459,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         if ([title isEqualToString:@""]||title==nil) {
             titleLab.frame=CGRectMake(0, titleLab.frame.origin.y, alertView_with-padding*2, 1);
         }
-        CGFloat contentLab_height=[weakSelf heightForString:content Width:alertView_with-40 font:contentLab.font];
+        CGFloat contentLab_height=[self heightForString:content Width:alertView_with-40 font:contentLab.font];
         contentLab.frame=CGRectMake(20, CGRectGetMaxY(titleLab.frame)+padding, alertView_with-40, contentLab_height);
         
         //创建按钮
@@ -460,7 +468,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
             CGFloat button_height=40;//按钮高度
             UIView *cutView=[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(contentLab.frame)+padding+5, alertView_with, 1)];
             cutView.tag=101;
-            cutView.backgroundColor=[weakSelf colorWithHexString:@"#e2e2e2"];//
+            cutView.backgroundColor=[self colorWithHexString:@"#e2e2e2"];//
             [alertView addSubview:cutView];
             
             for (int i=0;i<titleArray.count;i++) {
@@ -471,22 +479,22 @@ typedef NS_ENUM(NSInteger, AlertType) {
                         break;
                     }
                     UIButton *button=[UIButton buttonWithType:0];
-                    [weakSelf.buttonArray addObject:button];
+                    [self.buttonArray addObject:button];
                     [button setTitle:title forState:0];
                     //默认颜色
                     if (i==1) {
-                        [button setTitleColor:[weakSelf colorWithHexString:@"#0C71FF"] forState:0];
+                        [button setTitleColor:[self colorWithHexString:@"#0C71FF"] forState:0];
                         
                     }else{
                         if ([title isEqualToString:@"确定"]) {
-                            [button setTitleColor:[weakSelf colorWithHexString:@"#0C71FF"] forState:0];
+                            [button setTitleColor:[self colorWithHexString:@"#0C71FF"] forState:0];
                         }else{
-                            [button setTitleColor:[weakSelf colorWithHexString:@"#666666"] forState:0];
+                            [button setTitleColor:[self colorWithHexString:@"#666666"] forState:0];
                         }
                     }
                     button.tag=i;
                     button.titleLabel.font=[UIFont systemFontOfSize:14];
-                    [button addTarget:weakSelf action:@selector(completeClick:) forControlEvents:UIControlEventTouchUpInside];
+                    [button addTarget:self action:@selector(completeClick:) forControlEvents:UIControlEventTouchUpInside];
                     [alertView addSubview:button];
                     CGFloat button_width=alertView_with;//按钮宽度
                     if (titleArray.count>1) {
@@ -506,20 +514,20 @@ typedef NS_ENUM(NSInteger, AlertType) {
             
             CGFloat alertView_height=CGRectGetMaxY(cutView.frame)+button_height;
             CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
-            weakSelf.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
+            self.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
         }else{
             //没有按钮
             CGFloat alertView_height=CGRectGetMaxY(contentLab.frame)+padding;
             CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
-            weakSelf.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
+            self.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
         }
         //添加到视图上
-        [[weakSelf frontWindow] addSubview:weakSelf];
+        [[self frontWindow] addSubview:self];
         
         //显示
-        [weakSelf animationWithIsShow:YES];
+        [self animationWithIsShow:YES];
         
-    }];
+//    }];
     
 }
 
@@ -757,69 +765,80 @@ typedef NS_ENUM(NSInteger, AlertType) {
 #pragma mark 加载等待
 
 //创建加载等待
--(void)createLoadingWithMessage:(NSString *)message{
-    __weak TRCustomAlert *weakSelf = self;
-    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-        
-        weakSelf.alertType=AlertTypeLoading;
-        [weakSelf dissmis];
+-(void)createLoadingWithMessage:(NSString *)message isShade:(BOOL)isShade{
+//    __weak TRCustomAlert *self = self;
+//    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+    
+        self.alertType=AlertTypeLoading;
+        [self dissmis];
         UIView *alertView=[[UIView alloc]init];
-        weakSelf.alertView=alertView;
+        self.alertView=alertView;
         alertView.backgroundColor= [UIColor colorWithWhite:0.1 alpha:0.7];
         alertView.layer.cornerRadius=10;
         alertView.layer.masksToBounds=YES;
-        [weakSelf addSubview:alertView];
+        [self addSubview:alertView];
         
-        if(weakSelf.wkWebView==nil){
+        if(self.wkWebView==nil){
             WKWebView *wkWebView=[[WKWebView alloc]init];
-            weakSelf.wkWebView=wkWebView;
-            NSString *path = [[weakSelf bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"] pathForResource:@"loading" ofType:@"gif"];
+            self.wkWebView=wkWebView;
+            NSString *path = [[self bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"] pathForResource:@"loading" ofType:@"gif"];
             NSData *gifData = [NSData dataWithContentsOfFile:path];
             [wkWebView loadData:gifData MIMEType:@"image/gif" characterEncodingName:nil baseURL:nil];
             
         }
-        [alertView addSubview:weakSelf.wkWebView];
-        weakSelf.wkWebView.backgroundColor = [UIColor clearColor];
-        weakSelf.wkWebView.opaque = NO;
+        [alertView addSubview:self.wkWebView];
+        self.wkWebView.backgroundColor = [UIColor clearColor];
+        self.wkWebView.opaque = NO;
         CGFloat padding=10;//间距
         
-        weakSelf.backgroundColor=[UIColor clearColor];
+        self.backgroundColor=[UIColor clearColor];
         
         CGFloat wkWebView_width=73;
         if ([message isEqualToString:@""]||message==nil) {
             CGFloat alertView_with=88;
             CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
             CGFloat alertView_y=(SCREEN_HEIGHT-alertView_with)/2;
-            weakSelf.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_with);
+            self.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_with);
             alertView.frame=CGRectMake(0, 0, alertView_with, alertView_with);
-            weakSelf.wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, (alertView_with-wkWebView_width)/2,wkWebView_width,wkWebView_width);
+            self.wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, (alertView_with-wkWebView_width)/2,wkWebView_width,wkWebView_width);
         }else{
             CGFloat alertView_with=150;
             //有文字
             UILabel *titleLab=[[UILabel alloc]init];
-            weakSelf.contentLab=titleLab;
+            self.contentLab=titleLab;
             titleLab.textColor=[UIColor whiteColor];
             titleLab.font=[UIFont systemFontOfSize:15];
             titleLab.numberOfLines=0;
             titleLab.text=message;
             titleLab.textAlignment=NSTextAlignmentCenter;
             [alertView addSubview:titleLab];
-            CGFloat titleLab_height=[weakSelf heightForString:message Width:alertView_with-padding font:titleLab.font];
-            weakSelf.wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, 0,wkWebView_width,wkWebView_width);
-            titleLab.frame=CGRectMake(padding/2, CGRectGetMaxY(weakSelf.wkWebView.frame)-padding, alertView_with-padding, titleLab_height);
+            CGFloat titleLab_height=[self heightForString:message Width:alertView_with-padding font:titleLab.font];
+            self.wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, 0,wkWebView_width,wkWebView_width);
+            titleLab.frame=CGRectMake(padding/2, CGRectGetMaxY(self.wkWebView.frame)-padding, alertView_with-padding, titleLab_height);
             
-            alertView.frame=CGRectMake(0, 0, alertView_with, CGRectGetMaxY(titleLab.frame)+padding+5);
+            
             CGFloat alertView_height=CGRectGetMaxY(alertView.frame);
             CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
             CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
-            weakSelf.frame=CGRectMake(alertView_x, alertView_y, alertView_with, CGRectGetMaxY(titleLab.frame)+padding+5);
+             CGFloat height=CGRectGetMaxY(titleLab.frame)+padding;
+            if(isShade){
+                //显示遮罩
+                self.frame=CGRectMake(0, 0, SCREEN_WIDTH,SCREEN_HEIGHT);
+               
+                alertView.frame=CGRectMake((SCREEN_WIDTH-alertView_with)/2, (SCREEN_HEIGHT-height)/2, alertView_with, height);
+            }else{
+                self.frame=CGRectMake(alertView_x, alertView_y, alertView_with, height);
+                alertView.frame=CGRectMake(0, 0, alertView_with, height);
+            }
         }
         
         //添加到视图上
-        [[weakSelf frontWindow] addSubview:weakSelf];
+        [[self frontWindow] addSubview:self];
         //显示
-        [weakSelf animationWithIsShow:YES];
-    }];
+        [self animationWithIsShow:YES];
+    
+    
+//    }];
     
 }
 
@@ -854,11 +873,18 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 //loading无文字
 +(void)showLoading{
-    [[self sharedView] createLoadingWithMessage:nil];
+    [[self sharedView] createLoadingWithMessage:nil isShade:NO];
+}
+//显示遮罩层
++(void)showShadeLoading{
+     [[self sharedView] createLoadingWithMessage:nil isShade:YES];
 }
 //loading有文字
 +(void)showLoadingWithMessage:(NSString *)message{
-    [[self sharedView] createLoadingWithMessage:message];
+    [[self sharedView] createLoadingWithMessage:message isShade:NO];
 }
 
++(void)showShadeLoadingWithMessage:(NSString *)message{
+    [[self sharedView] createLoadingWithMessage:message isShade:YES];
+}
 @end

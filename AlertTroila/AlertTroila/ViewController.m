@@ -38,7 +38,7 @@
     //自定义样式
     [self.arrayData addObjectsFromArray:@[@"设置背景色-橘黄色",@"设置alert-模式的底部按钮颜色",@"设置alert-模式的底部按钮字号",@"设置简单框字体大小",@"设置提示框字体大小"]];
     //加载等待
-    [self.arrayData addObjectsFromArray:@[@"loading",@"loading-有文字",@"无图片的简单提醒"]];
+    [self.arrayData addObjectsFromArray:@[@"loading",@"loading-有文字",@"无图片的简单提醒",@"显示遮罩的loading（透明遮罩）"]];
     [tableView reloadData];
 }
 
@@ -107,7 +107,10 @@
             [TRCustomAlert dissmis];
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
         }];
-        [TRCustomAlert setButtonFont:[UIFont systemFontOfSize:18] index:1];
+//        [TRCustomAlert setButtonFont:[UIFont systemFontOfSize:18] index:1];
+        [TRCustomAlert setButtonColor:[UIColor redColor] index:0];
+        [TRCustomAlert setButtonFont:[UIFont systemFontOfSize:20] index:0];
+        
     }else if (indexPath.row==12) {
         [TRCustomAlert showErrorWithMessage:@"设置简单框字体大小"];
         [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
@@ -123,8 +126,11 @@
         //加载等待
         [TRCustomAlert showLoadingWithMessage:@"loading-有文字loading-有文字loading-有文字loading-有文字loading-有文字"];
          [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
-    }else{
+    }else if (indexPath.row==16){
         [TRCustomAlert showMessage:@"无图片的简单提醒" image:nil];
+    }else if (indexPath.row==17){
+        [TRCustomAlert showShadeLoadingWithMessage:@"显示遮罩的loading（透明遮罩）"];
+        [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
     }
 }
 - (IBAction)closeLoading:(id)sender {
