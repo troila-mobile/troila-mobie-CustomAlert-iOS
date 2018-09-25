@@ -39,6 +39,8 @@
     [self.arrayData addObjectsFromArray:@[@"设置背景色-橘黄色",@"设置alert-模式的底部按钮颜色",@"设置alert-模式的底部按钮字号",@"设置简单框字体大小",@"设置提示框字体大小"]];
     //加载等待
     [self.arrayData addObjectsFromArray:@[@"loading",@"loading-有文字",@"无图片的简单提醒",@"显示遮罩的loading（透明遮罩）"]];
+    
+    [self.arrayData addObjectsFromArray:@[@"底部纯文字",@"显示警告简单提示框"]];
     [tableView reloadData];
 }
 
@@ -125,12 +127,18 @@
     }else if (indexPath.row==15) {
         //加载等待
         [TRCustomAlert showLoadingWithMessage:@"loading-有文字loading-有文字loading-有文字loading-有文字loading-有文字"];
-         [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
+//         [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
     }else if (indexPath.row==16){
         [TRCustomAlert showMessage:@"无图片的简单提醒" image:nil];
     }else if (indexPath.row==17){
         [TRCustomAlert showShadeLoadingWithMessage:@"显示遮罩的loading（透明遮罩）"];
         [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
+    }else if (indexPath.row==18){
+        [TRCustomAlert showBottomMessage:@"底部纯文字底部纯文字底1aaaaaaa"];
+//         [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
+       
+    }else if(indexPath.row==19){
+        [TRCustomAlert showWarningWithMessage:@"显示警告简单提示框"];
     }
 }
 - (IBAction)closeLoading:(id)sender {

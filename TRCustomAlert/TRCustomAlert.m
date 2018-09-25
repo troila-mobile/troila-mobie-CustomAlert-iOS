@@ -17,7 +17,8 @@
 typedef NS_ENUM(NSInteger, AlertType) {
     AlertTypeSimple,//简单样式
     AlertTypeButton,//按钮样式
-    AlertTypeLoading//loading样式
+    AlertTypeLoading,//loading样式
+    AlertTypeBottom//底部样式
 };
 @interface TRCustomAlert()
 @property (nonatomic, strong)UIView *alertView;
@@ -129,8 +130,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //添加到视图上
         [[self frontWindow] addSubview:self];
         //动画显示
-        [self animationWithIsShow:YES];
-        
+//        [self animationWithIsShow:YES];
+    
         NSTimer *time=[NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(dissmis) userInfo:nil repeats:NO];
         self.time=time;
         [[NSRunLoop mainRunLoop] addTimer:time forMode:NSRunLoopCommonModes];
@@ -183,6 +184,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:NO];
+    //动画显示
+    [[self sharedView]  animationWithIsShow:YES];
 }
 
 //失败简单提示
@@ -190,6 +193,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"error" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:NO];
+    //动画显示
+    [[self sharedView]  animationWithIsShow:YES];
 }
 
 //显示警告提示
@@ -197,6 +202,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"warning" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:NO];
+    //动画显示
+    [[self sharedView]  animationWithIsShow:YES];
 }
 
 //带遮罩层成功提示
@@ -204,6 +211,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"success" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:YES];
+    //动画显示
+    [[self sharedView]  animationWithIsShow:YES];
 }
 
 //带遮罩层失败提示
@@ -211,6 +220,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"error" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:YES];
+    //动画显示
+    [[self sharedView]  animationWithIsShow:YES];
 }
 
 //带遮罩层警告提示
@@ -218,21 +229,50 @@ typedef NS_ENUM(NSInteger, AlertType) {
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] createCustomViewWithMessage:message image:[UIImage imageNamed:@"warning" inBundle:resource_bundle
                                                        compatibleWithTraitCollection:nil] isShade:YES];
+    //动画显示
+    [[self sharedView]  animationWithIsShow:YES];
 }
 
 //自定义图片，简单按钮
 +(void)showMessage:(NSString *)message image:(UIImage *)image{
     [[self sharedView] createCustomViewWithMessage:message image:image isShade:NO];
+    //动画显示
+    [[self sharedView]  animationWithIsShow:YES];
 }
 
 //带遮罩层成功提示
 +(void)showShadeWithMessage:(NSString *)message image:(UIImage *)image{
     [[self sharedView] createCustomViewWithMessage:message image:image isShade:YES];
+    //动画显示
+    [[self sharedView]  animationWithIsShow:YES];
 }
 
 
-//加载等待
+//显示在底部的纯文字弹框
++(void)showBottomMessage:(NSString *)message{
+    [[self sharedView] createCustomViewWithMessage:message image:nil isShade:NO];
+    [self sharedView].alertType=AlertTypeBottom;
+    //修改尺寸
+    [[self sharedView] setSelfFrame];
+    //动画显示
+    [[self sharedView]  animationWithIsShow:YES];
+}
 
+//重新设置尺寸，适应底部简单提醒
+-(void)setSelfFrame{
+    CGRect self_Frame=self.frame;
+    NSString *text=self.contentLab.text;
+    //距离底部距离
+    CGFloat bottom=80;
+    CGFloat padding=15;
+    CGFloat self_width=SCREEN_WIDTH*0.7;
+    CGFloat titleLab_height=[self heightForString:text Width:self_width-padding*2 font:self.contentLab.font];
+    CGFloat alertView_Height=titleLab_height+padding*2;
+    self.contentLab.frame=CGRectMake(padding, padding, self_width-padding*2, titleLab_height);
+    self.alertView.frame=CGRectMake(0, 0, self_width, alertView_Height);
+    self_Frame=CGRectMake((SCREEN_WIDTH-self_width)/2, SCREEN_HEIGHT-alertView_Height-bottom, self_width, alertView_Height);
+    self.frame=self_Frame;
+}
 
 
 //显示动画
@@ -337,8 +377,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
     }else if (style==TRCustomAlertStyleWarning){
         imageName=@"warning_blue";
     }
-    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] creatAlertViewWithButtonTitleArray:titleArray image:[UIImage imageNamed:imageName inBundle:resource_bundle
                                                                  compatibleWithTraitCollection:nil] title:title isFull:NO content:content complete:completeBlock];
@@ -361,8 +400,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
     }else if (style==TRCustomAlertStyleWarning){
         imageName=@"warning_blue";
     }
-    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"取消",@"确定"] image:[UIImage imageNamed:imageName inBundle:resource_bundle
                                                                      compatibleWithTraitCollection:nil] title:title isFull:YES content:content complete:completeBlock];
@@ -383,8 +421,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
     }else if (style==TRCustomAlertStyleWarning){
         imageName=@"warning_blue";
     }
-    //    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-    //                            stringByAppendingPathComponent:@"/CustomAlertImage.bundle"];
+    
     NSBundle *resource_bundle =[[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"确定"] image:[UIImage imageNamed:imageName inBundle:resource_bundle
                                                                compatibleWithTraitCollection:nil]  title:title isFull:YES content:content complete:completeBlock];
@@ -683,6 +720,15 @@ typedef NS_ENUM(NSInteger, AlertType) {
         [self sharedView].time=time;;
         [[NSRunLoop mainRunLoop] addTimer:time forMode:NSRunLoopCommonModes];
     }
+    else if([self sharedView].alertType==AlertTypeBottom){
+        //提示框,loading
+        [alertView.layer removeAllAnimations];//移除所有动画
+        alertView.hidden=YES;//隐藏控件
+        NSTimer *time=  [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(showAlert:) userInfo:@{@"font":font} repeats:NO];
+        [self sharedView].time=time;;
+        [[NSRunLoop mainRunLoop] addTimer:time forMode:NSRunLoopCommonModes];
+        
+    }
     
 }
 //显示提示框
@@ -702,7 +748,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //父窗体
         alertViewFrame.size.height=CGRectGetMaxY(lab.frame)+15;
         alertView.frame=alertViewFrame;
-    }else{
+    }else if([self sharedView].alertType==AlertTypeButton){
         //对话框
         CGFloat alertView_with=SCREEN_WIDTH*0.7;
         CGFloat newHeight=[[self sharedView] heightForString:lab.text Width:alertView_with-20*2 font:font];
@@ -745,6 +791,9 @@ typedef NS_ENUM(NSInteger, AlertType) {
         }
         alertViewFrame.origin.y=(SCREEN_HEIGHT-alertViewFrame.size.height)/2;
         alertView.frame=alertViewFrame;
+    }else if ([self sharedView].alertType==AlertTypeBottom){
+        //底部样式
+        [[self sharedView] setSelfFrame];
     }
     alertView.hidden=NO;
     [[self sharedView] animationWithIsShow:YES];
@@ -817,10 +866,11 @@ typedef NS_ENUM(NSInteger, AlertType) {
             titleLab.frame=CGRectMake(padding/2, CGRectGetMaxY(self.wkWebView.frame)-padding, alertView_with-padding, titleLab_height);
             
             
-            CGFloat alertView_height=CGRectGetMaxY(alertView.frame);
+            
             CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
-            CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
+            
              CGFloat height=CGRectGetMaxY(titleLab.frame)+padding;
+            CGFloat alertView_y=(SCREEN_HEIGHT-height)/2;
             if(isShade){
                 //显示遮罩
                 self.frame=CGRectMake(0, 0, SCREEN_WIDTH,SCREEN_HEIGHT);

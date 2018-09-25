@@ -74,7 +74,8 @@ typedef void (^complete)(NSInteger index,NSString *title);//回调block
 //带遮罩层成功提示
 +(void)showShadeWithMessage:(NSString *)message image:(UIImage *)image;
 
-
+//显示在底部的纯文字，简单框
++(void)showBottomMessage:(NSString *)message;
 
 
 //自定义按钮，默认图片样式
