@@ -22,10 +22,13 @@
 | - | - | 
 |`+(void)showSuccessWithMessage:(NSString *)message`| 显示简单成功提示框|
 | `+(void)showErrorWithMessage:(NSString *)message` | 显示简单错误提示框 |
+| `+(void)showWarningWithMessage:(NSString *)message` | 显示简单警告提示框 |
 |`+(void)showShadeSuccessWithMessage:(NSString *)message`| 显示有遮罩简单成功提示框 |
 |`+(void)showShadeErrorWithMessage:(NSString *)message`|显示有遮罩错误提示框 |
+|`+(void)showShadeWarningWithMessage:(NSString *)message`|显示有遮罩警告提示框 |
 |`+(void)showMessage:(NSString *)message image:(UIImage *)image`|显示自定义顶部图标简单提示框，(参数传nil可以，不显示图片) |
 |`+(void)showShadeWithMessage:(NSString *)message image:(UIImage *)image`|显示有遮罩自定义顶部图标简单提示框，(参数传nil可以，不显示图片) |
+|`+(void)showBottomMessage:(NSString *)message`|显示在底部的纯文字提示框|
 
 
 ### 2、带按钮的强提示框
@@ -51,7 +54,9 @@
 | 方法名 | 说明 | 
 | - | - | 
 |`+(void)showLoading`| 不带文字的加载等待|
+|`+(void)showShadeLoading`| 不带文字的有遮罩的加载等待|
 | `+(void)showLoadingWithMessage:(NSString *)message` | 带文字的加载等待 |
+| `+(void)showShadeLoadingWithMessage:(NSString *)message` | 带文字和遮罩的加载等待 |
 
 ### 4、隐藏以上窗体方法
 `+(void)dissmis;//隐藏`
