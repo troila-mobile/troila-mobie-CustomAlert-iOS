@@ -575,9 +575,10 @@ typedef NS_ENUM(NSInteger, AlertType) {
     if (self.completeBlock!=nil) {
         self.completeBlock(index, title);
     }
-    if (self.isFull&&index==0) {
-        [self dissmis];
-    }
+    [self dissmis];
+//    if (self.isFull&&index==0) {
+//
+//    }
 }
 
 
