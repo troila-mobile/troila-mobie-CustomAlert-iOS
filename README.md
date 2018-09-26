@@ -1,4 +1,4 @@
-# TRCustomAlert V0.0.3
+# TRCustomAlert V0.0.4
 
 ![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TRCustomAlert.svg)
 ![Pod Platform](https://img.shields.io/cocoapods/p/TRCustomAlert.svg?style=flat)
@@ -7,6 +7,7 @@
 项目集成 `pod 'TRCustomAlert'`
 
 导入头文件 `#import "TRCustomAlert.h"`
+
 >前言：该框架api调用均为类方法，在设置样式时，需创建弹框实体在设置样式
 ### 项目API组成
 ##### api总共分为四个部分
