@@ -37,6 +37,11 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="6H2-an-1Eb">
+                        <barButtonItem key="leftBarButtonItem" title="显示键盘" id="Y14-ki-y7v">
+                            <connections>
+                                <segue destination="6Wd-kb-LHw" kind="show" id="O8X-Nn-WE4"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="关闭弹窗" id="jUC-OA-A5d">
                             <connections>
                                 <action selector="closeLoading:" destination="BYZ-38-t0r" id="yMs-H8-xkR"/>
@@ -47,6 +52,72 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-670" y="118"/>
+        </scene>
+        <!--测试键盘-->
+        <scene sceneID="d37-w2-LRF">
+            <objects>
+                <viewController title="测试键盘" id="6Wd-kb-LHw" customClass="ShowKeyBoardViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5F2-C7-oVk">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="点击显示键盘" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QYk-9T-AhX">
+                                <rect key="frame" x="34" y="102" width="245" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PkP-KE-DTb">
+                                <rect key="frame" x="65" y="166" width="104" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="显示简单提示"/>
+                                <connections>
+                                    <action selector="showSimpAlert:" destination="6Wd-kb-LHw" eventType="touchUpInside" id="U9Y-NL-MDx"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ea2-EK-JLv">
+                                <rect key="frame" x="197" y="166" width="92" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="显示底部提示"/>
+                                <connections>
+                                    <action selector="showBottomAlert:" destination="6Wd-kb-LHw" eventType="touchUpInside" id="7bD-6I-jYU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HJB-yQ-jeb">
+                                <rect key="frame" x="71" y="224" width="92" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="显示按钮提示"/>
+                                <connections>
+                                    <action selector="showButtonAlert:" destination="6Wd-kb-LHw" eventType="touchUpInside" id="62b-n5-uec"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y7O-uN-Ahe">
+                                <rect key="frame" x="187" y="224" width="112" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="显示loading提示"/>
+                                <connections>
+                                    <action selector="showLoadingAlert:" destination="6Wd-kb-LHw" eventType="touchUpInside" id="LtB-i0-hmi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5G-99-8qG">
+                                <rect key="frame" x="287" y="100" width="62" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="关闭弹窗"/>
+                                <connections>
+                                    <action selector="closeAlert:" destination="6Wd-kb-LHw" eventType="touchUpInside" id="xPg-SH-Ifi"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="gLv-L4-Kf5"/>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gdI-dU-2gw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="72.799999999999997" y="110.19490254872565"/>
         </scene>
     </scenes>
 </document>

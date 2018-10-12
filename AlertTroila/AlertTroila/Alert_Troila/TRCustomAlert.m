@@ -9,8 +9,8 @@
 #import "TRCustomAlert.h"
 #import <WebKit/WebKit.h>
 //屏幕宽高
-#define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
-#define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
+#define TR_SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
+#define TR_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 
 
 //当前界面的样式
@@ -38,6 +38,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
 @property(nonatomic,strong)NSTimer *time;
 @end
 @implementation TRCustomAlert
+
+
 -(NSMutableArray *)buttonArray{
     if (_buttonArray==nil) {
         _buttonArray=[NSMutableArray array];
@@ -62,9 +64,79 @@ typedef NS_ENUM(NSInteger, AlertType) {
         NSString *path = [[self bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"] pathForResource:@"loading" ofType:@"gif"];
         NSData *gifData = [NSData dataWithContentsOfFile:path];
         [self.wkWebView loadData:gifData MIMEType:@"image/gif" characterEncodingName:nil baseURL:nil];
+        
+        
+        //监听键盘
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillShow:)
+                                                     name:UIKeyboardWillShowNotification
+                                                   object:nil];
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(keyboardWillHide:)
+                                                     name:UIKeyboardWillHideNotification
+                                                   object:nil];
     }
     return self;
 }
+
+#pragma mark 当键盘出现或改变时调用
+- (void)keyboardWillShow:(NSNotification *)note
+{
+    //取出键盘最终的frame
+    CGRect rect = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    //取出键盘弹出需要花费的时间
+    double duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    CGRect frameKeyBoard=rect;
+   __block CGRect frameAlertView=self.alertView.frame;
+    //判断是否有遮罩层
+    if(!self.isShade){
+        frameAlertView=self.frame;
+    }
+    //计算差值
+    CGFloat poor_value=CGRectGetMaxY(frameAlertView)-(TR_SCREEN_HEIGHT-frameKeyBoard.size.height);//差值
+    //判断键盘是否遮挡
+    if(poor_value>0){
+        [UIView animateWithDuration:duration animations:^{
+            //超出范围
+            frameAlertView.origin.y=frameAlertView.origin.y-poor_value-15;
+            if(!self.isShade){
+                self.frame=frameAlertView;
+            }else{
+                self.alertView.frame=frameAlertView;
+            }
+        }];
+    }
+}
+
+//当键盘出现或改变时调用
+- (void)keyboardWillHide:(NSNotification *)note
+{
+    //取出键盘最终的frame
+    CGRect rect = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    //取出键盘弹出需要花费的时间
+    double duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    UIView *tempView=nil;
+    if (self.isShade) {
+        tempView=self.alertView;
+    }else{
+        tempView=self;
+    }
+    CGRect frame=tempView.frame;
+    //恢复到原来尺寸
+    if (self.alertType==AlertTypeSimple||self.alertType==AlertTypeButton||self.alertType==AlertTypeLoading) {
+        frame.origin.y=(TR_SCREEN_HEIGHT-frame.size.height)/2;
+        
+    }else if (self.alertType==AlertTypeBottom){
+        frame.origin.y=TR_SCREEN_HEIGHT-frame.size.height-80;
+    }
+    [UIView animateWithDuration:duration animations:^{
+        tempView.frame=frame;
+    }];
+}
+
 
 #pragma mark 创建基础界面
 -(void)createCustomViewWithMessage:(NSString *)message image:(UIImage *)image isShade:(BOOL)isShade{
@@ -99,7 +171,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         
         //设置尺寸
         CGFloat padding=15;
-        CGFloat alertView_with=SCREEN_WIDTH*0.5;
+        CGFloat alertView_with=TR_SCREEN_WIDTH*0.5;
         CGFloat titleLab_height=[self heightForString:message Width:alertView_with-padding*2 font:titleLab.font];
         if (image!=nil) {
             titleImgView.frame=CGRectMake((alertView_with-35)/2, padding*2, 35, 35);
@@ -109,15 +181,15 @@ typedef NS_ENUM(NSInteger, AlertType) {
         }
         
         
-        CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
+        CGFloat alertView_x=(TR_SCREEN_WIDTH-alertView_with)/2;
         CGFloat alertView_height=CGRectGetMaxY(titleLab.frame)+padding;
-        CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
+        CGFloat alertView_y=(TR_SCREEN_HEIGHT-alertView_height)/2;
         
         
         //父视图和子视图同样尺寸
         if (isShade) {
             //显示遮罩层
-            self.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            self.frame=CGRectMake(0, 0, TR_SCREEN_WIDTH, TR_SCREEN_HEIGHT);
             alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
             self.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
         }else{
@@ -149,6 +221,37 @@ typedef NS_ENUM(NSInteger, AlertType) {
         
         if(windowOnMainScreen && windowIsVisible && windowLevelSupported) {
             return window;
+        }
+    }
+    return nil;
+}
+//获取键盘类
+- (UIView *)findKeyboard{
+    UIView *keyboardView = nil;
+    NSArray *windows = [[UIApplication sharedApplication] windows];
+    for (UIWindow *window in [windows reverseObjectEnumerator])//逆序效率更高，因为键盘总在上方
+    {
+        keyboardView = [self findKeyboardInView:window];
+        if (keyboardView)
+        {
+            return keyboardView;
+        }
+        
+    }
+    return nil;
+}
+
+- (UIView *)findKeyboardInView:(UIView *)view{
+    for (UIView *subView in [view subviews])    {
+        if (strstr(object_getClassName(subView), "UIKeyboard"))
+        {
+            return subView;
+        }
+        else {
+            UIView *tempView = [self findKeyboardInView:subView];
+            if (tempView)            {
+                return tempView;
+            }
         }
     }
     return nil;
@@ -265,12 +368,12 @@ typedef NS_ENUM(NSInteger, AlertType) {
     //距离底部距离
     CGFloat bottom=80;
     CGFloat padding=15;
-    CGFloat self_width=SCREEN_WIDTH*0.7;
+    CGFloat self_width=TR_SCREEN_WIDTH*0.7;
     CGFloat titleLab_height=[self heightForString:text Width:self_width-padding*2 font:self.contentLab.font];
     CGFloat alertView_Height=titleLab_height+padding*2;
     self.contentLab.frame=CGRectMake(padding, padding, self_width-padding*2, titleLab_height);
     self.alertView.frame=CGRectMake(0, 0, self_width, alertView_Height);
-    self_Frame=CGRectMake((SCREEN_WIDTH-self_width)/2, SCREEN_HEIGHT-alertView_Height-bottom, self_width, alertView_Height);
+    self_Frame=CGRectMake((TR_SCREEN_WIDTH-self_width)/2, TR_SCREEN_HEIGHT-alertView_Height-bottom, self_width, alertView_Height);
     self.frame=self_Frame;
 }
 
@@ -323,9 +426,32 @@ typedef NS_ENUM(NSInteger, AlertType) {
     return nil;
 }
 
-//显示和隐藏动画
+#pragma mark 显示和隐藏动画
 -(void)animationWithIsShow:(BOOL)isShow{
     if (isShow) {
+        //判断当前是否有键盘
+        UIView *keyBoardView=[self findKeyboard];
+        if(keyBoardView!=nil&&!keyBoardView.hidden){
+            CGRect frameKeyBoard=keyBoardView.frame;
+            CGRect frameAlertView=self.alertView.frame;
+            //判断是否有遮罩层
+            if(!self.isShade){
+                frameAlertView=self.frame;
+            }
+            //计算差值
+            CGFloat poor_value=CGRectGetMaxY(frameAlertView)-(TR_SCREEN_HEIGHT-frameKeyBoard.size.height);//差值
+            //判断键盘是否遮挡
+            if(poor_value>0){
+                //超出范围
+                frameAlertView.origin.y=frameAlertView.origin.y-poor_value-15;
+                if(!self.isShade){
+                    self.frame=frameAlertView;
+                }else{
+                    self.alertView.frame=frameAlertView;
+                }
+                
+            }
+        }
         //弹出动画
         // 第一步：将view宽高缩至无限小（点）
         self.alertView.transform = CGAffineTransformScale(CGAffineTransformIdentity,
@@ -436,6 +562,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 -(void)creatAlertViewWithButtonTitleArray:(NSArray<NSString *> *)titleArray image:(UIImage *)image title:(NSString *)title isFull:(BOOL)isFull content:(NSString *)content complete:(complete)completeBlock{
 //    __weak TRCustomAlert *self = self;
 //    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+        self.isShade=YES;
         self.alertType=AlertTypeButton;
         [self dissmis];
         self.isFull=isFull;
@@ -448,7 +575,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         [self addSubview:alertView];
         
         CGFloat padding=5;
-        CGFloat alertView_with=SCREEN_WIDTH*0.7;
+        CGFloat alertView_with=TR_SCREEN_WIDTH*0.7;
         
         //提示图片
         UIImageView *titleImgView=nil;
@@ -482,9 +609,9 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //显示遮罩层
         
         
-        CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
+        CGFloat alertView_x=(TR_SCREEN_WIDTH-alertView_with)/2;
         
-        self.frame=CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        self.frame=CGRectMake(0, 0, TR_SCREEN_WIDTH, TR_SCREEN_HEIGHT);
         self.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
         
         if (image!=nil) {
@@ -550,12 +677,12 @@ typedef NS_ENUM(NSInteger, AlertType) {
             
             
             CGFloat alertView_height=CGRectGetMaxY(cutView.frame)+button_height;
-            CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
+            CGFloat alertView_y=(TR_SCREEN_HEIGHT-alertView_height)/2;
             self.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
         }else{
             //没有按钮
             CGFloat alertView_height=CGRectGetMaxY(contentLab.frame)+padding;
-            CGFloat alertView_y=(SCREEN_HEIGHT-alertView_height)/2;
+            CGFloat alertView_y=(TR_SCREEN_HEIGHT-alertView_height)/2;
             self.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
         }
         //添加到视图上
@@ -696,17 +823,17 @@ typedef NS_ENUM(NSInteger, AlertType) {
     if([self sharedView].alertType==AlertTypeSimple){
         //简单提示框
         CGRect viewFrame=[self sharedView].frame;
-        CGFloat alertView_with=SCREEN_WIDTH*0.5;
+        CGFloat alertView_with=TR_SCREEN_WIDTH*0.5;
         CGFloat newHeight=[[self sharedView] heightForString:lab.text Width:alertView_with-15*2 font:font];
         frame.size.height=newHeight;
         alertViewFrame.size.height=CGRectGetMaxY(frame)+40;
         if (![self sharedView].isShade) {
             //没有遮罩层
             viewFrame.size.height=CGRectGetMaxY(frame)+15;
-            CGFloat viewFrame_y=(SCREEN_HEIGHT-viewFrame.size.height)/2;
+            CGFloat viewFrame_y=(TR_SCREEN_HEIGHT-viewFrame.size.height)/2;
             viewFrame.origin.y=viewFrame_y;
         }else{
-            CGFloat alertViewFrame_y=(SCREEN_HEIGHT-alertViewFrame.size.height)/2;
+            CGFloat alertViewFrame_y=(TR_SCREEN_HEIGHT-alertViewFrame.size.height)/2;
             alertViewFrame.origin.y=alertViewFrame_y;
         }
         lab.frame=frame;
@@ -751,7 +878,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         alertView.frame=alertViewFrame;
     }else if([self sharedView].alertType==AlertTypeButton){
         //对话框
-        CGFloat alertView_with=SCREEN_WIDTH*0.7;
+        CGFloat alertView_with=TR_SCREEN_WIDTH*0.7;
         CGFloat newHeight=[[self sharedView] heightForString:lab.text Width:alertView_with-20*2 font:font];
         frame.size.height=newHeight;
         lab.frame=frame;
@@ -790,7 +917,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
             alertViewFrame.size.height=CGRectGetMaxY(lab.frame)+10;
             
         }
-        alertViewFrame.origin.y=(SCREEN_HEIGHT-alertViewFrame.size.height)/2;
+        alertViewFrame.origin.y=(TR_SCREEN_HEIGHT-alertViewFrame.size.height)/2;
         alertView.frame=alertViewFrame;
     }else if ([self sharedView].alertType==AlertTypeBottom){
         //底部样式
@@ -818,7 +945,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 -(void)createLoadingWithMessage:(NSString *)message isShade:(BOOL)isShade{
 //    __weak TRCustomAlert *self = self;
 //    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-    
+    self.isShade=isShade;
         self.alertType=AlertTypeLoading;
         [self dissmis];
         UIView *alertView=[[UIView alloc]init];
@@ -846,8 +973,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
         CGFloat wkWebView_width=73;
         if ([message isEqualToString:@""]||message==nil) {
             CGFloat alertView_with=88;
-            CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
-            CGFloat alertView_y=(SCREEN_HEIGHT-alertView_with)/2;
+            CGFloat alertView_x=(TR_SCREEN_WIDTH-alertView_with)/2;
+            CGFloat alertView_y=(TR_SCREEN_HEIGHT-alertView_with)/2;
             self.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_with);
             alertView.frame=CGRectMake(0, 0, alertView_with, alertView_with);
             self.wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, (alertView_with-wkWebView_width)/2,wkWebView_width,wkWebView_width);
@@ -868,15 +995,15 @@ typedef NS_ENUM(NSInteger, AlertType) {
             
             
             
-            CGFloat alertView_x=(SCREEN_WIDTH-alertView_with)/2;
+            CGFloat alertView_x=(TR_SCREEN_WIDTH-alertView_with)/2;
             
              CGFloat height=CGRectGetMaxY(titleLab.frame)+padding;
-            CGFloat alertView_y=(SCREEN_HEIGHT-height)/2;
+            CGFloat alertView_y=(TR_SCREEN_HEIGHT-height)/2;
             if(isShade){
                 //显示遮罩
-                self.frame=CGRectMake(0, 0, SCREEN_WIDTH,SCREEN_HEIGHT);
+                self.frame=CGRectMake(0, 0, TR_SCREEN_WIDTH,TR_SCREEN_HEIGHT);
                
-                alertView.frame=CGRectMake((SCREEN_WIDTH-alertView_with)/2, (SCREEN_HEIGHT-height)/2, alertView_with, height);
+                alertView.frame=CGRectMake((TR_SCREEN_WIDTH-alertView_with)/2, (TR_SCREEN_HEIGHT-height)/2, alertView_with, height);
             }else{
                 self.frame=CGRectMake(alertView_x, alertView_y, alertView_with, height);
                 alertView.frame=CGRectMake(0, 0, alertView_with, height);

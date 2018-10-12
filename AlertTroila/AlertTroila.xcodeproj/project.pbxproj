@@ -15,6 +15,7 @@
 		84A865E8214A0B690072E766 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84A865E7214A0B690072E766 /* Assets.xcassets */; };
 		84A865EB214A0B690072E766 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84A865E9214A0B690072E766 /* LaunchScreen.storyboard */; };
 		84A865EE214A0B690072E766 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A865ED214A0B690072E766 /* main.m */; };
+		84E100EC21702ACA0068417E /* ShowKeyBoardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E100EB21702ACA0068417E /* ShowKeyBoardViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,8 @@
 		84A865EA214A0B690072E766 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84A865EC214A0B690072E766 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84A865ED214A0B690072E766 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		84E100EA21702ACA0068417E /* ShowKeyBoardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowKeyBoardViewController.h; sourceTree = "<group>"; };
+		84E100EB21702ACA0068417E /* ShowKeyBoardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowKeyBoardViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +81,8 @@
 				84A865DF214A0B690072E766 /* AppDelegate.m */,
 				84A865E1214A0B690072E766 /* ViewController.h */,
 				84A865E2214A0B690072E766 /* ViewController.m */,
+				84E100EA21702ACA0068417E /* ShowKeyBoardViewController.h */,
+				84E100EB21702ACA0068417E /* ShowKeyBoardViewController.m */,
 				84A865E4214A0B690072E766 /* Main.storyboard */,
 				84A865E7214A0B690072E766 /* Assets.xcassets */,
 				84A865E9214A0B690072E766 /* LaunchScreen.storyboard */,
@@ -160,6 +165,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84A865E3214A0B690072E766 /* ViewController.m in Sources */,
+				84E100EC21702ACA0068417E /* ShowKeyBoardViewController.m in Sources */,
 				84A865EE214A0B690072E766 /* main.m in Sources */,
 				84A865E0214A0B690072E766 /* AppDelegate.m in Sources */,
 				842D04762153687300C49E78 /* TRCustomAlert.m in Sources */,
