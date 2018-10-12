@@ -10,6 +10,9 @@
 #import "TRCustomAlert.h"
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,copy)NSMutableArray *arrayData;//总数据源
+
+@property (nonatomic, strong)TRCustomAlert *pg;
+@property (nonatomic, strong)NSTimer *time;
 @end
 
 @implementation ViewController
@@ -40,7 +43,9 @@
     //加载等待
     [self.arrayData addObjectsFromArray:@[@"loading",@"loading-有文字",@"无图片的简单提醒",@"显示遮罩的loading（透明遮罩）"]];
     
-    [self.arrayData addObjectsFromArray:@[@"底部纯文字",@"显示警告简单提示框"]];
+    [self.arrayData addObjectsFromArray:@[@"底部纯文字",@"显示警告简单提示框",@"alert-提示底部无按钮"]];
+    
+    [self.arrayData addObjectsFromArray:@[@"进度条",@"带按钮的进度条",@"自定义按钮名称的进度条",@"自定义中间视图"]];
     [tableView reloadData];
 }
 
@@ -139,6 +144,57 @@
        
     }else if(indexPath.row==19){
         [TRCustomAlert showWarningWithMessage:@"显示警告简单提示框"];
+    } else if(indexPath.row==20){
+        [TRCustomAlert showAlertWithButtonTitleArray:@[] style:TRCustomAlertStyleSuccess title:@"提示" content:@"alert-提示底部无按钮" complete:^(NSInteger index, NSString *title) {
+            
+        }];
+    }else if(indexPath.row==21){
+       TRCustomAlert *pg= [TRCustomAlert showProgressWithTitle:@"提示" content:@"正在链接服务器"];
+        self.pg=pg;
+        NSTimer *timer =  [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(delayMethods) userInfo:nil repeats:YES];
+        self.time=timer;
+    }else if(indexPath.row==22){
+        TRCustomAlert *pg= [TRCustomAlert showProgressWithTitle:@"提示" content:@"正在链接服务器" complete:^(NSInteger index, NSString *title) {
+            [self.time invalidate];
+            self.time=nil;
+        }];
+        self.pg=pg;
+        NSTimer *timer =  [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(delayMethods) userInfo:nil repeats:YES];
+        self.time=timer;
+    }else if(indexPath.row==23){
+        TRCustomAlert *pg= [TRCustomAlert showProgressWithTitle:@"提示" content:@"正在链接服务器" buttonTitle:@"断开" complete:^(NSInteger index, NSString *title) {
+            [self.time invalidate];
+            self.time=nil;
+        }];
+        [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
+        self.pg=pg;
+        NSTimer *timer =  [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(delayMethods) userInfo:nil repeats:YES];
+        self.time=timer;
+    }else if(indexPath.row==24){
+        UIDatePicker *datePicker = [UIDatePicker new];
+        datePicker.datePickerMode = UIDatePickerModeTime;
+        datePicker.frame = CGRectMake(0.0, 0.0, datePicker.frame.size.width, 160.0);
+        
+        [TRCustomAlert showCustomeViewWithButtonTitleArray:@[@"关闭",@"确定"] innerView:datePicker title:@"自定义视图" content:@"自定义视图-请选择时间" complete:^(UIView *innerView, NSInteger index, NSString *title) {
+            NSDate *select_data=((UIDatePicker *)innerView).date;
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            NSString *strDate = [dateFormatter stringFromDate:select_data];
+            NSLog(@"选择的时间为:%@",strDate);
+        }];
+        
+    }
+}
+
+
+
+
+-(void)delayMethods{
+    self.pg.progress+=0.01;
+    if (self.pg.progress>=1.0) {
+        [self.time invalidate];
+        self.time=nil;
+        [TRCustomAlert dissmis];
     }
 }
 - (IBAction)closeLoading:(id)sender {

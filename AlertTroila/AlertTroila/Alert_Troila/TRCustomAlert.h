@@ -17,6 +17,8 @@ typedef NS_ENUM(NSInteger, TRCustomAlertStyle) {
 
 typedef void (^complete)(NSInteger index,NSString *title);//回调block
 
+typedef void (^customComplete)(UIView *innerView,NSInteger index,NSString *title);//自定义视图回调block
+
 @interface TRCustomAlert : UIView
 
 
@@ -108,6 +110,21 @@ typedef void (^complete)(NSInteger index,NSString *title);//回调block
 +(void)dissmis;//隐藏
 
 
+//加载进度
++(instancetype)showProgressWithTitle:(NSString *)title content:(NSString *)content;
+
+//带按钮的进度条
++(instancetype)showProgressWithTitle:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;
+
+//自定义按钮名称的进度条
++(instancetype)showProgressWithTitle:(NSString *)title content:(NSString *)content buttonTitle:(NSString *)buttonTitle complete:(complete)completeBlock;
+
+//自定义中间视图
++(instancetype)showCustomeViewWithButtonTitleArray:(NSArray<NSString *> *)buttonTitleArray innerView:(UIView *)innerView title:(NSString *)title content:(NSString *)content  complete:(customComplete)completeBlock;
+
+
+@property(nonatomic,assign)CGFloat progress;//进度 0~1
+@property (nonatomic, strong)UIView *innerView;//自定义视图
 @end
 
 

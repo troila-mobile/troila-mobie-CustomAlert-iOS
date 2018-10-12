@@ -108,6 +108,14 @@
                                     <action selector="closeAlert:" destination="6Wd-kb-LHw" eventType="touchUpInside" id="xPg-SH-Ifi"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6jZ-Li-rZa">
+                                <rect key="frame" x="61" y="274" width="108" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="显示自定义视图"/>
+                                <connections>
+                                    <action selector="showCustomAlert:" destination="6Wd-kb-LHw" eventType="touchUpInside" id="Eag-1u-50q"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="gLv-L4-Kf5"/>

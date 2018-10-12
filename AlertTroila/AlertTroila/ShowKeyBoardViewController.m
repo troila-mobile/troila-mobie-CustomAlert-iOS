@@ -52,6 +52,20 @@
 - (IBAction)showLoadingAlert:(id)sender {
     [TRCustomAlert showLoadingWithMessage:@"测试键盘测试键盘测试键盘测试键盘测试键盘测试键盘测试键盘测试键盘测试键盘测试键盘测试键盘"];
 }
+- (IBAction)showCustomAlert:(id)sender {
+    
+    UIDatePicker *datePicker = [UIDatePicker new];
+    datePicker.datePickerMode = UIDatePickerModeTime;
+    datePicker.frame = CGRectMake(0.0, 0.0, datePicker.frame.size.width, 260.0);
+    
+    [TRCustomAlert showCustomeViewWithButtonTitleArray:@[@"关闭",@"确定"] innerView:datePicker title:@"自定义视图" content:@"自定义视图-请选择时间" complete:^(UIView *innerView, NSInteger index, NSString *title) {
+        NSDate *select_data=((UIDatePicker *)innerView).date;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSString *strDate = [dateFormatter stringFromDate:select_data];
+        NSLog(@"选择的时间为:%@",strDate);
+    }];
+}
 
 
 @end
