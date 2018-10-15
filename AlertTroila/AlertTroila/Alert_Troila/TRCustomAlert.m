@@ -634,13 +634,13 @@ typedef NS_ENUM(NSInteger, AlertType) {
         CGFloat contentLab_height=[self heightForString:content Width:alertView_with-40 font:contentLab.font];
         contentLab.frame=CGRectMake(20, CGRectGetMaxY(titleLab.frame)+padding, alertView_with-40, contentLab_height);
     
-        //断言检查自定义中间控件是否设置了尺寸
-    NSAssert(innerView.bounds.size.width!=0, @"提示: (自定义中间视图，需要设置size)");
+    
     //判断是否有中间视图
     UIView *tempView=contentLab;
     self.innerView=innerView;
     if (innerView!=nil) {
-        
+        //断言检查自定义中间控件是否设置了尺寸
+        NSAssert(innerView.bounds.size.width!=0, @"提示: (自定义中间视图，需要设置size)");
         tempView=innerView;
         [alertView addSubview:innerView];
         CGSize innserSize=innerView.bounds.size;

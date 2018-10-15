@@ -18,7 +18,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
     AlertTypeSimple,//简单样式
     AlertTypeButton,//按钮样式
     AlertTypeLoading,//loading样式
-    AlertTypeBottom//底部样式
+    AlertTypeBottom,//底部样式
+    AlertTypeCustom//自定义视图
 };
 @interface TRCustomAlert()
 @property (nonatomic, strong)UIView *alertView;
@@ -35,6 +36,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
 @property (nonatomic, strong)UILabel *titleLab;//对话框标题
 @property (nonatomic, strong)UILabel *contentLab;//对话框标题
 @property(nonatomic,strong)WKWebView *wkWebView;//加载gif浏览器
+@property(nonatomic,strong)UIProgressView *progressView;//加载进度条
+@property (nonatomic, strong)UILabel *progressLab;//进度lab
 @property(nonatomic,strong)NSTimer *time;
 @end
 @implementation TRCustomAlert
@@ -126,7 +129,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
     }
     CGRect frame=tempView.frame;
     //恢复到原来尺寸
-    if (self.alertType==AlertTypeSimple||self.alertType==AlertTypeButton||self.alertType==AlertTypeLoading) {
+    if (self.alertType==AlertTypeSimple||self.alertType==AlertTypeButton||self.alertType==AlertTypeLoading||self.alertType==AlertTypeCustom) {
         frame.origin.y=(TR_SCREEN_HEIGHT-frame.size.height)/2;
         
     }else if (self.alertType==AlertTypeBottom){
@@ -397,7 +400,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
         [self removeFromSuperview];
         self.alertView=nil;
     }
-    
+    //清除进度
+    self.progress=0;
     [self clearTime];
 }
 
@@ -493,6 +497,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 
 //多个按钮，模式
 +(void)showAlertWithButtonTitleArray:(NSArray<NSString *> *)titleArray style:(TRCustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
+    [self sharedView].alertType=AlertTypeButton;
     //情况按钮数组
     [[self sharedView].buttonArray removeAllObjects];
     NSString *imageName=@"";
@@ -506,18 +511,20 @@ typedef NS_ENUM(NSInteger, AlertType) {
     
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] creatAlertViewWithButtonTitleArray:titleArray image:[UIImage imageNamed:imageName inBundle:resource_bundle
-                                                                 compatibleWithTraitCollection:nil] title:title isFull:NO content:content complete:completeBlock];
+                                                                 compatibleWithTraitCollection:nil] title:title isFull:NO content:content innerView:nil complete:completeBlock];
     
 }
 
 //自定义图标
 +(void)showAlertWithButtonTitleArray:(NSArray<NSString *> *)titleArray image:(UIImage *)image title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
-    [[self sharedView] creatAlertViewWithButtonTitleArray:titleArray image:image title:title isFull:NO content:content complete:completeBlock];
+    [self sharedView].alertType=AlertTypeButton;
+    [[self sharedView] creatAlertViewWithButtonTitleArray:titleArray image:image title:title isFull:NO content:content innerView:nil complete:completeBlock];
 }
 
 
 //自带确定和取消，默认图片样式
 +(void)showAlertFullWithStyle:(TRCustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
+    [self sharedView].alertType=AlertTypeButton;
     NSString *imageName=@"";
     if (style==TRCustomAlertStyleSuccess) {
         imageName=@"success_blue";
@@ -529,16 +536,19 @@ typedef NS_ENUM(NSInteger, AlertType) {
     
     NSBundle *resource_bundle = [[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"取消",@"确定"] image:[UIImage imageNamed:imageName inBundle:resource_bundle
-                                                                     compatibleWithTraitCollection:nil] title:title isFull:YES content:content complete:completeBlock];
+                                                                     compatibleWithTraitCollection:nil] title:title isFull:YES content:content innerView:nil complete:completeBlock];
 }
 
 //自带确定和取消，自定义图片
 +(void)showAlertFullWithImage:(UIImage *)image title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
-    [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"取消",@"确定"] image:image title:title isFull:YES content:content complete:completeBlock];
+    
+    [self sharedView].alertType=AlertTypeButton;
+    [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"取消",@"确定"] image:image title:title isFull:YES content:content innerView:nil complete:completeBlock];
 }
 
 //确定样式
 +(void)showAlertFinishWithStyle:(TRCustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
+    [self sharedView].alertType=AlertTypeButton;
     NSString *imageName=@"";
     if (style==TRCustomAlertStyleSuccess) {
         imageName=@"success_blue";
@@ -550,20 +560,20 @@ typedef NS_ENUM(NSInteger, AlertType) {
     
     NSBundle *resource_bundle =[[self sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"];
     [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"确定"] image:[UIImage imageNamed:imageName inBundle:resource_bundle
-                                                               compatibleWithTraitCollection:nil]  title:title isFull:YES content:content complete:completeBlock];
+                                                               compatibleWithTraitCollection:nil]  title:title isFull:YES content:content innerView:nil complete:completeBlock];
 }
 
 //确定按钮，自定义图片
 +(void)showAlertFinishWithImage:(UIImage *)image title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
-    [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"确定"] image:image title:title isFull:YES content:content complete:completeBlock];
+    [self sharedView].alertType=AlertTypeButton;
+    [[self sharedView] creatAlertViewWithButtonTitleArray:@[@"确定"] image:image title:title isFull:YES content:content innerView:nil complete:completeBlock];
 }
 
-#pragma mark 创建对话框样式
--(void)creatAlertViewWithButtonTitleArray:(NSArray<NSString *> *)titleArray image:(UIImage *)image title:(NSString *)title isFull:(BOOL)isFull content:(NSString *)content complete:(complete)completeBlock{
+#pragma mark 创建对话框样式,中间可以自定义视图
+-(void)creatAlertViewWithButtonTitleArray:(NSArray<NSString *> *)titleArray image:(UIImage *)image title:(NSString *)title isFull:(BOOL)isFull content:(NSString *)content innerView:(UIView *)innerView complete:(complete)completeBlock{
 //    __weak TRCustomAlert *self = self;
 //    [[NSOperationQueue mainQueue] addOperationWithBlock:^{
         self.isShade=YES;
-        self.alertType=AlertTypeButton;
         [self dissmis];
         self.isFull=isFull;
         self.completeBlock=completeBlock;//保存代码快
@@ -607,8 +617,6 @@ typedef NS_ENUM(NSInteger, AlertType) {
         [alertView addSubview:contentLab];
         
         //显示遮罩层
-        
-        
         CGFloat alertView_x=(TR_SCREEN_WIDTH-alertView_with)/2;
         
         self.frame=CGRectMake(0, 0, TR_SCREEN_WIDTH, TR_SCREEN_HEIGHT);
@@ -625,12 +633,25 @@ typedef NS_ENUM(NSInteger, AlertType) {
         }
         CGFloat contentLab_height=[self heightForString:content Width:alertView_with-40 font:contentLab.font];
         contentLab.frame=CGRectMake(20, CGRectGetMaxY(titleLab.frame)+padding, alertView_with-40, contentLab_height);
-        
-        //创建按钮
+    
+    
+    //判断是否有中间视图
+    UIView *tempView=contentLab;
+    self.innerView=innerView;
+    if (innerView!=nil) {
+        //断言检查自定义中间控件是否设置了尺寸
+        NSAssert(innerView.bounds.size.width!=0, @"提示: (自定义中间视图，需要设置size)");
+        tempView=innerView;
+        [alertView addSubview:innerView];
+        CGSize innserSize=innerView.bounds.size;
+        innerView.frame=CGRectMake((alertView_with-innserSize.width)/2, CGRectGetMaxY(contentLab.frame)+padding*3, innserSize.width, innserSize.height);
+    }
+        //设置按钮
         if (titleArray.count>0) {
             //分割线
             CGFloat button_height=40;//按钮高度
-            UIView *cutView=[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(contentLab.frame)+padding+5, alertView_with, 1)];
+            
+            UIView *cutView=[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(tempView.frame)+padding+5, alertView_with, 1)];
             cutView.tag=101;
             cutView.backgroundColor=[self colorWithHexString:@"#e2e2e2"];//
             [alertView addSubview:cutView];
@@ -681,7 +702,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
             self.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
         }else{
             //没有按钮
-            CGFloat alertView_height=CGRectGetMaxY(contentLab.frame)+padding;
+            CGFloat alertView_height=CGRectGetMaxY(tempView.frame)+padding*3;
             CGFloat alertView_y=(TR_SCREEN_HEIGHT-alertView_height)/2;
             self.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
         }
@@ -840,7 +861,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         [self sharedView].frame=viewFrame;
         alertView.frame=alertViewFrame;
         
-    }else if([self sharedView].alertType==AlertTypeButton||[self sharedView].alertType==AlertTypeLoading){
+    }else if([self sharedView].alertType==AlertTypeButton||[self sharedView].alertType==AlertTypeLoading||[self sharedView].alertType==AlertTypeCustom){
         //提示框,loading
         [alertView.layer removeAllAnimations];//移除所有动画
         alertView.hidden=YES;//隐藏控件
@@ -876,12 +897,22 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //父窗体
         alertViewFrame.size.height=CGRectGetMaxY(lab.frame)+15;
         alertView.frame=alertViewFrame;
-    }else if([self sharedView].alertType==AlertTypeButton){
+    }else if([self sharedView].alertType==AlertTypeButton||[self sharedView].alertType==AlertTypeCustom){
         //对话框
         CGFloat alertView_with=TR_SCREEN_WIDTH*0.7;
         CGFloat newHeight=[[self sharedView] heightForString:lab.text Width:alertView_with-20*2 font:font];
         frame.size.height=newHeight;
         lab.frame=frame;
+        UIView *tempView=lab;
+        //如果是自定义视图
+        if ([self sharedView].alertType==AlertTypeCustom) {
+            tempView=[self sharedView].innerView;
+            CGRect tempView_frame= tempView.frame;
+            tempView_frame.origin.y=CGRectGetMaxY(lab.frame)+15;
+            tempView.frame=tempView_frame;
+            frame=tempView.frame;
+        }
+        
         if ([self sharedView].buttonArray.count>0) {
             //分割线
             UIView *cutView_Horizontal=nil;//横分割线
@@ -1065,4 +1096,84 @@ typedef NS_ENUM(NSInteger, AlertType) {
 +(void)showShadeLoadingWithMessage:(NSString *)message{
     [[self sharedView] createLoadingWithMessage:message isShade:YES];
 }
+
+
+#pragma mark 加载进度
+
+-(void)createProgressWithTitle:(NSString *)title content:(NSString *)content buttonTitle:(NSString *)buttonTitle complete:(complete)completeBlock{
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, TR_SCREEN_WIDTH*0.7-40, 37)];
+//    view.backgroundColor=[UIColor redColor];
+    
+    UIProgressView *prgView=[[UIProgressView alloc]initWithFrame:CGRectMake(0, 0, view.bounds.size.width, 10)];
+    self.progressView=prgView;
+    [view addSubview:prgView];
+    
+    CGFloat lab_width=50;
+    UILabel *prgLab=[[UILabel alloc]initWithFrame:CGRectMake((view.bounds.size.width-lab_width)/2, CGRectGetMaxY(prgView.frame), lab_width, 40)];
+    self.progressLab=prgLab;
+    prgLab.text=@"0%";
+    prgLab.textAlignment=NSTextAlignmentCenter;
+    prgLab.font=[UIFont systemFontOfSize:14];
+    [view addSubview:prgLab];
+    
+    NSArray *array=@[@"确定"];
+    if (buttonTitle==nil||[buttonTitle isEqualToString:@""]) {
+        array=@[];
+    }else{
+        array=@[buttonTitle];
+    }
+    [self creatAlertViewWithButtonTitleArray:array image:nil title:title isFull:NO content:content innerView:view complete:^(NSInteger index, NSString *title) {
+        if (completeBlock!=nil) {
+            completeBlock(index,title);
+        }
+    }];
+}
+
+-(void)setProgress:(CGFloat)progress{
+    _progress=progress;
+    self.progressLab.text=[NSString stringWithFormat:@"%ld%%",(long)[[NSNumber numberWithFloat:progress*100] integerValue]];
+    self.progressView.progress=progress;
+}
+
+
++(instancetype)showProgressWithTitle:(NSString *)title content:(NSString *)content{
+    [self sharedView].alertType=AlertTypeCustom;
+    [[self sharedView] createProgressWithTitle:title  content:content buttonTitle:nil complete:nil];
+    return [self sharedView];
+}
+
+
++(instancetype)showProgressWithTitle:(NSString *)title content:(NSString *)content complete:(complete)completeBlock{
+    [self sharedView].alertType=AlertTypeCustom;
+    [[self sharedView] createProgressWithTitle:title content:content buttonTitle:@"确定" complete:^(NSInteger index, NSString *title) {
+        if (completeBlock!=nil) {
+            completeBlock(index,title);
+        }
+    }];
+    return [self sharedView];
+}
+
+
++(instancetype)showProgressWithTitle:(NSString *)title content:(NSString *)content buttonTitle:(NSString *)buttonTitle complete:(complete)completeBlock{
+    [self sharedView].alertType=AlertTypeCustom;
+    [[self sharedView] createProgressWithTitle:title content:content buttonTitle:buttonTitle complete:^(NSInteger index, NSString *title) {
+        if (completeBlock!=nil) {
+            completeBlock(index,title);
+        }
+    }];
+    [TRCustomAlert setButtonColor:[[self sharedView] colorWithHexString:@"#0C71FF"]];
+    return [self sharedView];
+}
+
+//自定义中间视图
++(instancetype)showCustomeViewWithButtonTitleArray:(NSArray<NSString *> *)buttonTitleArray innerView:(UIView *)innerView title:(NSString *)title content:(NSString *)content  complete:(customComplete)completeBlock{
+    [self sharedView].alertType=AlertTypeCustom;
+    [[self sharedView] creatAlertViewWithButtonTitleArray:buttonTitleArray image:nil title:title isFull:NO content:content innerView:innerView complete:^(NSInteger index, NSString *title) {
+        if (completeBlock!=nil) {
+            completeBlock(innerView,index,title);
+        }
+    }];
+    return [self sharedView];
+}
+
 @end
