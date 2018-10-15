@@ -1,4 +1,4 @@
-# TRCustomAlert V0.0.5
+# TRCustomAlert V0.0.6
 
 ![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TRCustomAlert.svg)
 ![Pod Platform](https://img.shields.io/cocoapods/p/TRCustomAlert.svg?style=flat)
@@ -62,13 +62,23 @@
 ### 4、隐藏以上窗体方法
 `+(void)dissmis;//隐藏`
 
-
-
-### 5、样式设置
+### 5、进度条和自定义视图
+进度条进度设置通过 `@property(nonatomic,assign)CGFloat progress;//进度 0~1` 属性控制
 
 | 方法名 | 说明 | 
 | - | - | 
-|`+(void)setBackgroundColor:(UIColor *)color`| //设置背景色|
+|`+(instancetype)showProgressWithTitle:(NSString *)title content:(NSString *)content`| 根据标题和内容创建进度条|
+| `+(instancetype)showProgressWithTitle:(NSString *)title content:(NSString *)content complete:(complete)completeBlock` | 根据标题和内容创建带按钮的进度条 |
+|`+(instancetype)showProgressWithTitle:(NSString *)title content:(NSString *)content buttonTitle:(NSString *)buttonTitle complete:(complete)completeBlock`| 根据用户自定义按钮创建进度条|
+|`+(instancetype)showCustomeViewWithButtonTitleArray:(NSArray<NSString *> *)buttonTitleArray innerView:(UIView *)innerView title:(NSString *)title content:(NSString *)content  complete:(customComplete)completeBlock`|根据用户自定义按钮和中间视图，创建弹框 |
+
+
+
+### 6、样式设置
+
+| 方法名 | 说明 | 
+| - | - | 
+|`+(void)setBackgroundColor:(UIColor *)color`| 设置背景色|
 | `+(void)setFontColor:(UIColor *)color;` | 设置文字字体颜色（简单框文字，按钮框的内容，loading框文字） |
 |`+(void)setFont:(UIFont *)font`| 设置文字字体字体（简单框文字，按钮框的内容，loading框文字）|
 |`+(void)setTitleColor:(UIColor *)color`|设置按钮框标题颜色 |
@@ -81,4 +91,20 @@
 |`+(void)setButtonFont:(UIFont *)font color:(UIColor *)color index:(NSInteger)index`|设置按钮弹框底部按钮index位置的字体和颜色（这个位置和`titleArray`传递的顺序一致）|
 |`+(void)setAlertCornerRadius:(CGFloat)value`|设置弹框的圆角 |
 
-具体实现效果由于上传多个gif有些困难，可以clone项目运行查看。
+### 7、部分效果图
+
+<img src="https://upload-images.jianshu.io/upload_images/1785506-c3c9e5fdb0d5799b.gif?imageMogr2/auto-orient/strip" width="214"/>  <img src="https://upload-images.jianshu.io/upload_images/1785506-c47a79a0dfd90b33.gif?imageMogr2/auto-orient/strip" width="214"/>   <img src="https://upload-images.jianshu.io/upload_images/1785506-aff85327b4a17c1a.gif?imageMogr2/auto-orient/strip" width="214"/>
+
+
+
+<img src="https://upload-images.jianshu.io/upload_images/1785506-2661adc29b7d5661.gif?imageMogr2/auto-orient/strip" width="214"/>  <img src="https://upload-images.jianshu.io/upload_images/1785506-151e05c3526c9b33.gif?imageMogr2/auto-orient/strip" width="214"/>   <img src="https://upload-images.jianshu.io/upload_images/1785506-c7711b4c9a1d6681.gif?imageMogr2/auto-orient/strip" width="214"/>
+
+
+<img src="https://upload-images.jianshu.io/upload_images/1785506-0842d64b28778603.gif?imageMogr2/auto-orient/strip" width="214"/> <img src="https://upload-images.jianshu.io/upload_images/1785506-c2434a6526ba561f.gif?imageMogr2/auto-orient/strip" width="214"/>   <img src="https://upload-images.jianshu.io/upload_images/1785506-1b3dc949924b9afc.gif?imageMogr2/auto-orient/strip" width="214"/> 
+
+
+
+<img src="https://upload-images.jianshu.io/upload_images/1785506-23547873377d7a59.gif?imageMogr2/auto-orient/strip" width="214"/> <img src="https://upload-images.jianshu.io/upload_images/1785506-ab7d81139dd9090c.gif?imageMogr2/auto-orient/strip" width="214"/>   <img src="https://upload-images.jianshu.io/upload_images/1785506-e2ebae1516a57546.gif?imageMogr2/auto-orient/strip" width="214"/>
+
+
+<img src="https://upload-images.jianshu.io/upload_images/1785506-40795b1e5add6df2.gif?imageMogr2/auto-orient/strip" width="214"/> <img src="https://upload-images.jianshu.io/upload_images/1785506-c9fa6ed36bd4466d.gif?imageMogr2/auto-orient/strip" width="214"/>
