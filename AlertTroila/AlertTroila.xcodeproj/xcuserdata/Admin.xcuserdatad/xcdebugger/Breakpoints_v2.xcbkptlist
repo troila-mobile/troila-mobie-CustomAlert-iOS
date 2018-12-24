@@ -186,7 +186,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.811403"
+            timestampString = "567329875.768149"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "746"
@@ -202,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.811455"
+            timestampString = "567329875.768207"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "616"
@@ -218,7 +218,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.811493"
+            timestampString = "567329875.768248"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "349"
@@ -234,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.811527"
+            timestampString = "567329875.7682869"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "237"
@@ -250,7 +250,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.8115619"
+            timestampString = "567329875.768324"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "238"
@@ -266,7 +266,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.8115979"
+            timestampString = "567329875.768361"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "442"
@@ -282,7 +282,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.811632"
+            timestampString = "567329875.7684"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "104"
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.811666"
+            timestampString = "567329875.768436"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1112"
-            endingLineNumber = "1112"
+            startingLineNumber = "1121"
+            endingLineNumber = "1121"
             landmarkName = "-createProgressWithTitle:content:buttonTitle:complete:"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,7 +314,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/ViewController.m"
-            timestampString = "561025137.54115"
+            timestampString = "567329875.768474"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "194"
@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.8117141"
+            timestampString = "567329875.7687449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1158"
-            endingLineNumber = "1158"
+            startingLineNumber = "1167"
+            endingLineNumber = "1167"
             landmarkName = "+showProgressWithTitle:content:buttonTitle:complete:"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,7 +346,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.811749"
+            timestampString = "567329875.768788"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "900"
@@ -394,7 +394,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.811784"
+            timestampString = "567329875.768827"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "641"
@@ -410,12 +410,76 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
-            timestampString = "561257294.811817"
+            timestampString = "567329875.7688659"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "916"
             endingLineNumber = "916"
             landmarkName = "+showAlert:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
+            timestampString = "567329875.768904"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1042"
+            endingLineNumber = "1042"
+            landmarkName = "-createLoadingWithMessage:isShade:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
+            timestampString = "567329875.76894"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1098"
+            endingLineNumber = "1098"
+            landmarkName = "+showShadeLoading"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
+            timestampString = "567329875.768978"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1005"
+            endingLineNumber = "1005"
+            landmarkName = "-createLoadingWithMessage:isShade:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AlertTroila/Alert_Troila/TRCustomAlert.m"
+            timestampString = "567329875.769014"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1099"
+            endingLineNumber = "1099"
+            landmarkName = "+showShadeLoading"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

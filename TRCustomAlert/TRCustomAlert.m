@@ -1006,9 +1006,18 @@ typedef NS_ENUM(NSInteger, AlertType) {
             CGFloat alertView_with=88;
             CGFloat alertView_x=(TR_SCREEN_WIDTH-alertView_with)/2;
             CGFloat alertView_y=(TR_SCREEN_HEIGHT-alertView_with)/2;
-            self.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_with);
-            alertView.frame=CGRectMake(0, 0, alertView_with, alertView_with);
+            
+            
             self.wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, (alertView_with-wkWebView_width)/2,wkWebView_width,wkWebView_width);
+            if(isShade){
+                //显示遮罩
+                self.frame=CGRectMake(0, 0, TR_SCREEN_WIDTH,TR_SCREEN_HEIGHT);
+                alertView.frame=CGRectMake((TR_SCREEN_WIDTH-alertView_with)/2, (TR_SCREEN_HEIGHT-alertView_with)/2, alertView_with, alertView_with);
+            }else{
+                self.frame=CGRectMake(alertView_x, alertView_y, alertView_with, alertView_with);
+               alertView.frame=CGRectMake(0, 0, alertView_with, alertView_with);
+            }
+            
         }else{
             CGFloat alertView_with=150;
             //有文字
