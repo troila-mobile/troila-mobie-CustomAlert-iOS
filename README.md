@@ -1,4 +1,4 @@
-# TRCustomAlert V0.0.7
+# TRCustomAlert V0.0.8
 
 ![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TRCustomAlert.svg)
 ![Pod Platform](https://img.shields.io/cocoapods/p/TRCustomAlert.svg?style=flat)
@@ -90,6 +90,7 @@
 |`+(void)setButtonFont:(UIFont *)font index:(NSInteger)index`|设置按钮弹框底部按钮index位置的字体（这个位置和`titleArray`传递的顺序一致） |
 |`+(void)setButtonFont:(UIFont *)font color:(UIColor *)color index:(NSInteger)index`|设置按钮弹框底部按钮index位置的字体和颜色（这个位置和`titleArray`传递的顺序一致）|
 |`+(void)setAlertCornerRadius:(CGFloat)value`|设置弹框的圆角 |
+|`+(void)setConfirmImageColor:(UIColor *)color;`|设置确认框图片颜色 |
 
 ### 7、部分效果图
 
