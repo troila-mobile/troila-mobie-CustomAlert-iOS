@@ -128,7 +128,7 @@
         [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
     }else if (indexPath.row==14) {
         //加载等待
-        [TRCustomAlert showShadeLoading];
+        [TRCustomAlert showLoading];
     }else if (indexPath.row==15) {
         //加载等待
         [TRCustomAlert showLoadingWithMessage:@"loading-有文字loading-有文字loading-有文字loading-有文字loading-有文字"];

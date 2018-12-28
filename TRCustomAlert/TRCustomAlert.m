@@ -12,7 +12,8 @@
 #define TR_SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define TR_SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 
-
+//主题颜色
+static NSString * const MainColor = @"#586BFB";
 //当前界面的样式
 typedef NS_ENUM(NSInteger, AlertType) {
     AlertTypeSimple,//简单样式
@@ -39,6 +40,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 @property(nonatomic,strong)UIProgressView *progressView;//加载进度条
 @property (nonatomic, strong)UILabel *progressLab;//进度lab
 @property(nonatomic,strong)NSTimer *time;
+@property (nonatomic, strong)UIImageView *titleImgView;//确认框顶部图片
 @end
 @implementation TRCustomAlert
 
@@ -590,17 +592,21 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //提示图片
         UIImageView *titleImgView=nil;
         if (image!=nil) {
-            titleImgView=[[UIImageView alloc]initWithImage:image];
+            
+            titleImgView=[[UIImageView alloc]init];
+            titleImgView.image = [image imageWithRenderingMode:(UIImageRenderingModeAlwaysTemplate)];
+            titleImgView.tintColor=[self colorWithHexString:MainColor];
             [alertView addSubview:titleImgView];
             titleImgView.frame=CGRectMake((alertView_with-35)/2,20, 35, 35);
         }
+        self.titleImgView=titleImgView;
         
         
         //标题文字
         UILabel *titleLab=[[UILabel alloc]init];
         self.titleLab=titleLab;
         titleLab.font=[UIFont systemFontOfSize:18];
-        titleLab.textColor=[self colorWithHexString:@"#0C71FF"];//
+        titleLab.textColor=[self colorWithHexString:MainColor];//
         titleLab.text=title;
         titleLab.textAlignment=NSTextAlignmentCenter;
         [alertView addSubview:titleLab];
@@ -629,7 +635,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         }
         //如果没有传递标题，默认尺寸
         if ([title isEqualToString:@""]||title==nil) {
-            titleLab.frame=CGRectMake(0, titleLab.frame.origin.y, alertView_with-padding*2, 1);
+            titleLab.frame=CGRectMake(0, titleLab.frame.origin.y, alertView_with-padding*2, 5);
         }
         CGFloat contentLab_height=[self heightForString:content Width:alertView_with-40 font:contentLab.font];
         contentLab.frame=CGRectMake(20, CGRectGetMaxY(titleLab.frame)+padding, alertView_with-40, contentLab_height);
@@ -668,17 +674,17 @@ typedef NS_ENUM(NSInteger, AlertType) {
                     [button setTitle:title forState:0];
                     //默认颜色
                     if (i==1) {
-                        [button setTitleColor:[self colorWithHexString:@"#0C71FF"] forState:0];
+                        [button setTitleColor:[self colorWithHexString:MainColor] forState:0];
                         
                     }else{
                         if ([title isEqualToString:@"确定"]) {
-                            [button setTitleColor:[self colorWithHexString:@"#0C71FF"] forState:0];
+                            [button setTitleColor:[self colorWithHexString:MainColor] forState:0];
                         }else{
                             [button setTitleColor:[self colorWithHexString:@"#666666"] forState:0];
                         }
                     }
                     button.tag=i;
-                    button.titleLabel.font=[UIFont systemFontOfSize:14];
+                    button.titleLabel.font=[UIFont systemFontOfSize:15];
                     [button addTarget:self action:@selector(completeClick:) forControlEvents:UIControlEventTouchUpInside];
                     [alertView addSubview:button];
                     CGFloat button_width=alertView_with;//按钮宽度
@@ -828,6 +834,14 @@ typedef NS_ENUM(NSInteger, AlertType) {
 +(void)setAlertCornerRadius:(CGFloat)value{
     [self sharedView].alertView.layer.cornerRadius=value;
     [self sharedView].alertView.layer.masksToBounds=YES;
+}
+
+
++(void)setConfirmImageColor:(UIColor *)color{
+    if ([self sharedView].alertType==AlertTypeButton) {
+        //对话框模式
+        [self sharedView].titleImgView.tintColor=color;
+    }
 }
 
 +(void)setFontColor:(UIColor *)color{
@@ -1001,9 +1015,9 @@ typedef NS_ENUM(NSInteger, AlertType) {
         
         self.backgroundColor=[UIColor clearColor];
         
-        CGFloat wkWebView_width=73;
+        CGFloat wkWebView_width=45;
         if ([message isEqualToString:@""]||message==nil) {
-            CGFloat alertView_with=88;
+            CGFloat alertView_with=95;
             CGFloat alertView_x=(TR_SCREEN_WIDTH-alertView_with)/2;
             CGFloat alertView_y=(TR_SCREEN_HEIGHT-alertView_with)/2;
             
@@ -1030,8 +1044,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
             titleLab.textAlignment=NSTextAlignmentCenter;
             [alertView addSubview:titleLab];
             CGFloat titleLab_height=[self heightForString:message Width:alertView_with-padding font:titleLab.font];
-            self.wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, 0,wkWebView_width,wkWebView_width);
-            titleLab.frame=CGRectMake(padding/2, CGRectGetMaxY(self.wkWebView.frame)-padding, alertView_with-padding, titleLab_height);
+            self.wkWebView.frame=CGRectMake((alertView_with-wkWebView_width)/2, padding*2,wkWebView_width,wkWebView_width);
+            titleLab.frame=CGRectMake(padding/2, CGRectGetMaxY(self.wkWebView.frame)+padding, alertView_with-padding, titleLab_height);
             
             
             
@@ -1114,6 +1128,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 //    view.backgroundColor=[UIColor redColor];
     
     UIProgressView *prgView=[[UIProgressView alloc]initWithFrame:CGRectMake(0, 0, view.bounds.size.width, 10)];
+    prgView.progressTintColor=[self colorWithHexString:MainColor];
     self.progressView=prgView;
     [view addSubview:prgView];
     
@@ -1170,7 +1185,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
             completeBlock(index,title);
         }
     }];
-    [TRCustomAlert setButtonColor:[[self sharedView] colorWithHexString:@"#0C71FF"]];
+    [TRCustomAlert setButtonColor:[[self sharedView] colorWithHexString:MainColor]];
     return [self sharedView];
 }
 

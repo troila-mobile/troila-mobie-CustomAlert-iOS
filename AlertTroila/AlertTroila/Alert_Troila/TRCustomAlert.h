@@ -24,7 +24,6 @@ typedef void (^customComplete)(UIView *innerView,NSInteger index,NSString *title
 
 /*设置样式*/
 
-
 +(void)setBackgroundColor:(UIColor *)color;//设置背景色
 
 +(void)setFontColor:(UIColor *)color;//设置简单框样式文字样色和对话框内容颜色,loading 文字
@@ -49,6 +48,10 @@ typedef void (^customComplete)(UIView *innerView,NSInteger index,NSString *title
 +(void)setButtonFont:(UIFont *)font color:(UIColor *)color index:(NSInteger)index;//设置对话框底部按钮颜色和字号大小 index:按钮位置
 
 +(void)setAlertCornerRadius:(CGFloat)value;//设置显示框的圆角  默认为10
+
+//设置确认框图片颜色
++(void)setConfirmImageColor:(UIColor *)color;
+
 
 /*初始化方法*/
 
