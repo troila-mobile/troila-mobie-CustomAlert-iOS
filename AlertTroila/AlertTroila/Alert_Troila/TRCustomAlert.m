@@ -1015,7 +1015,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         
         self.backgroundColor=[UIColor clearColor];
         
-        CGFloat wkWebView_width=45;
+        CGFloat wkWebView_width=48;
         if ([message isEqualToString:@""]||message==nil) {
             CGFloat alertView_with=95;
             CGFloat alertView_x=(TR_SCREEN_WIDTH-alertView_with)/2;
