@@ -675,13 +675,12 @@ typedef NS_ENUM(NSInteger, AlertType) {
                     //默认颜色
                     if (i==1) {
                         [button setTitleColor:[self colorWithHexString:MainColor] forState:0];
-                        
                     }else{
-                        if ([title isEqualToString:@"确定"]) {
-                            [button setTitleColor:[self colorWithHexString:MainColor] forState:0];
-                        }else{
-                            [button setTitleColor:[self colorWithHexString:@"#666666"] forState:0];
-                        }
+                        [button setTitleColor:[self colorWithHexString:@"#666666"] forState:0];
+                    }
+                    //当只有一个时，设置主题色
+                    if(titleArray.count==1){
+                        [button setTitleColor:[self colorWithHexString:MainColor] forState:0];
                     }
                     button.tag=i;
                     button.titleLabel.font=[UIFont systemFontOfSize:15];
