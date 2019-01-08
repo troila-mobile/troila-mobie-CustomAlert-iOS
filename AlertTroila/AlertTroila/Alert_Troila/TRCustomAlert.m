@@ -408,7 +408,9 @@ typedef NS_ENUM(NSInteger, AlertType) {
 }
 
 +(void)dissmis{
-    [[self sharedView] dissmis];
+    if([self sharedView].alertType==AlertTypeLoading || [self sharedView].alertType==AlertTypeCustom){
+        [[self sharedView] dissmis];
+    }
 }
 
 - (UIViewController *)topViewController {
