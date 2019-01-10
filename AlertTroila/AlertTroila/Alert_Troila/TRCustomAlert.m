@@ -273,7 +273,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
     
     CGSize textSize = [value boundingRectWithSize:size
                        
-                                          options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                                          options:NSStringDrawingUsesLineFragmentOrigin 
                        
                                        attributes:tdic
                        
@@ -590,7 +590,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         
         CGFloat padding=5;
         CGFloat alertView_with=TR_SCREEN_WIDTH*0.7;
-        
+        CGFloat marginTop=27;
         //提示图片
         UIImageView *titleImgView=nil;
         if (image!=nil) {
@@ -599,7 +599,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
             titleImgView.image = [image imageWithRenderingMode:(UIImageRenderingModeAlwaysTemplate)];
             titleImgView.tintColor=[self colorWithHexString:MainColor];
             [alertView addSubview:titleImgView];
-            titleImgView.frame=CGRectMake((alertView_with-35)/2,20, 35, 35);
+            titleImgView.frame=CGRectMake((alertView_with-35)/2,marginTop, 35, 35);
         }
         self.titleImgView=titleImgView;
         
@@ -607,7 +607,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //标题文字
         UILabel *titleLab=[[UILabel alloc]init];
         self.titleLab=titleLab;
-        titleLab.font=[UIFont systemFontOfSize:18];
+//        titleLab.backgroundColor=[UIColor redColor];
+        titleLab.font=[UIFont systemFontOfSize:19];
         titleLab.textColor=[self colorWithHexString:MainColor];//
         titleLab.text=title;
         titleLab.textAlignment=NSTextAlignmentCenter;
@@ -615,12 +616,21 @@ typedef NS_ENUM(NSInteger, AlertType) {
         
         //内容文字
         UILabel *contentLab=[[UILabel alloc]init];
+//        contentLab.backgroundColor=[UIColor orangeColor];
         self.contentLab=contentLab;
         contentLab.lineBreakMode=NSLineBreakByWordWrapping;
-        contentLab.font=[UIFont systemFontOfSize:14];
+        contentLab.font=[UIFont systemFontOfSize:15];
         contentLab.numberOfLines=0;
         contentLab.text=content;
         contentLab.textColor=[self colorWithHexString:@"#333333"];
+    
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:content];;
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+        [paragraphStyle setLineSpacing:4];
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, content.length)];
+    
+    
+        contentLab.attributedText = attributedString;
         contentLab.textAlignment=NSTextAlignmentCenter;
         [alertView addSubview:contentLab];
         
@@ -629,18 +639,22 @@ typedef NS_ENUM(NSInteger, AlertType) {
         
         self.frame=CGRectMake(0, 0, TR_SCREEN_WIDTH, TR_SCREEN_HEIGHT);
         self.backgroundColor=[[UIColor blackColor] colorWithAlphaComponent:0.4];
-        
+    
+        //计算标题高度
+        CGFloat titleLab_height = [titleLab sizeThatFits:CGSizeMake(alertView_with-padding*2, CGFLOAT_MAX)].height;
+        CGFloat contentTopMargin=padding*3;
         if (image!=nil) {
-            titleLab.frame=CGRectMake(padding, CGRectGetMaxY(titleImgView.frame)+padding, alertView_with-padding*2, 30);
+            titleLab.frame=CGRectMake(padding, CGRectGetMaxY(titleImgView.frame)+padding*2.5, alertView_with-padding*2, titleLab_height);
         }else{
-            titleLab.frame=CGRectMake(padding, padding+10, alertView_with-padding*2, 30);
+            titleLab.frame=CGRectMake(padding, marginTop, alertView_with-padding*2, titleLab_height);
         }
         //如果没有传递标题，默认尺寸
         if ([title isEqualToString:@""]||title==nil) {
+            contentTopMargin=0;
             titleLab.frame=CGRectMake(0, titleLab.frame.origin.y, alertView_with-padding*2, 5);
         }
-        CGFloat contentLab_height=[self heightForString:content Width:alertView_with-40 font:contentLab.font];
-        contentLab.frame=CGRectMake(20, CGRectGetMaxY(titleLab.frame)+padding, alertView_with-40, contentLab_height);
+        CGFloat contentLab_height = [contentLab sizeThatFits:CGSizeMake(alertView_with-40, CGFLOAT_MAX)].height;
+        contentLab.frame=CGRectMake(20, CGRectGetMaxY(titleLab.frame)+contentTopMargin, alertView_with-40, contentLab_height);
     
     
     //判断是否有中间视图
@@ -659,7 +673,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
             //分割线
             CGFloat button_height=40;//按钮高度
             
-            UIView *cutView=[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(tempView.frame)+padding+5, alertView_with, 1)];
+            UIView *cutView=[[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(tempView.frame)+20, alertView_with, 1)];
             cutView.tag=101;
             cutView.backgroundColor=[self colorWithHexString:@"#e2e2e2"];//
             [alertView addSubview:cutView];
@@ -685,7 +699,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
                         [button setTitleColor:[self colorWithHexString:MainColor] forState:0];
                     }
                     button.tag=i;
-                    button.titleLabel.font=[UIFont systemFontOfSize:15];
+                    button.titleLabel.font=[UIFont systemFontOfSize:14];
                     [button addTarget:self action:@selector(completeClick:) forControlEvents:UIControlEventTouchUpInside];
                     [alertView addSubview:button];
                     CGFloat button_width=alertView_with;//按钮宽度
@@ -709,7 +723,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
             self.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
         }else{
             //没有按钮
-            CGFloat alertView_height=CGRectGetMaxY(tempView.frame)+padding*3;
+            CGFloat alertView_height=CGRectGetMaxY(tempView.frame)+20;
             CGFloat alertView_y=(TR_SCREEN_HEIGHT-alertView_height)/2;
             self.alertView.frame=CGRectMake(alertView_x, alertView_y, alertView_with,alertView_height);
         }
@@ -915,7 +929,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
     }else if([self sharedView].alertType==AlertTypeButton||[self sharedView].alertType==AlertTypeCustom){
         //对话框
         CGFloat alertView_with=TR_SCREEN_WIDTH*0.7;
-        CGFloat newHeight=[[self sharedView] heightForString:lab.text Width:alertView_with-20*2 font:font];
+        CGFloat newHeight = [lab sizeThatFits:CGSizeMake(alertView_with-40, CGFLOAT_MAX)].height;
         frame.size.height=newHeight;
         lab.frame=frame;
         UIView *tempView=lab;
@@ -941,7 +955,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
             }
             //水平分割线
             CGRect cutView_Horizontal_Frame=cutView_Horizontal.frame;
-            cutView_Horizontal_Frame.origin.y=CGRectGetMaxY(frame)+10;
+            cutView_Horizontal_Frame.origin.y=CGRectGetMaxY(frame)+20;
             cutView_Horizontal.frame=cutView_Horizontal_Frame;
             
             UIButton *tempBtn=nil;

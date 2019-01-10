@@ -46,6 +46,7 @@
     [self.arrayData addObjectsFromArray:@[@"底部纯文字",@"显示警告简单提示框",@"alert-提示底部无按钮"]];
     
     [self.arrayData addObjectsFromArray:@[@"进度条",@"带按钮的进度条",@"自定义按钮名称的进度条",@"自定义中间视图"]];
+    [self.arrayData addObjectsFromArray:@[@"对话框没有图"]];
     [tableView reloadData];
 }
 
@@ -183,6 +184,10 @@
             NSLog(@"选择的时间为:%@",strDate);
         }];
         
+    }else if(indexPath.row==25){
+        [TRCustomAlert showAlertFullWithStyle:TRCustomAlertStyleNone title:@"标题" content:@"对话框没有对话框" complete:^(NSInteger index, NSString *title) {
+            NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
+        }];
     }
 }
 
