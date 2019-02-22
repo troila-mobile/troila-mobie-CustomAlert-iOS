@@ -82,6 +82,8 @@ typedef void (^customComplete)(UIView *innerView,NSInteger index,NSString *title
 //显示在底部的纯文字，简单框
 +(void)showBottomMessage:(NSString *)message;
 
+//显示底部自适应纯文字，简单框
++(void)showFitBottomMessage:(NSString *)message;
 
 //自定义按钮，默认图片样式
 +(void)showAlertWithButtonTitleArray:(NSArray<NSString *> *)titleArray style:(TRCustomAlertStyle)style title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;

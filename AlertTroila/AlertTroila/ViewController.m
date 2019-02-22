@@ -47,6 +47,7 @@
     
     [self.arrayData addObjectsFromArray:@[@"进度条",@"带按钮的进度条",@"自定义按钮名称的进度条",@"自定义中间视图"]];
     [self.arrayData addObjectsFromArray:@[@"对话框没有图"]];
+    [self.arrayData addObjectsFromArray:@[@"显示自适应底部提示框"]];
     [tableView reloadData];
 }
 
@@ -70,9 +71,8 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row==0) {
-//        [TRCustomAlert dissmis];
-//        [SVProgressHUD showSuccessWithStatus:@"简单成功提示"];
         [TRCustomAlert showSuccessWithMessage:@"简单成功提示"];
+        
     }else if (indexPath.row==1) {
         [TRCustomAlert showErrorWithMessage:@"简单失败提示"];
     }else if (indexPath.row==2) {
@@ -187,7 +187,9 @@
     }else if(indexPath.row==25){
         [TRCustomAlert showAlertFullWithStyle:TRCustomAlertStyleNone title:@"标题" content:@"对话框没有对话框" complete:^(NSInteger index, NSString *title) {
             NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
-        }];
+        }];[TRCustomAlert showFitBottomMessage:@"ddddddddddddddd12313213214"];
+    }else if(indexPath.row==26){
+        [TRCustomAlert showFitBottomMessage:@"底部自适应弹框"];
     }
 }
 

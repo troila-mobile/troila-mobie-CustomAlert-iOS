@@ -66,6 +66,10 @@
         NSLog(@"选择的时间为:%@",strDate);
     }];
 }
+- (IBAction)showBottomFit:(id)sender {
+    [TRCustomAlert showFitBottomMessage:@"显示底部自适应弹框"];
+    
+}
 
 
 @end

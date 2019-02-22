@@ -4,7 +4,7 @@
 //
 //  Created by Admin on 2018/9/20.
 //  Copyright © 2018年 马银伟. All rights reserved.
-//
+//  Version: 0.1.3
 
 #import "TRCustomAlert.h"
 #import <WebKit/WebKit.h>
@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 @property (nonatomic, strong)UILabel *progressLab;//进度lab
 @property(nonatomic,strong)NSTimer *time;
 @property (nonatomic, strong)UIImageView *titleImgView;//确认框顶部图片
+@property(nonatomic,assign)BOOL isFit;//是否为底部自适应弹框
 @end
 @implementation TRCustomAlert
 
@@ -206,8 +207,6 @@ typedef NS_ENUM(NSInteger, AlertType) {
         
         //添加到视图上
         [[self frontWindow] addSubview:self];
-        //动画显示
-//        [self animationWithIsShow:YES];
     
         NSTimer *time=[NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(dissmis) userInfo:nil repeats:NO];
         self.time=time;
@@ -361,25 +360,80 @@ typedef NS_ENUM(NSInteger, AlertType) {
     [[self sharedView] createCustomViewWithMessage:message image:nil isShade:NO];
     [self sharedView].alertType=AlertTypeBottom;
     //修改尺寸
-    [[self sharedView] setSelfFrame];
+    [[self sharedView] setSelfFrameWithIsFit:NO];
+    //动画显示
+    [[self sharedView]  animationWithIsShow:YES];
+}
+
+//显示底部自适应纯文字，简单框
++(void)showFitBottomMessage:(NSString *)message{
+    [[self sharedView] createCustomViewWithMessage:message image:nil isShade:NO];
+    [self sharedView].alertType=AlertTypeBottom;
+    //修改尺寸
+    [[self sharedView] setSelfFrameWithIsFit:YES];
     //动画显示
     [[self sharedView]  animationWithIsShow:YES];
 }
 
 //重新设置尺寸，适应底部简单提醒
--(void)setSelfFrame{
+-(void)setSelfFrameWithIsFit:(BOOL)isFit{
+    self.isFit=isFit;
     CGRect self_Frame=self.frame;
     NSString *text=self.contentLab.text;
     //距离底部距离
     CGFloat bottom=80;
     CGFloat padding=15;
-    CGFloat self_width=TR_SCREEN_WIDTH*0.7;
-    CGFloat titleLab_height=[self heightForString:text Width:self_width-padding*2 font:self.contentLab.font];
-    CGFloat alertView_Height=titleLab_height+padding*2;
-    self.contentLab.frame=CGRectMake(padding, padding, self_width-padding*2, titleLab_height);
-    self.alertView.frame=CGRectMake(0, 0, self_width, alertView_Height);
-    self_Frame=CGRectMake((TR_SCREEN_WIDTH-self_width)/2, TR_SCREEN_HEIGHT-alertView_Height-bottom, self_width, alertView_Height);
-    self.frame=self_Frame;
+    
+    if (isFit) {
+        //自适应宽度弹框
+        CGFloat max_width=TR_SCREEN_WIDTH*0.7;//最大宽度
+        CGFloat self_width=0;
+        CGFloat alertView_Height=0;
+        CGFloat titleLab_height=0;
+        /*
+         tip:这里view自适应逻辑为：首先判断高度是否大于两行在最大宽度情况下，如果大于折行显示
+                                否则，单行显示自适应
+         */
+        //单行高度标准
+        CGFloat standard_height=[self heightForString:@"standard" Width:max_width-padding*2 font:self.contentLab.font];
+        CGFloat current_height=[self heightForString:text Width:max_width-padding*2 font:self.contentLab.font];
+        
+        //赋值
+        alertView_Height=current_height+padding*2;
+        titleLab_height=current_height;
+        //判断是否折行
+        if (current_height>standard_height) {
+            //正常折行显示
+            
+            self_width=max_width+padding*2;
+            
+        }else{
+            //重新计算，视图自适应文字,计算文字宽度
+            NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
+            paraStyle.alignment = NSTextAlignmentLeft;
+            NSDictionary *dic = @{NSFontAttributeName:self.contentLab.font };
+            
+            CGSize size = [text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, standard_height) options:NSStringDrawingUsesLineFragmentOrigin attributes:dic context:nil].size;
+            
+            self_width=size.width+padding*2;
+        }
+            
+        
+        self.contentLab.frame=CGRectMake(padding, padding, self_width-padding*2, titleLab_height);
+        self.alertView.frame=CGRectMake(0, 0, self_width, alertView_Height);
+        self_Frame=CGRectMake((TR_SCREEN_WIDTH-self_width)/2, TR_SCREEN_HEIGHT-alertView_Height-bottom, self_width, alertView_Height);
+        self.frame=self_Frame;
+    }else{
+       //固定宽度弹框
+        CGFloat self_width=TR_SCREEN_WIDTH*0.7;
+        CGFloat titleLab_height=[self heightForString:text Width:self_width-padding*2 font:self.contentLab.font];
+        CGFloat alertView_Height=titleLab_height+padding*2;
+        self.contentLab.frame=CGRectMake(padding, padding, self_width-padding*2, titleLab_height);
+        self.alertView.frame=CGRectMake(0, 0, self_width, alertView_Height);
+        self_Frame=CGRectMake((TR_SCREEN_WIDTH-self_width)/2, TR_SCREEN_HEIGHT-alertView_Height-bottom, self_width, alertView_Height);
+        self.frame=self_Frame;
+    }
+    
 }
 
 
@@ -981,7 +1035,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         alertView.frame=alertViewFrame;
     }else if ([self sharedView].alertType==AlertTypeBottom){
         //底部样式
-        [[self sharedView] setSelfFrame];
+        [[self sharedView] setSelfFrameWithIsFit:[self sharedView].isFit];
     }
     alertView.hidden=NO;
     [[self sharedView] animationWithIsShow:YES];
