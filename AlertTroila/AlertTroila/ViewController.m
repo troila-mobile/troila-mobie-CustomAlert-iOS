@@ -47,7 +47,7 @@
     
     [self.arrayData addObjectsFromArray:@[@"进度条",@"带按钮的进度条",@"自定义按钮名称的进度条",@"自定义中间视图"]];
     [self.arrayData addObjectsFromArray:@[@"对话框没有图"]];
-    [self.arrayData addObjectsFromArray:@[@"显示自适应底部提示框"]];
+    [self.arrayData addObjectsFromArray:@[@"显示自适应底部提示框",@"修改对话框按钮背景颜色"]];
     [tableView reloadData];
 }
 
@@ -190,6 +190,13 @@
         }];[TRCustomAlert showFitBottomMessage:@"ddddddddddddddd12313213214"];
     }else if(indexPath.row==26){
         [TRCustomAlert showFitBottomMessage:@"底部自适应弹框"];
+    }else if(indexPath.row==27){
+        [TRCustomAlert showAlertFullWithStyle:TRCustomAlertStyleNone title:@"警告" content:@"alert-警告提示【默认双按钮】-带默认图" complete:^(NSInteger index, NSString *title) {
+            NSLog(@"点击回调 按钮位置-index=%ld  按钮标题-title=%@",(long)index,title);
+        }];
+//        [TRCustomAlert setButtonBackgroundColor:[UIColor orangeColor] index:1];
+        [TRCustomAlert setButtonColor:[UIColor redColor] index:1];
+//        [TRCustomAlert setTitleColor:[UIColor orangeColor]];
     }
 }
 

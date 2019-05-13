@@ -37,6 +37,8 @@ typedef void (^customComplete)(UIView *innerView,NSInteger index,NSString *title
 
 +(void)setButtonColor:(UIColor *)color;//设置对话框底部按钮颜色
 
++(void)setButtonBackgroundColor:(UIColor *)color index:(NSInteger)index;//设置对话框底部按钮背景颜色
+
 +(void)setButtonFont:(UIFont *)font;//设置对话框底部按钮字号大小
 
 +(void)setButtonFont:(UIFont *)font color:(UIColor *)color;//设置对话框底部按钮颜色和字号大小

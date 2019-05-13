@@ -731,7 +731,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
             cutView.tag=101;
             cutView.backgroundColor=[self colorWithHexString:@"#e2e2e2"];//
             [alertView addSubview:cutView];
-            
+            [self.buttonArray removeAllObjects];
             for (int i=0;i<titleArray.count;i++) {
                 NSString *title=titleArray[i];
                 if ([title isKindOfClass:[NSString class]]) {
@@ -841,7 +841,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
 }
 
 //设置对话框底部按钮样式
--(void)setButtonColor:(UIColor *)color fontSize:(UIFont *)fontSize isAll:(BOOL)isAll index:(NSInteger)index{
+-(void)setButtonColor:(UIColor *)color backgroundColor:(UIColor *)backgroundColor fontSize:(UIFont *)fontSize isAll:(BOOL)isAll index:(NSInteger)index{
     for (int i=0;i<self.buttonArray.count;i++) {
         UIButton *btn =self.buttonArray[i];
         if (isAll) {
@@ -851,6 +851,9 @@ typedef NS_ENUM(NSInteger, AlertType) {
             if(fontSize!=nil){
                 btn.titleLabel.font=fontSize;
             }
+            if (backgroundColor!=nil) {
+                [btn setBackgroundColor:backgroundColor];
+            }
         }else{
             if (index==i) {
                 if(color!=nil){
@@ -858,6 +861,9 @@ typedef NS_ENUM(NSInteger, AlertType) {
                 }
                 if(fontSize!=nil){
                     btn.titleLabel.font=fontSize;
+                }
+                if (backgroundColor!=nil) {
+                    [btn setBackgroundColor:backgroundColor];
                 }
             }
         }
@@ -877,27 +883,31 @@ typedef NS_ENUM(NSInteger, AlertType) {
 }
 
 +(void)setButtonColor:(UIColor *)color{
-    [[self sharedView] setButtonColor:color fontSize:nil isAll:YES index:0];
+    [[self sharedView] setButtonColor:color backgroundColor:nil fontSize:nil isAll:YES index:0];
+}
+
++(void)setButtonBackgroundColor:(UIColor *)color index:(NSInteger)index{
+    [[self sharedView] setButtonColor:nil backgroundColor:color fontSize:nil isAll:NO index:index];
 }
 
 +(void)setButtonFont:(UIFont *)font{
-    [[self sharedView] setButtonColor:nil fontSize:font isAll:YES index:0];
+    [[self sharedView] setButtonColor:nil backgroundColor:nil fontSize:font isAll:YES index:0];
 }
 
 +(void)setButtonFont:(UIFont *)font color:(UIColor *)color{
-    [[self sharedView] setButtonColor:color fontSize:font isAll:YES index:0];
+    [[self sharedView] setButtonColor:color backgroundColor:nil fontSize:font isAll:YES index:0];
 }
 
 +(void)setButtonColor:(UIColor *)color index:(NSInteger)index{
-    [[self sharedView] setButtonColor:color fontSize:nil isAll:NO index:index];
+    [[self sharedView] setButtonColor:color backgroundColor:nil fontSize:nil isAll:NO index:index];
 }
 
 +(void)setButtonFont:(UIFont *)font index:(NSInteger)index{
-    [[self sharedView] setButtonColor:nil fontSize:font isAll:NO index:index];
+    [[self sharedView] setButtonColor:nil backgroundColor:nil fontSize:font isAll:NO index:index];
 }
 
 +(void)setButtonFont:(UIFont *)font color:(UIColor *)color index:(NSInteger)index{
-    [[self sharedView] setButtonColor:color fontSize:font isAll:NO index:index];
+    [[self sharedView] setButtonColor:color backgroundColor:nil fontSize:font isAll:NO index:index];
 }
 
 +(void)setAlertCornerRadius:(CGFloat)value{
