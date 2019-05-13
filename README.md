@@ -1,4 +1,4 @@
-# TRCustomAlert V0.1.2
+# TRCustomAlert V0.1.3
 
 ![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TRCustomAlert.svg)
 ![Pod Platform](https://img.shields.io/cocoapods/p/TRCustomAlert.svg?style=flat)
@@ -30,7 +30,7 @@
 |`+(void)showMessage:(NSString *)message image:(UIImage *)image`|显示自定义顶部图标简单提示框，(参数传nil可以，不显示图片) |
 |`+(void)showShadeWithMessage:(NSString *)message image:(UIImage *)image`|显示有遮罩自定义顶部图标简单提示框，(参数传nil可以，不显示图片) |
 |`+(void)showBottomMessage:(NSString *)message`|显示在底部的纯文字提示框|
-
+|`+(void)showFitBottomMessage:(NSString *)message`|显示底部自适应纯文字提示框|
 
 ### 2、带按钮的强提示框
 >参数中`CustomAlertStyle`标识该弹框的类型分为以下三个类型，分别对应三种默认图片
