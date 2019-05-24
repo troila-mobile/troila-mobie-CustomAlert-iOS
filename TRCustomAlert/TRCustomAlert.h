@@ -15,6 +15,11 @@ typedef NS_ENUM(NSInteger, TRCustomAlertStyle) {
     TRCustomAlertStyleNone  //没有图片
 };
 
+typedef NS_ENUM(NSInteger, TRLoadingStyle) {
+    TRLoadingStyleNormal,//默认蓝色gif图片
+    TRLoadingStyleActivityIndicator //系统loading
+};
+
 typedef void (^complete)(NSInteger index,NSString *title);//回调block
 
 typedef void (^customComplete)(UIView *innerView,NSInteger index,NSString *title);//自定义视图回调block
@@ -28,7 +33,7 @@ typedef void (^customComplete)(UIView *innerView,NSInteger index,NSString *title
 
 +(void)setFontColor:(UIColor *)color;//设置简单框样式文字样色和对话框内容颜色,loading 文字
 
-+(void)setFont:(UIFont *)font;//设置简单框样式文字样色和对话框内容字号,loading 文字
++(void)setFont:(UIFont *)font;//设置简单框样式文字字号和对话框内容字号,loading 文字
 
 
 +(void)setTitleColor:(UIColor *)color;//设置对话框标题颜色  默认为#0C71FF
@@ -108,12 +113,24 @@ typedef void (^customComplete)(UIView *innerView,NSInteger index,NSString *title
 //确定按钮，自定义图片样式
 +(void)showAlertFinishWithImage:(UIImage *)image title:(NSString *)title content:(NSString *)content complete:(complete)completeBlock;
 
+
+/**
+ 设置对话框按钮点击状态背景色,默认没有
+
+ @param color 颜色
+ @param index 按钮位置
+ */
++(void)setAlertBtnClickBackgroundColorWithColor:(UIColor *)color index:(NSInteger)index;
+
 //加载等待
 +(void)showLoading;
 +(void)showShadeLoading;//显示遮罩层
 
 +(void)showLoadingWithMessage:(NSString *)message;
 +(void)showShadeLoadingWithMessage:(NSString *)message;//显示遮罩层
+
+//设置loading样式
++(void)setLoadingWithStyle:(TRLoadingStyle)style;
 +(void)dissmis;//隐藏
 
 
