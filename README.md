@@ -1,4 +1,4 @@
-# TRCustomAlert V0.1.4
+# TRCustomAlert V0.2.0
 
 ![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TRCustomAlert.svg)
 ![Pod Platform](https://img.shields.io/cocoapods/p/TRCustomAlert.svg?style=flat)
@@ -91,8 +91,12 @@
 |`+(void)setButtonFont:(UIFont *)font color:(UIColor *)color index:(NSInteger)index`|设置按钮弹框底部按钮index位置的字体和颜色（这个位置和`titleArray`传递的顺序一致）|
 |`+(void)setAlertCornerRadius:(CGFloat)value`|设置弹框的圆角 |
 |`+(void)setConfirmImageColor:(UIColor *)color;`|设置确认框图片颜色 |
+|`+(void)setAlertBtnClickBackgroundColorWithColor:(UIColor *)color index:(NSInteger)index`|设置按钮对话框按钮点击高亮背景色 |
+|`+(void)setButtonBackgroundColor:(UIColor *)color index:(NSInteger)index;`|设置按钮对话框按钮背景色 |
+|`+(void)setLoadingWithStyle:(TRLoadingStyle)style;`|设置loading活动指示器样式 |
 
-### 7、部分效果图
+
+### 7、部分效果图，完整演示，请运行Demo
 
 <img src="https://upload-images.jianshu.io/upload_images/1785506-c3c9e5fdb0d5799b.gif?imageMogr2/auto-orient/strip" width="214"/>  <img src="https://upload-images.jianshu.io/upload_images/1785506-c47a79a0dfd90b33.gif?imageMogr2/auto-orient/strip" width="214"/>   <img src="https://upload-images.jianshu.io/upload_images/1785506-aff85327b4a17c1a.gif?imageMogr2/auto-orient/strip" width="214"/>
 
@@ -109,3 +113,6 @@
 
 
 <img src="https://upload-images.jianshu.io/upload_images/1785506-40795b1e5add6df2.gif?imageMogr2/auto-orient/strip" width="214"/> <img src="https://upload-images.jianshu.io/upload_images/1785506-c9fa6ed36bd4466d.gif?imageMogr2/auto-orient/strip" width="214"/>
+
+### 8、版本变更记录
+2019.05-24 -- V0.2.0  --更改布局使用Masonry三方，摒弃使用的Frame方式，增加横竖屏方向的支持，增加设置样式的接口
