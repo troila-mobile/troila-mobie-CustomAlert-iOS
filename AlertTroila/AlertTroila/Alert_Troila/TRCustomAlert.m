@@ -410,7 +410,6 @@ typedef NS_ENUM(NSInteger, AlertType) {
 //重新设置尺寸，适应底部简单提醒
 -(void)setSelfFrameWithIsFit:(BOOL)isFit{
     self.isFit=isFit;
-    NSString *text=self.contentLab.text;
     //距离底部距离
     CGFloat bottom=80;
     CGFloat padding=15;
@@ -425,69 +424,34 @@ typedef NS_ENUM(NSInteger, AlertType) {
     }
     if (isFit) {
         
-        CGFloat self_width=0;
-        CGFloat alertView_Height=0;
-        CGFloat titleLab_height=0;
-        /*
-         tip:这里view自适应逻辑为：首先判断高度是否大于两行在最大宽度情况下，如果大于折行显示
-                                否则，单行显示自适应
-         */
-        //单行高度标准
-        CGFloat standard_height=[self heightForString:@"standard" Width:max_width-padding*2 font:self.contentLab.font];
-        CGFloat current_height=[self heightForString:text Width:max_width-padding*2 font:self.contentLab.font];
-        
-        //赋值
-        alertView_Height=current_height+padding*2;
-        titleLab_height=current_height;
-        //判断是否折行
-        if (current_height>standard_height) {
-            //正常折行显示
-            self_width=max_width+padding*2;
-        }else{
-            //重新计算，视图自适应文字,计算文字宽度
-            NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
-            paraStyle.alignment = NSTextAlignmentLeft;
-            NSDictionary *dic = @{NSFontAttributeName:self.contentLab.font };
-            
-            CGSize size = [text boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, standard_height) options:NSStringDrawingUsesLineFragmentOrigin attributes:dic context:nil].size;
-            self_width=size.width+padding*2;
-        }
-            
         [self.contentLab mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.center.equalTo(self.alertView).priorityLow();
-            make.width.mas_equalTo(self_width-padding*2);
-            make.height.mas_equalTo(titleLab_height);
+            make.center.equalTo(self.alertView);
+            make.width.lessThanOrEqualTo(@(max_width-padding*2));//最大宽度
         }];
+        
         [self.alertView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.edges.equalTo(self).priorityHigh();
+            make.width.equalTo(self.contentLab).offset(padding*4);
+            make.height.equalTo(self.contentLab).offset(padding*2);
         }];
         [self mas_remakeConstraints:^(MASConstraintMaker *make) {
+           make.size.equalTo(self.alertView);
             make.centerX.equalTo(self.fatherWindow);
-            make.width.mas_equalTo(self_width).priorityHigh();
-            make.height.mas_equalTo(alertView_Height);
             make.bottom.equalTo(self.fatherWindow).offset(-bottom);
         }];
     }else{
        //固定宽度弹框
-        CGFloat titleLab_height=[self heightForString:text Width:max_width-padding*2 font:self.contentLab.font];
-        CGFloat alertView_Height=titleLab_height+padding*2;
-        
         [self.contentLab mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.alertView).offset(padding);
-            make.right.equalTo(self.alertView).offset(-padding);
-            make.centerY.equalTo(self.alertView).priorityHigh();
-            make.height.mas_equalTo(titleLab_height);
+            make.center.equalTo(self.alertView);
+            make.width.mas_equalTo(max_width-padding*2);//最大宽度
         }];
         [self.alertView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self);
-            make.top.equalTo(self);
-            make.size.equalTo(self);
+            make.width.equalTo(self.contentLab).offset(padding*4);
+            make.height.equalTo(self.contentLab).offset(padding*2);
         }];
         
         [self mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.size.equalTo(self.alertView);
             make.centerX.equalTo(self.fatherWindow);
-            make.width.mas_equalTo(max_width).priorityHigh();
-            make.height.mas_equalTo(alertView_Height);
             make.bottom.equalTo(self.fatherWindow).offset(-bottom);
         }];
 

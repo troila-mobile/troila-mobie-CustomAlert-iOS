@@ -116,9 +116,9 @@
             [TRCustomAlert showSuccessWithMessage:@"设置背景色-橘黄色"];
             [TRCustomAlert setBackgroundColor:[UIColor orangeColor]];
         }else if (indexPath.row==6) {
-            [TRCustomAlert showBottomMessage:@"底部纯文字底部纯文字底1aaaaaaa"];
+            [TRCustomAlert showBottomMessage:@"底部固定宽度"];
         }else if (indexPath.row==7) {
-            [TRCustomAlert showFitBottomMessage:@"底部自适应弹框"];
+            [TRCustomAlert showFitBottomMessage:@"底部自适应宽度"];
         }else if (indexPath.row==8) {
             [TRCustomAlert showErrorWithMessage:@"设置简单框字体大小"];
             [TRCustomAlert setFont:[UIFont systemFontOfSize:20]];
