@@ -4,7 +4,7 @@
 //
 //  Created by Admin on 2018/9/20.
 //  Copyright © 2018年 马银伟. All rights reserved.
-//  Version: 0.2.0
+//  Version: 0.2.2
 
 #import "TRCustomAlert.h"
 #import <WebKit/WebKit.h>
@@ -432,11 +432,12 @@ typedef NS_ENUM(NSInteger, AlertType) {
         [self.alertView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(self.contentLab).offset(padding*4);
             make.height.equalTo(self.contentLab).offset(padding*2);
+            make.center.equalTo(self);
         }];
         [self mas_remakeConstraints:^(MASConstraintMaker *make) {
-           make.size.equalTo(self.alertView);
+            make.size.equalTo(self.alertView);
             make.centerX.equalTo(self.fatherWindow);
-            make.bottom.equalTo(self.fatherWindow).offset(-bottom);
+            make.bottom.equalTo(self.fatherWindow).offset(-bottom).priorityHigh();
         }];
     }else{
        //固定宽度弹框
@@ -447,6 +448,7 @@ typedef NS_ENUM(NSInteger, AlertType) {
         [self.alertView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.width.equalTo(self.contentLab).offset(padding*4);
             make.height.equalTo(self.contentLab).offset(padding*2);
+            make.center.equalTo(self);
         }];
         
         [self mas_remakeConstraints:^(MASConstraintMaker *make) {
