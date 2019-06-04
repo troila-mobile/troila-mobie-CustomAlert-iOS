@@ -1,4 +1,4 @@
-# TRCustomAlert V0.2.0
+# TRCustomAlert V0.2.1
 
 ![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TRCustomAlert.svg)
 ![Pod Platform](https://img.shields.io/cocoapods/p/TRCustomAlert.svg?style=flat)
@@ -115,4 +115,5 @@
 <img src="https://upload-images.jianshu.io/upload_images/1785506-40795b1e5add6df2.gif?imageMogr2/auto-orient/strip" width="214"/> <img src="https://upload-images.jianshu.io/upload_images/1785506-c9fa6ed36bd4466d.gif?imageMogr2/auto-orient/strip" width="214"/>
 
 ### 8、版本变更记录
-2019.05-24 -- V0.2.0  --更改布局使用Masonry三方，摒弃使用的Frame方式，增加横竖屏方向的支持，增加设置样式的接口
+* 2019.05-25 -- V0.2.1  --修复底部自适应弹框宽高使用iOS系统方法计算时有误差，改为Masonry方式设置最大宽度
+* 2019.05-24 -- V0.2.0  --更改布局使用Masonry三方，摒弃使用的Frame方式，增加横竖屏方向的支持，增加设置样式的接口
