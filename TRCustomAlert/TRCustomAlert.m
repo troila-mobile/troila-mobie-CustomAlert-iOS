@@ -4,7 +4,7 @@
 //
 //  Created by Admin on 2018/9/20.
 //  Copyright © 2018年 马银伟. All rights reserved.
-//  Version: 0.2.2
+//  Version: 0.2.3
 
 #import "TRCustomAlert.h"
 #import <WebKit/WebKit.h>
@@ -193,8 +193,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
         //设置尺寸
         CGFloat padding=15;
         CGFloat alertView_with=0;
-        UIDeviceOrientation duration = [[UIDevice currentDevice] orientation];
-        if (duration==UIDeviceOrientationUnknown||duration==UIDeviceOrientationPortraitUpsideDown||duration==UIDeviceOrientationPortrait) {
+        UIInterfaceOrientation orientation= [UIApplication sharedApplication].statusBarOrientation;
+        if (orientation == UIInterfaceOrientationPortrait ||orientation == UIInterfaceOrientationPortraitUpsideDown) {
             //竖屏
             alertView_with=TR_SCREEN_WIDTH*0.5;
         }else{
@@ -415,8 +415,9 @@ typedef NS_ENUM(NSInteger, AlertType) {
     CGFloat padding=15;
     //自适应宽度弹框
     CGFloat max_width=TR_SCREEN_WIDTH*0.7;//最大宽度
-    UIDeviceOrientation duration = [[UIDevice currentDevice] orientation];
-    if (duration==UIDeviceOrientationUnknown||duration==UIDeviceOrientationPortraitUpsideDown||duration==UIDeviceOrientationPortrait) {
+    
+    UIInterfaceOrientation orientation= [UIApplication sharedApplication].statusBarOrientation;
+    if (orientation == UIInterfaceOrientationPortrait ||orientation == UIInterfaceOrientationPortraitUpsideDown) {
         //竖屏
         max_width=TR_SCREEN_WIDTH*0.7;
     }else{
