@@ -1,8 +1,11 @@
 # TRCustomAlert V0.2.4
 
 ![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TRCustomAlert.svg)
-![Pod Platform](https://img.shields.io/cocoapods/p/TRCustomAlert.svg?style=flat)
+![Pod Platform](https://img.shields.io/badge/platform-iOS-blue.svg?style=plastic)
 ![Pod License](http://img.shields.io/cocoapods/l/TRCustomAlert.svg?style=flat)
+[![cocoapods](https://img.shields.io/badge/cocoapods-supported-4BC51D.svg?style=plastic)](https://cocoapods.org/pods/TRCustomAlert)
+[![support](https://img.shields.io/badge/support--ios-iOS8%2B-orange.svg)](#) 
+[![languages](https://img.shields.io/badge/language-objc-violet.svg)](#) 
 
 项目集成 `pod 'TRCustomAlert'`
 
