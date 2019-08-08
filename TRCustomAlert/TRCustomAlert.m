@@ -4,7 +4,7 @@
 //
 //  Created by Admin on 2018/9/20.
 //  Copyright © 2018年 马银伟. All rights reserved.
-//  Version: 0.2.4
+//  Version: 0.2.5
 
 #import "TRCustomAlert.h"
 #import <WebKit/WebKit.h>
@@ -71,16 +71,27 @@ typedef NS_ENUM(NSInteger, AlertType) {
     return  sharedView;
 }
 
+-(WKWebView*)wkWebView
+{
+    if (_wkWebView==nil) {
+        _wkWebView=[[WKWebView alloc]init];
+    }
+    return _wkWebView;
+}
+
+//预加载loading
++(void)load{
+    NSString *path = [[[TRCustomAlert sharedView] bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"] pathForResource:@"loading" ofType:@"gif"];
+    NSData *gifData = [NSData dataWithContentsOfFile:path];
+    [[TRCustomAlert sharedView].wkWebView loadData:gifData MIMEType:@"image/gif" characterEncodingName:nil baseURL:nil];
+}
+
+
 //初始化
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        NSString *path = [[self bundleWithBundleName:@"CustomAlertImage" podName:@"CustomAlert"] pathForResource:@"loading" ofType:@"gif"];
-        NSData *gifData = [NSData dataWithContentsOfFile:path];
-        [self.wkWebView loadData:gifData MIMEType:@"image/gif" characterEncodingName:nil baseURL:nil];
-        
-        
         //监听键盘
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(keyboardWillShow:)
