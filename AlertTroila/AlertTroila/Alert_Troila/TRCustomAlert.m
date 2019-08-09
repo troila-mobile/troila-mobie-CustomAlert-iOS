@@ -4,7 +4,7 @@
 //
 //  Created by Admin on 2018/9/20.
 //  Copyright © 2018年 马银伟. All rights reserved.
-//  Version: 0.2.5
+//  Version: 0.2.6
 
 #import "TRCustomAlert.h"
 #import <WebKit/WebKit.h>
@@ -45,6 +45,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
 @property(nonatomic,assign)BOOL isFit;//是否为底部自适应弹框
 @property (nonatomic, strong)UIWindow *fatherWindow;//父视图
 @property (nonatomic, strong)UIActivityIndicatorView *activityIndicator;
+@property (nonatomic, assign)BOOL isHaveKeyBoard; //是否存在键盘
+@property (nonatomic, assign)CGRect keyBoardFrame; //键盘尺寸
 @end
 @implementation TRCustomAlert
 
@@ -112,6 +114,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
 {
     //取出键盘最终的frame
     CGRect rect = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    self.keyBoardFrame=rect;
+    self.isHaveKeyBoard=YES;
     //取出键盘弹出需要花费的时间
     double duration = [note.userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     
@@ -140,6 +144,8 @@ typedef NS_ENUM(NSInteger, AlertType) {
 //当键盘出现或改变时调用
 - (void)keyboardWillHide:(NSNotification *)note
 {
+    self.keyBoardFrame=CGRectZero;
+     self.isHaveKeyBoard=NO;
     //取出键盘最终的frame
     CGRect rect = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     //取出键盘弹出需要花费的时间
@@ -529,18 +535,19 @@ typedef NS_ENUM(NSInteger, AlertType) {
 -(void)animationWithIsShow:(BOOL)isShow{
     if (isShow) {
         //判断当前是否有键盘
-        UIView *keyBoardView=[self findKeyboard];
-        if(keyBoardView!=nil&&!keyBoardView.hidden){
+//        UIView *keyBoardView=[self findKeyboard];
+//        if(keyBoardView!=nil&&!keyBoardView.hidden){
+         if(self.isHaveKeyBoard){
 //            [self layoutIfNeeded];
             [self.superview layoutIfNeeded];
-            CGRect frameKeyBoard=keyBoardView.frame;
+            CGRect frameKeyBoard=self.keyBoardFrame;
             CGRect frameAlertView=self.alertView.frame;
             //判断是否有遮罩层
             if(!self.isShade){
                 frameAlertView=self.frame;
             }
             //计算差值
-            CGFloat poor_value=CGRectGetMaxY(frameAlertView)-(self.fatherWindow.frame.size.height-frameKeyBoard.size.height);//差值
+            CGFloat poor_value=CGRectGetMaxY(frameAlertView)-(self.fatherWindow.frame.size.height-frameKeyBoard.size.height-15);//差值
             //判断键盘是否遮挡
             if(poor_value>0){
                 //超出范围

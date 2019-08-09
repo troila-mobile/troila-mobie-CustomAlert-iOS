@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TRCustomAlert'
-  s.version          = '0.2.5'
+  s.version          = '0.2.6'
   s.summary          = ' TRCustomAlert is very goods'
 
 
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'mayinwei' => '843912524@qq.com' }
-  s.source           = { :git => 'https://github.com/troila-mobile/troila-mobie-CustomAlert-iOS.git', :tag => "0.2.5" }
+  s.source           = { :git => 'https://github.com/troila-mobile/troila-mobie-CustomAlert-iOS.git', :tag => "0.2.6" }
 
   s.social_media_url = 'https://github.com/Mayinwei'
 
