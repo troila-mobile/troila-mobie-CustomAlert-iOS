@@ -1,4 +1,4 @@
-# TRCustomAlert V0.2.5
+# TRCustomAlert V0.2.6
 
 ![CocoaPods Compatible](https://img.shields.io/cocoapods/v/TRCustomAlert.svg)
 ![Pod Platform](https://img.shields.io/badge/platform-iOS-blue.svg?style=plastic)
@@ -118,6 +118,7 @@
 <img src="https://upload-images.jianshu.io/upload_images/1785506-40795b1e5add6df2.gif?imageMogr2/auto-orient/strip" width="214"/> <img src="https://upload-images.jianshu.io/upload_images/1785506-c9fa6ed36bd4466d.gif?imageMogr2/auto-orient/strip" width="214"/>
 
 ### 8、版本变更记录
+* 2019.08-09 -- V0.2.6  --修复首iOS 13 系统某种情况下键盘检测问题
 * 2019.08-08 -- V0.2.5  --修复首次加载时loading，gif图载入过慢的问题
 * 2019.06-11 -- V0.2.4  --修复弹框控件样式bug
 * 2019.06-10 -- V0.2.3  --修复在特定状况下，横竖屏获取失败问题
